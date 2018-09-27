@@ -44,7 +44,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="9"
-                app:srcCompat="@drawable/temp_backspace" />
+                android:background="@drawable/rectangle_button"
+                app:srcCompat="@android:drawable/stat_notify_more" />
         </LinearLayout>
 
         <TableLayout
@@ -248,7 +249,7 @@
                     android:layout_marginRight="2dp"
                     android:layout_weight="0"
                     android:background="@drawable/rectangle_button"
-                    app:srcCompat="@drawable/temp_keypad" />
+                    app:srcCompat="@android:drawable/sym_action_call" />
 
                 <ImageButton
                     android:id="@+id/KEYPAD_HIDE"
