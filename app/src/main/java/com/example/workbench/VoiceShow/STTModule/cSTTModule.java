@@ -1,5 +1,7 @@
 package com.example.workbench.VoiceShow.STTModule;
 
+import com.example.workbench.VoiceShow.Util.cSingleton;
+
 import com.google.cloud.speech.v1p1beta1.RecognitionAudio;
 import com.google.cloud.speech.v1p1beta1.RecognitionConfig;
 import com.google.cloud.speech.v1p1beta1.RecognitionConfig.AudioEncoding;
@@ -13,7 +15,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-public class cSTTModule
+public class cSTTModule extends cSingleton
 {
     public void Initialize()
     {

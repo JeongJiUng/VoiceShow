@@ -4,7 +4,9 @@ import android.Manifest;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 
-public class cPermissionManager
+import com.example.workbench.VoiceShow.Util.cSingleton;
+
+public class cPermissionManager extends cSingleton
 {
     private int             mPermissionResult;
     private Context         mContext;
