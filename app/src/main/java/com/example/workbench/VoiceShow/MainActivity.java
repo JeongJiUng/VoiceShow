@@ -91,8 +91,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initialize();
         setPermission();
 
-        ((cSTTModule)cSTTModule.GetInst()).Initialize();
-        ((cPermissionManager)cPermissionManager.GetInst()).GetPermissionDenied();
        // startActivity(new Intent("android.intent.action.DIAL"));
     }
 
