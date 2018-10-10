@@ -13,7 +13,10 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-    public class MainActivity extends AppCompatActivity implements View.OnClickListener
+import com.example.workbench.VoiceShow.Permissions.cPermissionManager;
+import com.example.workbench.VoiceShow.STTModule.cSTTModule;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener
     {
         private String          mPhoneNumber;                           // 핸드폰 번호 문자열
 
@@ -87,6 +90,7 @@ import android.widget.Toast;
 
         initialize();
         setPermission();
+
        // startActivity(new Intent("android.intent.action.DIAL"));
     }
 
