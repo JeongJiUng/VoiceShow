@@ -1,4 +1,4 @@
-# Proejct Name 
+# Project Name 
 우리들의 목소리를 기록한다 [ 우 목 기 ]
 
 Speech To Text 기반 안드로이드 전화 어플리케이션
