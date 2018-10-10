@@ -1,104 +1,72 @@
 package com.example.workbench.VoiceShow;
 
-import android.Manifest;
-import android.content.DialogInterface;
+import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Build;
-import android.support.v7.app.AlertDialog;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.workbench.VoiceShow.Permissions.cPermissionManager;
-import com.example.workbench.VoiceShow.STTModule.cSTTModule;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener
+{
+    private String          mPhoneNumber;                           // 핸드폰 번호 문자열
+
+    private void CheckFirstTime()
     {
-        private String          mPhoneNumber;                           // 핸드폰 번호 문자열
+        // TODO:: 어플리케이션 최초 실행 여부 확인.
+        SharedPreferences   pref = getSharedPreferences("isFirst", Activity.MODE_PRIVATE);
+        boolean             first = pref.getBoolean("isFirst", false);
 
-        private void initialize()
+        if (first == false)
         {
-            mPhoneNumber        = "";
-        }
+            Log.d("Is first Time?", "first");
+            SharedPreferences.Editor    editor = pref.edit();
+            editor.putBoolean("isFirst", true);
+            editor.commit();
 
+            // 앱 최초 실행시 수행할 작업
+        }
+        else
+        {
+            Log.d("Is first Time?", "not first");
+        }
+    }
+
+    private void setPermission()
+    {
         // 어플리케이션에서 사용 될 퍼미션 관련 코드
-        private void setPermission()
-        {
-            // OS 버전이 마시멜로우 이상인지 체크
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-            {
-                // 단말기의 권한 중 전화걸기 권한이 허용되어 있는지 확인
-                int             permissionResult = checkSelfPermission(Manifest.permission.CALL_PHONE);
+        cPermissionManager.GetInst().SetActivity(this);
+        cPermissionManager.GetInst().CheckPermissionDenied();
+    }
 
-                // 현재 어플리케이션이 CALL_PHONE 에 대해 거부되어있는지 확인한다.
-                if (permissionResult == PackageManager.PERMISSION_DENIED)
-                {
-                    // 사용자가 CALL_PHONE 권한을 거부한 적이 있는지 확인한다.
-                    // 거부한적이 있으면 True 리턴
-                    // 거부한적이 없으면 False 리턴
-                    if (shouldShowRequestPermissionRationale(Manifest.permission.CALL_PHONE))
-                    {
-                        // 거부한 적이 있는 경우
-                        AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
-                        dialog.setTitle("권한이 필요합니다.").setMessage("이 기능을 사용하기 위해서는 단말기의 \"전화걸기\" 권한이 필요합니다. 계속 하시겠습니까?")
-                                .setPositiveButton("네", new DialogInterface.OnClickListener()
-                                {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which)
-                                    {
-                                        // 새로운 인스턴스(onClickListener)를 생성했기 때문에 버전체크를 다시 해준다.
-                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                                        {
-                                            // CALL_PHONE 권한을 OS에 요청
-                                            requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, 1000);
-                                        }
-                                    }
-                                })
-                                .setNegativeButton("아니요", new DialogInterface.OnClickListener()
-                                {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which)
-                                    {
-                                        Toast.makeText(MainActivity.this, "기능을 취소했습니다", Toast.LENGTH_SHORT).show();
+    private void Initialize()
+    {
+        mPhoneNumber        = "";
 
-                                        moveTaskToBack(true);
-                                        finish();
-                                        android.os.Process.killProcess(android.os.Process.myPid());
-                                    }
-                                })
-                                .create().show();
-                    }
-                    else
-                    {
-                        // 거부한 적이 없는 경우
-                        // CALL_PHONE 권한을 OS에 요청
-                        requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, 1000);
-                    }
-                }
-            }
-        }
+        CheckFirstTime();
+        setPermission();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(com.example.workbench.VoiceShow.R.layout.activity_main);
-
-        initialize();
-        setPermission();
+        Initialize();
 
        // startActivity(new Intent("android.intent.action.DIAL"));
     }
 
-
     @Override
-    // activiy_main 에서 발생되는 버튼 이벤트 처리.
     public void onClick(View v)
     {
+        // activity_main 에서 발생되는 버튼 이벤트 처리.
         // 핸드폰 번호를 보여 줄 텍스트뷰 아이디
         TextView        tv_PhoneNum = (TextView)findViewById(R.id.TEXT_PHONE_NUM);
 
