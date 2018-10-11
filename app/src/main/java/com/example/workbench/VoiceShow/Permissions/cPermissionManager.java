@@ -28,6 +28,13 @@ public class cPermissionManager
         return mInstance;
     }
 
+    public void Initialize(Activity _act)
+    {
+        // TODO:: 퍼미션 획득에 관련된 데이터 할당 작업 및 퍼미션 획득 여부 확인
+        SetActivity(_act);
+        CheckPermissionDenied();
+    }
+
     public void SetActivity(Activity _act)
     {
         mActivity = _act;

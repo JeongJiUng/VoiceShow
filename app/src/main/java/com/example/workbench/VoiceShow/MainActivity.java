@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,19 +37,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void setPermission()
-    {
-        // 어플리케이션에서 사용 될 퍼미션 관련 코드
-        cPermissionManager.GetInst().SetActivity(this);
-        cPermissionManager.GetInst().CheckPermissionDenied();
-    }
-
     private void Initialize()
     {
+        // 변수 초기화
         mPhoneNumber        = "";
 
+        // 기능 초기화
         CheckFirstTime();
-        setPermission();
+        cPermissionManager.GetInst().Initialize(this);
     }
 
     @Override
@@ -58,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         super.onCreate(savedInstanceState);
         setContentView(com.example.workbench.VoiceShow.R.layout.activity_main);
+
         Initialize();
 
        // startActivity(new Intent("android.intent.action.DIAL"));
