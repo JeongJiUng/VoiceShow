@@ -87,7 +87,7 @@ import android.widget.Toast;
 
         initialize();
         setPermission();
-       // startActivity(new Intent("android.intent.action.DIAL"));
+       // startActivity(new Intent("android.intent.action.DIAL"));kf
     }
 
 
@@ -164,5 +164,8 @@ import android.widget.Toast;
         // 영상/음성 통화, 키패드 활성/비활성 버튼이 아닌 경우 텍스트뷰에 핸드폰 번호 갱신.
         if (v.getId() != R.id.KEYPAD_CALL && v.getId() != R.id.KEYPAD_VCALL && v.getId() != R.id.KEYPAD_HIDE)
             tv_PhoneNum.setText(mPhoneNumber);
+    }
+    public void MoveToSettings(View v) {
+        startActivity(new Intent(MainActivity.this,activity_SETTINGS.class));
     }
 }

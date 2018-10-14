@@ -11,15 +11,52 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
-        <ListView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_weight="1.5"
             android:padding="2dp">
 
-        </ListView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="VoShow"
+                android:textSize="30dp"
+                android:paddingLeft="130dp">
+            </TextView>
+
+            <ImageButton
+                android:id="@+id/SETTINGS"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:background="@drawable/temp_setting_icon"
+                android:onClick="MoveToSettings"
+                app:srcCompat="@android:drawable/ic_input_add" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="1.1"
+            android:padding="2dp">
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="2dp">
+            </ListView>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,6 +64,7 @@
             android:layout_weight="1.5"
             android:orientation="horizontal"
             android:padding="2dp">
+
 
             <ImageButton
                 android:id="@+id/ADD_PHONE_NUM"
@@ -61,8 +99,8 @@
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginEnd="40dp"
             android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
             android:layout_weight="1"
             android:gravity="bottom|center"
             android:padding="2dp"
