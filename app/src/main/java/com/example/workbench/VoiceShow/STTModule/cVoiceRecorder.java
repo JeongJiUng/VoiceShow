@@ -2,9 +2,11 @@ package com.example.workbench.VoiceShow.STTModule;
 
 import android.media.AudioFormat;
 import android.media.AudioRecord;
+import android.media.MediaRecorder;
 
 public class cVoiceRecorder
 {
+    // 음성인식 기능 클래스
     private static final int[]  SAMPLE_RATE_CANDIDATES = new int[]{16000, 11025, 22050, 44100};
 
     private static final int    CHANNEL = AudioFormat.CHANNEL_IN_MONO;
@@ -16,16 +18,28 @@ public class cVoiceRecorder
 
     public static abstract class cCallback
     {
+        /**
+         * Called when the recorder starts hearing voice.
+         */
         public void onVoiceStart()
         {
 
         }
 
+        /**
+         * Called when the recorder is hearing voice.
+         *
+         * @param _data The audio data in {@link AudioFormat#ENCODING_PCM_16BIT}.
+         * @param _size The size of the actual data in {@code data}.
+         */
         public void onVoice(byte[] _data, int _size)
         {
 
         }
 
+        /**
+         * Called when the recorder stops hearing voice.
+         */
         public void onVoiceEnd()
         {
 
@@ -73,7 +87,24 @@ public class cVoiceRecorder
      */
     public void stop()
     {
+        synchronized (mLock)
+        {
+            dismiss();
+            if (mThread != null)
+            {
+                mThread.interrupt();
+                mThread     = null;
+            }
 
+            if (mAudioRecord != null)
+            {
+                mAudioRecord.stop();
+                mAudioRecord.release();
+                mAudioRecord= null;
+            }
+
+            mBuffer         = null;
+        }
     }
 
     /**
@@ -81,7 +112,11 @@ public class cVoiceRecorder
      */
     public void dismiss()
     {
-
+        if (mLastVoiceHeardMillis != Long.MAX_VALUE)
+        {
+            mLastVoiceHeardMillis   = Long.MAX_VALUE;
+            mCallback.onVoiceEnd();
+        }
     }
 
     /**
@@ -91,7 +126,9 @@ public class cVoiceRecorder
      */
     public int getSampleRate()
     {
-
+        if (mAudioRecord != null)
+            return mAudioRecord.getSampleRate();
+        return 0;
     }
 
     /**
@@ -102,7 +139,22 @@ public class cVoiceRecorder
      */
     private AudioRecord createAudioRecord()
     {
+        for (int sampleRate : SAMPLE_RATE_CANDIDATES)
+        {
+            final int       sizeInBytes = AudioRecord.getMinBufferSize(sampleRate, CHANNEL, ENCODING);
+            if (sizeInBytes == AudioRecord.ERROR_BAD_VALUE)
+                continue;
 
+            final AudioRecord   audioRecord = new AudioRecord(MediaRecorder.AudioSource.MIC, sampleRate, CHANNEL, ENCODING, sizeInBytes);
+            if (audioRecord.getState() == AudioRecord.STATE_INITIALIZED)
+            {
+                mBuffer     = new byte[sizeInBytes];
+                return audioRecord;
+            }
+            else
+                audioRecord.release();
+        }
+        return null;
     }
 
     /**
@@ -114,16 +166,70 @@ public class cVoiceRecorder
         @Override
         public void run()
         {
+            while (true)
+            {
+                synchronized (mLock)
+                {
+                    if (Thread.currentThread().isInterrupted())
+                    {
+                        break;
+                    }
 
+                    final int   size = mAudioRecord.read(mBuffer, 0, mBuffer.length);
+                    final long  now = System.currentTimeMillis();
+                    if (isHearingVoice(mBuffer, size))
+                    {
+                        if (mLastVoiceHeardMillis == Long.MAX_VALUE)
+                        {
+                            mVoiceStartedMillis = now;
+                            mCallback.onVoiceStart();
+                        }
+                        mCallback.onVoice(mBuffer, size);
+                        mLastVoiceHeardMillis   = now;
+
+                        if (now - mVoiceStartedMillis > MAX_SPEECH_LENGTH_MILLIS)
+                        {
+                            end();
+                        }
+                    }
+                    else if (mLastVoiceHeardMillis != Long.MAX_VALUE)
+                    {
+                        mCallback.onVoice(mBuffer, size);
+                        if (now - mLastVoiceHeardMillis > SPEECH_TIMEOUT_MILLIS)
+                        {
+                            end();
+                        }
+                    }
+                }
+            }
         }
 
         private void end()
         {
-
+            mLastVoiceHeardMillis   = Long.MAX_VALUE;
+            mCallback.onVoiceEnd();
         }
 
         private boolean isHearingVoice(byte[] buffer, int size)
         {
+            for (int i = 0; i < size -1; i += 2)
+            {
+                // The buffer has LINEAR16 in little endian.
+                int         s = buffer[i + 1];
+
+                if (s < 0)
+                {
+                    s       *= -1;
+                }
+
+                s           <<= 8;
+                s           += Math.abs(buffer[i]);
+
+                if (s > AMPLITUDE_THRESHOLD)
+                {
+                    return true;
+                }
+            }
             return false;
         }
     }
