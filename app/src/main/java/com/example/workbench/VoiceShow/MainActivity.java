@@ -13,6 +13,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
+
 import com.example.workbench.VoiceShow.Permissions.cPermissionManager;
 import com.example.workbench.VoiceShow.STTModule.cSTTModule;
 
@@ -88,6 +91,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(com.example.workbench.VoiceShow.R.layout.activity_main);
 
+        TabLayout tabLayout = findViewById(R.id.tl_tabs);// 텝 레이아웃 을 찾아준다.
+        ViewPager viewPager = findViewById(R.id.vp_pager); //뷰 페이져
+
+        MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(adapter);
+
+        tabLayout.setupWithViewPager(viewPager);
         initialize();
         setPermission();
 
