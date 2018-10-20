@@ -288,6 +288,19 @@ public class cSpeechService extends Service
     }
 
     /**
+     * Finishes recognizing speech audio.
+     */
+    public void finishRecognizing()
+    {
+        if (mRequestObserver == null)
+        {
+            return;
+        }
+        mRequestObserver.onCompleted();
+        mRequestObserver    = null;
+    }
+
+    /**
      * Recognize all data from the specified {@link InputStream}.
      *
      * @param stream The audio data.

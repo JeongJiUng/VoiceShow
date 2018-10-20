@@ -11,18 +11,24 @@ public class cSTTModuleManager
         public void onVoiceStart()
         {
             super.onVoiceStart();
+            if (mSpeechService != null)
+                mSpeechService.startRecognizing(mVoiceRecorder.getSampleRate());
         }
 
         @Override
         public void onVoice(byte[] _data, int _size)
         {
             super.onVoice(_data, _size);
+            if (mSpeechService != null)
+                mSpeechService.recognize(_data, _size);
         }
 
         @Override
         public void onVoiceEnd()
         {
             super.onVoiceEnd();
+            if (mSpeechService != null)
+                mSpeechService.finishRecognizing();
         }
     };
 }
