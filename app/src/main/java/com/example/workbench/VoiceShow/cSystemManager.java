@@ -1,10 +1,14 @@
 package com.example.workbench.VoiceShow;
 
-class cSystemManager
+import android.app.Activity;
+
+import com.example.workbench.VoiceShow.STTModule.cSTTModuleManager;
+
+public class cSystemManager
 {
     private static final cSystemManager ourInstance = new cSystemManager();
 
-    static cSystemManager getInstance()
+    public static cSystemManager getInstance()
     {
         return ourInstance;
     }
@@ -13,4 +17,16 @@ class cSystemManager
     {
     }
 
+    private Activity        mActivity;
+    private cSTTModuleManager mSTTModule;
+
+    public void Initialize(Activity _act)
+    {
+        mActivity           = _act;
+    }
+
+    public Activity GetActivity()
+    {
+        return mActivity;
+    }
 }

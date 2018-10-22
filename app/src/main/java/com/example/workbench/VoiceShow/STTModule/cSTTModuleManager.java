@@ -7,12 +7,11 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.widget.RecyclerView;
+
+import com.example.workbench.VoiceShow.cSystemManager;
 
 public class cSTTModuleManager
 {
-    private Activity        mActivity;
     private cSpeechService  mSpeechService;
     private cVoiceRecorder  mVoiceRecorder;
 
@@ -43,8 +42,6 @@ public class cSTTModuleManager
         }
     };
 
-    private RecyclerView mRecyclerView;
-
     private final ServiceConnection mServiceConnection = new ServiceConnection()
     {
         @Override
@@ -64,7 +61,7 @@ public class cSTTModuleManager
     public void onStart()
     {
         // Prepare Cloud Speech API
-        mActivity.bindService(new Intent(mActivity, cSpeechService.class), mServiceConnection, Context.BIND_AUTO_CREATE);
+        cSystemManager.getInstance().GetActivity().bindService(new Intent(cSystemManager.getInstance().GetActivity(), cSpeechService.class), mServiceConnection, Context.BIND_AUTO_CREATE);
 
         // Start listening to voices
         startVoiceRecorder();
@@ -75,7 +72,7 @@ public class cSTTModuleManager
         // Stop listening to voice
         stopVoiceRecorder();
         mSpeechService.removeListener(mSpeechServiceListener);
-        mActivity.unbindService(mServiceConnection);
+        cSystemManager.getInstance().GetActivity().unbindService(mServiceConnection);
         mSpeechService      = null;
     }
 
