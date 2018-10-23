@@ -34,6 +34,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="9"
                 android:background="@drawable/rectangle_button"
+                android:onClick="onClick"
                 app:srcCompat="@android:drawable/ic_input_add" />
 
             <TextView

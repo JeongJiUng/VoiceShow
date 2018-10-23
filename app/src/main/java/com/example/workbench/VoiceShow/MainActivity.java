@@ -16,9 +16,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 {
     private String          mPhoneNumber;                           // 핸드폰 번호 문자열
 
+    /**
+     * 어플리케이션 최초 실행 여부 확인.
+     */
     private void CheckFirstTime()
     {
-        // TODO:: 어플리케이션 최초 실행 여부 확인.
         SharedPreferences   pref = getSharedPreferences("isFirst", Activity.MODE_PRIVATE);
         boolean             first = pref.getBoolean("isFirst", false);
 
@@ -60,6 +62,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+    }
+
+    @Override
     public void onClick(View v)
     {
         // activity_main 에서 발생되는 버튼 이벤트 처리.
@@ -72,6 +80,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // 핸드폰번호 뒤에서 하나씩 지움.
                 //int         len = mPhoneNumber.length();
                 //mPhoneNumber.substring()
+                cSystemManager.getInstance().GetSTTModule().onStart();
+                break;
+
+            case R.id.ADD_PHONE_NUM:
+                cSystemManager.getInstance().GetSTTModule().onStop();
                 break;
 
             case R.id.KEYPAD_0:

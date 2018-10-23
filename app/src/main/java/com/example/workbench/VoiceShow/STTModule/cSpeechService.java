@@ -84,18 +84,33 @@ public class cSpeechService extends Service
 
     private final SpeechBinder  mBinder = new SpeechBinder();
     private final ArrayList<Listener>   mListeners = new ArrayList<>();
-    private volatile AccessTokenTask    mAccessTokenTask;
-    private SpeechGrpc.SpeechStub   mApi;
+    private volatile AccessTokenTask    mAccessTokenTask;                                           // 음성인식을 위해 Cloud 서버로 액세스하기 위한 토큰 및 AsyncTask 객체
+    private SpeechGrpc.SpeechStub   mApi;                                                           // 음성인식을 위한 음성녹음 모듈
     private static Handler  mHandler;
 
+    public cSpeechService()
+    {
+        onCreate();
+    }
+
+    /**
+     * 실시간 음성인식 기능 모듈
+     * 음성인식을 Cloud 서버로 전송하면서 결과를 얻어온다.
+     */
     private final StreamObserver<StreamingRecognizeResponse>    mResponseObserver = new StreamObserver<StreamingRecognizeResponse>()
     {
-
+        /**
+         * 음성인식으로 변형된 텍스트를 가져온다.
+         * @param value Cloud 서버로 전송 된 음성 데이터를 텍스트로 변환하여 얻은 결과
+         */
         @Override
         public void onNext(StreamingRecognizeResponse value)
         {
             String          text = null;
             boolean         isFinal = false;
+
+            Log.d("Speech Debug", "onNext");
+
             if (value.getResultsCount() > 0)
             {
                 final StreamingRecognitionResult result = value.getResults(0);
@@ -105,6 +120,7 @@ public class cSpeechService extends Service
                 {
                     final SpeechRecognitionAlternative  alternative = result.getAlternatives(0);
                     text    = alternative.getTranscript();
+                    Log.d("Speech Debug", text);
                 }
             }
 
@@ -169,7 +185,7 @@ public class cSpeechService extends Service
         }
     };
 
-    private StreamObserver<StreamingRecognizeRequest>   mRequestObserver;
+    private StreamObserver<StreamingRecognizeRequest>   mRequestObserver;                           // 음성인식 요청 객체
 
     public static cSpeechService from(IBinder binder)
     {
@@ -211,13 +227,25 @@ public class cSpeechService extends Service
         mApi                = null;
     }
 
+    /**
+     * AsyncTask 실행을 위한 객체 초기화
+     * 백그라운드에서 음성인식 모듈이 동작하도록 해준다.
+     */
     private void fetchAccessToken()
     {
         if (mAccessTokenTask != null)
             return;
 
         mAccessTokenTask    = new AccessTokenTask();
-        mAccessTokenTask.execute();
+        try
+        {
+            //TODO:: execute 실행 불가. 이곳에서 에러가나는데 예외에서 걸러지지가 않는다. 뭐죠?
+            mAccessTokenTask.execute();
+        }
+        catch (Exception e)
+        {
+            Log.d("Speech Debug", e.toString());
+        }
     }
 
     private String getDefaultLanguageCode()
@@ -253,11 +281,14 @@ public class cSpeechService extends Service
 
     /**
      * Starts recognizing speech audio.
-     *
+     * 음성 인식 결과를 받을 리스너(mResponseObserver)를 등록
+     * 음성녹음으로 데이터를 얻고 얻은 음성 데이터를 mResponseObserver 통해 결과를 받고,
+     * mRequestObserver 를 통해 Cloud 서버로 음성데이터를 텍스트로 변환 요청한다.
      * @param sampleRate The sample rate of the audio.
      */
     public void startRecognizing(int sampleRate)
     {
+        Log.d("Speech Debug", "startRecognizing");
         if (mApi == null)
         {
             Log.w(TAG, "API not ready. Ignoring the request.");
@@ -336,6 +367,9 @@ public class cSpeechService extends Service
         }
     };
 
+    /**
+     * 백그라운드에서 음성인식 모듈이 동작할 수 있도록 제공해주는 클레스
+     */
     private class AccessTokenTask extends AsyncTask<Void, Void, AccessToken>
     {
         @Override
@@ -359,9 +393,15 @@ public class cSpeechService extends Service
             return null;
         }
 
+        /**
+         * 백그라운드에서 작업을 실행하기 전에 실행된다.
+         * 이 부분에서 데이터의 초기화 수행.
+         * @param accessToken
+         */
         @Override
         protected void onPostExecute(AccessToken accessToken)
         {
+            Log.d("Speech Debug", "onPostExecute");
             mAccessTokenTask    = null;
             final ManagedChannel    channel = new OkHttpChannelProvider().builderForAddress(HOSTNAME, PORT).nameResolverFactory(new DnsNameResolverProvider())
                                                     .intercept(new GoogleCredentialsInterceptor(new GoogleCredentials(accessToken).createScoped(SCOPE))).build();

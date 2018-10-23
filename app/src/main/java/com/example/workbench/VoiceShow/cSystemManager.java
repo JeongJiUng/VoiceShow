@@ -23,10 +23,18 @@ public class cSystemManager
     public void Initialize(Activity _act)
     {
         mActivity           = _act;
+
+        // initialize Modules
+        mSTTModule          = new cSTTModuleManager();
     }
 
     public Activity GetActivity()
     {
         return mActivity;
+    }
+
+    public cSTTModuleManager GetSTTModule()
+    {
+        return mSTTModule;
     }
 }

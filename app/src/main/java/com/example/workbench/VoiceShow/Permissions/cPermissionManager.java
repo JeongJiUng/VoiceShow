@@ -25,7 +25,7 @@ public class cPermissionManager
 
     public void Initialize(Activity _act)
     {
-        // TODO:: 퍼미션 획득에 관련된 데이터 할당 작업 및 퍼미션 획득 여부 확인
+        // 퍼미션 획득에 관련된 데이터 할당 작업 및 퍼미션 획득 여부 확인
         SetActivity(_act);
         CheckPermissionDenied();
     }
@@ -58,11 +58,11 @@ public class cPermissionManager
                 case MY_PERMISSIONS_REQUEST_READ_CONTACTS:
                     if (ints.length > 0 && ints[0] == PackageManager.PERMISSION_GRANTED)
                     {
-                        // TODO:: 권한 획득에 성공하였을 때 수행할 내용
+                        // 권한 획득에 성공하였을 때 수행할 내용
                     }
                     else
                     {
-                        // TODO:: 권한 획득에 실패했을 때 수행할 내용
+                        // 권한 획득에 실패했을 때 수행할 내용
                         // 퍼미션을 거부했으면 어플리케이션 강제 종료.
                         mActivity.moveTaskToBack(true);
                         mActivity.finish();

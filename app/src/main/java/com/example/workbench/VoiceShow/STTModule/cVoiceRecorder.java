@@ -3,6 +3,7 @@ package com.example.workbench.VoiceShow.STTModule;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
+import android.util.Log;
 
 public class cVoiceRecorder
 {
@@ -16,6 +17,10 @@ public class cVoiceRecorder
     private static final int    SPEECH_TIMEOUT_MILLIS = 2000;
     private static final int    MAX_SPEECH_LENGTH_MILLIS = 30 * 1000;
 
+    /**
+     * 음성녹음 콜백 추상 클래스
+     * 음성녹음 기능을 사용할 객체에서 해당 함수를 재정의하여 사용한다.
+     */
     public static abstract class cCallback
     {
         /**
@@ -46,11 +51,11 @@ public class cVoiceRecorder
         }
     }
 
-    private final cCallback mCallback;
+    private final cCallback mCallback;                                                  // 콜백 추상 클래스를 사용하기 위해 생선된 객체. 생성자가 호출 될 때 외부에서 정의 된 해당 콜백 객체를 등록해준다.
     private final Object    mLock = new Object();
 
     private AudioRecord     mAudioRecord;
-    private Thread          mThread;
+    private Thread          mThread;                                                    // 음성녹음을 수행할 스레드
     private byte[]          mBuffer;
     private long            mLastVoiceHeardMillis = Long.MAX_VALUE;                     // The timestamp of the last time that voice is heard.
     private long            mVoiceStartedMillis;                                        // The timestamp when the current voice is started.
@@ -80,6 +85,7 @@ public class cVoiceRecorder
         //Start processing the captured audio.
         mThread             = new Thread(new ProcessVoice());
         mThread.start();
+        Log.d("Speech Debug", "Thread 생성 완료");
     }
 
     /**
@@ -104,6 +110,7 @@ public class cVoiceRecorder
             }
 
             mBuffer         = null;
+            Log.d("Speech Debug", "Thread 제거");
         }
     }
 
@@ -166,6 +173,7 @@ public class cVoiceRecorder
         @Override
         public void run()
         {
+            Log.d("Speech Debug", "thread run 진입");
             while (true)
             {
                 synchronized (mLock)
@@ -183,6 +191,7 @@ public class cVoiceRecorder
                         {
                             mVoiceStartedMillis = now;
                             mCallback.onVoiceStart();
+                            Log.d("Speech Debug", "onVoiceStart");
                         }
                         mCallback.onVoice(mBuffer, size);
                         mLastVoiceHeardMillis   = now;
