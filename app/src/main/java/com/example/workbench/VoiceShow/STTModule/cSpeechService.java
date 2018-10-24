@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.AssetManager;
 import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.Handler;
@@ -23,8 +24,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import com.example.workbench.VoiceShow.R;
 import com.google.auth.Credentials;
 import com.google.auth.oauth2.AccessToken;
 import com.google.auth.oauth2.GoogleCredentials;
@@ -49,7 +52,9 @@ import io.grpc.Metadata;
 import io.grpc.MethodDescriptor;
 import io.grpc.Status;
 import io.grpc.StatusException;
+import io.grpc.auth.ClientAuthInterceptor;
 import io.grpc.internal.DnsNameResolverProvider;
+import io.grpc.okhttp.OkHttpChannelBuilder;
 import io.grpc.stub.StreamObserver;
 import io.grpc.okhttp.OkHttpChannelProvider;
 
@@ -85,12 +90,32 @@ public class cSpeechService extends Service
     private final SpeechBinder  mBinder = new SpeechBinder();
     private final ArrayList<Listener>   mListeners = new ArrayList<>();
     private volatile AccessTokenTask    mAccessTokenTask;                                           // 음성인식을 위해 Cloud 서버로 액세스하기 위한 토큰 및 AsyncTask 객체
-    private SpeechGrpc.SpeechStub   mApi;                                                           // 음성인식을 위한 음성녹음 모듈
+    private SpeechGrpc.SpeechStub   mApi;                                                           // 음성인식을 위한 음성녹음 모듈 (음성인식 클라이언트)
     private static Handler  mHandler;
 
     public cSpeechService()
     {
         onCreate();
+    }
+
+    /**
+     * Cloud 서버에 있는 Speech API를 사용하기 위해 비공개 키값을 사용한 인증 절차 수행
+     * @param _host
+     * @param _port
+     * @param _credentials
+     * @return
+     * @throws IOException
+     */
+    private ManagedChannel CreateChannel(String _host, int _port, InputStream _credentials) throws IOException
+    {
+        GoogleCredentials   creds = GoogleCredentials.fromStream(_credentials);
+        creds               = creds.createScoped(SCOPE);
+        OkHttpChannelProvider   provider = new OkHttpChannelProvider();
+        OkHttpChannelBuilder    builder = provider.builderForAddress(_host, _port);
+        ManagedChannel      channel = builder.intercept(new ClientAuthInterceptor(creds, Executors.newSingleThreadExecutor())).build();
+        _credentials.close();
+
+        return channel;
     }
 
     /**
@@ -197,7 +222,18 @@ public class cSpeechService extends Service
     {
         super.onCreate();
         mHandler            = new Handler();
-        fetchAccessToken();
+        try
+        {
+            AssetManager    assetManager = getResources().getAssets();
+            InputStream     credentials = assetManager.open("credentials.json");
+            ManagedChannel  channel = CreateChannel(HOSTNAME, PORT, credentials);
+            mApi            = SpeechGrpc.newStub(channel);
+        }
+        catch (Exception e)
+        {
+            Log.e(this.getClass().getSimpleName(), "Error onCreate", e);
+        }
+        //fetchAccessToken();
     }
 
     @Override
@@ -375,6 +411,7 @@ public class cSpeechService extends Service
         @Override
         protected AccessToken doInBackground(Void... voids)
         {
+            Log.d("Speech Debug", "doInBackground");
             final SharedPreferences prefs = getSharedPreferences(PREFS, Context.MODE_PRIVATE);
             String          tokenValue = prefs.getString(PREF_ACCESS_TOKEN_VALUE, null);
             long            expirationTime = prefs.getLong(PREF_ACCESS_TOKEN_EXPIRATION_TIME, -1);
@@ -394,8 +431,7 @@ public class cSpeechService extends Service
         }
 
         /**
-         * 백그라운드에서 작업을 실행하기 전에 실행된다.
-         * 이 부분에서 데이터의 초기화 수행.
+         * 백그라운드에서 작업이 끝난 후 수행됨.
          * @param accessToken
          */
         @Override

@@ -18,7 +18,7 @@ public class cSTTModuleManager
 
     public cSTTModuleManager()
     {
-        mSpeechService      = new cSpeechService();
+//        mSpeechService      = new cSpeechService();
     }
 
     /**
