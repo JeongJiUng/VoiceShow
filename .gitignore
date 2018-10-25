@@ -11,4 +11,4 @@
 /.idea/caches
 /.idea/codestyles
 /.idea/mics.xml
-/app/src/main/assets
+app/src/main/assets/credentials\.json
