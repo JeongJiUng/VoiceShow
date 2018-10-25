@@ -1,11 +1,9 @@
 package com.example.workbench.VoiceShow.STTModule;
 
-import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -15,11 +13,6 @@ public class cSTTModuleManager
 {
     private cSpeechService  mSpeechService;
     private cVoiceRecorder  mVoiceRecorder;
-
-    public cSTTModuleManager()
-    {
-//        mSpeechService      = new cSpeechService();
-    }
 
     /**
      * 음성 녹음 콜백 모듈
@@ -99,11 +92,6 @@ public class cSTTModuleManager
             mSpeechService.onDestroy();
             mSpeechService  = null;
         }
-    }
-
-    public void onSaveInstanceState(Bundle outState)
-    {
-
     }
 
     /**
