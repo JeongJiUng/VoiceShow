@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -21,9 +22,17 @@
         android:orientation="horizontal"
         android:padding="2dp">
 
+        <ImageButton
+            android:id="@+id/ADD_PHONE_NUM"
+            android:layout_width="90dp"
+            android:layout_height="81dp"
+            android:layout_weight="1"
+            android:onClick="onClick"
+            android:src="@android:drawable/ic_menu_add" />
+
         <TextView
             android:id="@+id/TEXT_PHONE_NUM"
-            android:layout_width="match_parent"
+            android:layout_width="310dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
@@ -38,8 +47,8 @@
             android:layout_height="match_parent"
             android:layout_weight="9"
             android:background="@drawable/rectangle_button"
-            android:src="@android:drawable/stat_notify_more"
-           />
+            android:onClick="onClick"
+            android:src="@android:drawable/stat_notify_more" />
     </LinearLayout>
 
     <TableLayout
@@ -68,6 +77,7 @@
                 android:layout_weight="0"
                 android:background="@drawable/rectangle_button"
                 android:elevation="0dp"
+                android:onClick="onClick"
                 android:src="@drawable/temp_keypad"
                 tools:layout_editor_absoluteX="20dp"
                 tools:layout_editor_absoluteY="200dp" />
@@ -80,6 +90,7 @@
                 android:layout_marginRight="2dp"
                 android:layout_weight="0"
                 android:background="@drawable/rectangle_button"
+                android:onClick="onClick"
                 android:src="@drawable/temp_keypad" />
 
             <ImageButton
@@ -90,6 +101,7 @@
                 android:layout_marginRight="2dp"
                 android:layout_weight="0"
                 android:background="@drawable/rectangle_button"
+                android:onClick="onClick"
                 android:src="@drawable/temp_keypad" />
         </TableRow>
 
@@ -108,6 +120,7 @@
                 android:layout_marginRight="2dp"
                 android:layout_weight="0"
                 android:background="@drawable/rectangle_button"
+                android:onClick="onClick"
                 android:src="@drawable/temp_keypad"
                 tools:layout_editor_absoluteX="20dp"
                 tools:layout_editor_absoluteY="200dp" />
@@ -120,6 +133,7 @@
                 android:layout_marginRight="2dp"
                 android:layout_weight="0"
                 android:background="@drawable/rectangle_button"
+                android:onClick="onClick"
                 android:src="@drawable/temp_keypad" />
 
             <ImageButton
@@ -130,6 +144,7 @@
                 android:layout_marginRight="2dp"
                 android:layout_weight="0"
                 android:background="@drawable/rectangle_button"
+                android:onClick="onClick"
                 android:src="@drawable/temp_keypad" />
         </TableRow>
 
@@ -148,6 +163,7 @@
                 android:layout_marginRight="2dp"
                 android:layout_weight="0"
                 android:background="@drawable/rectangle_button"
+                android:onClick="onClick"
                 android:src="@drawable/temp_keypad"
                 tools:layout_editor_absoluteX="20dp"
                 tools:layout_editor_absoluteY="200dp" />
@@ -160,6 +176,7 @@
                 android:layout_marginRight="2dp"
                 android:layout_weight="0"
                 android:background="@drawable/rectangle_button"
+                android:onClick="onClick"
                 android:src="@drawable/temp_keypad" />
 
             <ImageButton
@@ -170,6 +187,7 @@
                 android:layout_marginRight="2dp"
                 android:layout_weight="0"
                 android:background="@drawable/rectangle_button"
+                android:onClick="onClick"
                 android:src="@drawable/temp_keypad" />
         </TableRow>
 
@@ -188,6 +206,7 @@
                 android:layout_marginRight="2dp"
                 android:layout_weight="0"
                 android:background="@drawable/rectangle_button"
+                android:onClick="onClick"
                 android:src="@drawable/temp_keypad"
                 tools:layout_editor_absoluteX="20dp"
                 tools:layout_editor_absoluteY="200dp" />
@@ -200,6 +219,7 @@
                 android:layout_marginRight="2dp"
                 android:layout_weight="0"
                 android:background="@drawable/rectangle_button"
+                android:onClick="onClick"
                 android:src="@drawable/temp_keypad" />
 
             <ImageButton
@@ -210,6 +230,7 @@
                 android:layout_marginRight="2dp"
                 android:layout_weight="0"
                 android:background="@drawable/rectangle_button"
+                android:onClick="onClick"
                 android:src="@drawable/temp_keypad" />
         </TableRow>
 
@@ -228,6 +249,7 @@
                 android:layout_marginRight="2dp"
                 android:layout_weight="0"
                 android:background="@drawable/rectangle_button"
+                android:onClick="onClick"
                 android:src="@drawable/temp_keypad"
                 tools:layout_editor_absoluteX="20dp"
                 tools:layout_editor_absoluteY="200dp" />
@@ -240,6 +262,7 @@
                 android:layout_marginRight="2dp"
                 android:layout_weight="0"
                 android:background="@drawable/rectangle_button"
+                android:onClick="onClick"
                 android:src="@android:drawable/sym_action_call" />
 
             <ImageButton
@@ -250,6 +273,7 @@
                 android:layout_marginRight="2dp"
                 android:layout_weight="0"
                 android:background="@drawable/rectangle_button"
+                android:onClick="onClick"
                 android:src="@drawable/temp_keypad" />
 
         </TableRow>
