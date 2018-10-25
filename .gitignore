@@ -12,3 +12,5 @@
 /.idea/codestyles
 /.idea/mics.xml
 app/src/main/assets/credentials\.json
+
+app/src/main/assets/
