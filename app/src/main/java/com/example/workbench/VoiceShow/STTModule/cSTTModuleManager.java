@@ -142,7 +142,7 @@ public class cSTTModuleManager
             {
                 mVoiceRecorder.dismiss();
             }
-            Log.d("Speech Debug", _text);
+            Log.d("Speech Debug_onSpeechRecognized", _text);
         }
     };
 }

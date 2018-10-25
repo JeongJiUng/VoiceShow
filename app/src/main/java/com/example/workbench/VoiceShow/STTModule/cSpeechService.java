@@ -1,5 +1,6 @@
 package com.example.workbench.VoiceShow.STTModule;
 
+import android.app.Activity;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +12,8 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -28,6 +31,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import com.example.workbench.VoiceShow.R;
+import com.example.workbench.VoiceShow.cSystemManager;
 import com.google.auth.Credentials;
 import com.google.auth.oauth2.AccessToken;
 import com.google.auth.oauth2.GoogleCredentials;
@@ -145,7 +149,7 @@ public class cSpeechService extends Service
                 {
                     final SpeechRecognitionAlternative  alternative = result.getAlternatives(0);
                     text    = alternative.getTranscript();
-                    Log.d("Speech Debug", text);
+                    Log.d("Speech Debug_onNext", text);
                 }
             }
 
@@ -217,14 +221,14 @@ public class cSpeechService extends Service
         return ((SpeechBinder)binder).getService();
     }
 
-    @Override
     public void onCreate()
     {
-        super.onCreate();
+        Context             context = cSystemManager.getInstance().GetContext();
+        AssetManager        assetManager = context.getResources().getAssets();
         mHandler            = new Handler();
+
         try
         {
-            AssetManager    assetManager = getResources().getAssets();
             InputStream     credentials = assetManager.open("credentials.json");
             ManagedChannel  channel = CreateChannel(HOSTNAME, PORT, credentials);
             mApi            = SpeechGrpc.newStub(channel);
@@ -236,10 +240,8 @@ public class cSpeechService extends Service
         //fetchAccessToken();
     }
 
-    @Override
     public void onDestroy()
     {
-        super.onDestroy();
         mHandler.removeCallbacks(mFetchAccessTokenRunnable);
         mHandler            = null;
 
