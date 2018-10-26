@@ -24,15 +24,16 @@
 
         <ImageButton
             android:id="@+id/ADD_PHONE_NUM"
-            android:layout_width="90dp"
-            android:layout_height="81dp"
-            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:background="@color/colorAccent"
             android:onClick="onClick"
-            android:src="@android:drawable/ic_menu_add" />
+            android:src="@drawable/plus_button" />
 
         <TextView
             android:id="@+id/TEXT_PHONE_NUM"
-            android:layout_width="310dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
@@ -45,7 +46,7 @@
             android:id="@+id/BACK_SPACE"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="9"
+            android:layout_weight="3"
             android:background="@drawable/rectangle_button"
             android:onClick="onClick"
             android:src="@android:drawable/stat_notify_more" />
@@ -261,9 +262,9 @@
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="2dp"
                 android:layout_weight="0"
-                android:background="@drawable/rectangle_button"
+                android:background="@color/colorAccent"
                 android:onClick="onClick"
-                android:src="@android:drawable/sym_action_call" />
+                android:src="@drawable/calling_button" />
 
             <ImageButton
                 android:id="@+id/KEYPAD_HIDE"
