@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.PhoneStateListener;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -18,6 +19,8 @@ import com.example.workbench.VoiceShow.Permissions.cPermissionManager;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener
 {
     private String          mPhoneNumber;                           // 핸드폰 번호 문자열
+
+    PhoneStateListener      mPhoneStateListener;
 
     /**
      * 어플리케이션 최초 실행 여부 확인.
@@ -51,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         CheckFirstTime();
         cPermissionManager.GetInst().Initialize(this);
         cSystemManager.getInstance().Initialize(this, getApplicationContext());
+        mPhoneStateListener = cSystemManager.getInstance().GetCallReceiver().mPhoneStateListener;
     }
 
     @Override
