@@ -20,7 +20,8 @@ public class cSystemManager
 
     private Activity        mActivity;
     private Context         mContext;
-    private cSTTModuleManager mSTTModule;
+
+    private cSTTModuleManager   mSTTModule;
 
     public void Initialize(Activity _act, Context _cont)
     {

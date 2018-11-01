@@ -1,14 +1,14 @@
 package com.example.workbench.VoiceShow.STTModule;
 
-import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.TextView;
 
+import com.example.workbench.VoiceShow.R;
 import com.example.workbench.VoiceShow.cSystemManager;
 
 public class cSTTModuleManager
@@ -16,10 +16,7 @@ public class cSTTModuleManager
     private cSpeechService  mSpeechService;
     private cVoiceRecorder  mVoiceRecorder;
 
-    public cSTTModuleManager()
-    {
-//        mSpeechService      = new cSpeechService();
-    }
+    private String          mText;  // 음성인식 결과
 
     /**
      * 음성 녹음 콜백 모듈
@@ -78,6 +75,7 @@ public class cSTTModuleManager
             mSpeechService  = new cSpeechService();
         // Prepare Cloud Speech API
         cSystemManager.getInstance().GetActivity().bindService(new Intent(cSystemManager.getInstance().GetActivity(), cSpeechService.class), mServiceConnection, Context.BIND_AUTO_CREATE);
+        mSpeechService.addListener(mSpeechServiceListener);
 
         // Start listening to voices
         startVoiceRecorder();
@@ -99,11 +97,6 @@ public class cSTTModuleManager
             mSpeechService.onDestroy();
             mSpeechService  = null;
         }
-    }
-
-    public void onSaveInstanceState(Bundle outState)
-    {
-
     }
 
     /**
@@ -133,6 +126,9 @@ public class cSTTModuleManager
         }
     }
 
+    /**
+     * mSpeechService 에서 리스너로 등록하여 onNext에서 음성인식 결과를 해당 리스너로 받을 수 있도록 설정.
+     */
     private final cSpeechService.Listener mSpeechServiceListener = new cSpeechService.Listener()
     {
         @Override
@@ -142,7 +138,25 @@ public class cSTTModuleManager
             {
                 mVoiceRecorder.dismiss();
             }
+
+            mText           = _text;
+            ModifyResultText();
             Log.d("Speech Debug_onSpeechRecognized", _text);
         }
     };
+
+    public String GetSpeechToTextResult()
+    {
+        return mText;
+    }
+
+    /**
+     * 임시 함수. 음성 인식 결과를 전화 화면의 핸드폰 번호를 보여주는 텍스트뷰에 표시한다.
+     */
+    public void ModifyResultText()
+    {
+        TextView tv_PhoneNum = (TextView)cSystemManager.getInstance().GetActivity().findViewById(R.id.TEXT_PHONE_NUM);
+
+        tv_PhoneNum.setText(GetSpeechToTextResult());
+    }
 }
