@@ -128,11 +128,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // 핸드폰번호 뒤에서 하나씩 지움.
                 //int         len = mPhoneNumber.length();
                 //mPhoneNumber.substring()
-                cSystemManager.getInstance().GetSTTModule().onStart();
+                //.getInstance().GetSTTModule().onStart();
+                Intent      send = new Intent("com.example.workbench.VoiceShow.Util.cCallBroadcastReceiver");
+                sendBroadcast(send);
                 break;
 
             case R.id.ADD_PHONE_NUM:
-                cSystemManager.getInstance().GetSTTModule().onStop();
+                //cSystemManager.getInstance().GetSTTModule().onStop();
                 break;
 
             case R.id.KEYPAD_0:

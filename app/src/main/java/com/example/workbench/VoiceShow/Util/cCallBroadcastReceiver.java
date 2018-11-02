@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
+import android.telephony.PhoneNumberUtils;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.widget.Toast;
 
 /**
  * 단말기의 통화 상태를 감지하기 위해 리시버를 사용하여 브로드케스팅 한다.
@@ -17,7 +19,7 @@ import android.util.Log;
  */
 public class cCallBroadcastReceiver extends BroadcastReceiver
 {
-    String                  TAG = "PHONE STATE";
+    String                  TAG = "PHONE_STATE_RECEIVER";
 
     private final           Handler mHandler = new Handler(Looper.getMainLooper());
 
@@ -29,17 +31,26 @@ public class cCallBroadcastReceiver extends BroadcastReceiver
         Log.i(TAG, "onReceive()");
         String              state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
 
+        // 임시 코드
+        Toast.makeText(context, "안녕", Toast.LENGTH_SHORT).show();
+
         if (state.equals(TelephonyManager.EXTRA_STATE_IDLE))
         {
-
+            Log.i(TAG, "EXTRA_STATE_IDLE");
         }
         else if (state.equals(TelephonyManager.EXTRA_STATE_RINGING))
         {
-
+            // 전화가 왔을 때
+            Log.i(TAG, "EXTRA_STATE_RINGING");
+            String          incomingNumber = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER); // 전화 온 번호
+            final String    phoneNumber = PhoneNumberUtils.formatNumber(incomingNumber);                    // String 형으로 변경
+            Intent          serviceIntent = new Intent(context, cCallBroadcastService.class);               // 현재 화면(리시버)에서 넘어갈 컴포넌트 설정(서비스)
+            serviceIntent.putExtra(cCallBroadcastService.EXTRA_CALL_NUMBER, phoneNumber);                   // 서비스에 전달 할 데이터
+            context.startService(serviceIntent);                                                            // 서비스 시작
         }
         else if (state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK))
         {
-
+            Log.i(TAG, "EXTRA_STATE_OFFHOOK");
         }
 
         throw new UnsupportedOperationException("Not yet implemented");
