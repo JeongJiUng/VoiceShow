@@ -2,17 +2,13 @@ package com.example.workbench.VoiceShow.MainFragment;
 
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
-
+import com.example.workbench.VoiceShow.MainActivity;
 import com.example.workbench.VoiceShow.R;
 import com.example.workbench.VoiceShow.Util.getAddressBook;
 
@@ -27,6 +23,9 @@ public class AddressFragment extends ListFragment{
 
     AddressListViewAdapter adapter;
 
+    private ArrayList<String> phoneNameList;
+    private ArrayList<String> phoneNumberList;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -37,11 +36,12 @@ public class AddressFragment extends ListFragment{
 
         getAddressBook addressBook = new getAddressBook();
 
-
+        phoneNameList = addressBook.getName();
+        phoneNumberList = addressBook.getNumber();
 
         //첫번째 아이템 추가
         adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.profileimg),
-                getString(addressBook.getSize()), "010-2612-1370");
+                "hello", "010-2612-1370");
         adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.profileimg),
                 "Circle", "000-0000-0000") ;
         adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.profileimg),
