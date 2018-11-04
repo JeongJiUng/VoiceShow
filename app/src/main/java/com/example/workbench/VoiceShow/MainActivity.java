@@ -17,6 +17,9 @@ import android.support.v4.view.ViewPager;
 
 import com.example.workbench.VoiceShow.Permissions.cPermissionManager;
 
+import java.util.ArrayList;
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener
 {
     private String          mPhoneNumber;                           // 핸드폰 번호 문자열
@@ -103,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
+
 
         Initialize();
 

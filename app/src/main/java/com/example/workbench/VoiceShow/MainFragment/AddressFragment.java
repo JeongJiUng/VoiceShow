@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.workbench.VoiceShow.R;
+import com.example.workbench.VoiceShow.Util.getAddressBook;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -34,9 +35,13 @@ public class AddressFragment extends ListFragment{
         adapter = new AddressListViewAdapter();
         setListAdapter(adapter);//어뎁터 연결
 
+        getAddressBook addressBook = new getAddressBook();
+
+
+
         //첫번째 아이템 추가
         adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.profileimg),
-                "Box", "010-2612-1370");
+                getString(addressBook.getSize()), "010-2612-1370");
         adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.profileimg),
                 "Circle", "000-0000-0000") ;
         adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.profileimg),
@@ -48,5 +53,4 @@ public class AddressFragment extends ListFragment{
         //return inflater.inflate(R.layout.fragment_address, container, false);
         return super.onCreateView(inflater, container,savedInstanceState);
     }
-
 }
