@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.example.workbench.VoiceShow.MainActivity;
 import com.example.workbench.VoiceShow.R;
-import com.example.workbench.VoiceShow.Util.getAddressBook;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -19,12 +18,13 @@ import java.util.Map;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AddressFragment extends ListFragment{
+public class AddressFragment extends ListFragment {
 
     AddressListViewAdapter adapter;
 
-    private ArrayList<String> phoneNameList;
+    private ArrayList phoneNameList;
     private ArrayList<String> phoneNumberList;
+    private String hello;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,19 +34,20 @@ public class AddressFragment extends ListFragment{
         adapter = new AddressListViewAdapter();
         setListAdapter(adapter);//어뎁터 연결
 
-        getAddressBook addressBook = new getAddressBook();
-
-        phoneNameList = addressBook.getName();
-        phoneNumberList = addressBook.getNumber();
+        phoneNameList = ((MainActivity)getActivity()).getNames();
+        phoneNumberList = ((MainActivity)getActivity()).getNumbers();
 
         //첫번째 아이템 추가
-        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.profileimg),
-                "hello", "010-2612-1370");
-        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.profileimg),
-                "Circle", "000-0000-0000") ;
-        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.profileimg),
-                "Ind", "000-0000-0000") ;
 
+//        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.profileimg),
+//                "Circle", "000-0000-0000") ;
+//        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.profileimg),
+//                "Ind", "000-0000-0000") ;
+        
+        for(int i = 0; i<phoneNumberList.size();i++){
+            adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.profileimg),
+                    phoneNameList.get(i).toString(), phoneNumberList.get(i));
+        }
 
 
 
