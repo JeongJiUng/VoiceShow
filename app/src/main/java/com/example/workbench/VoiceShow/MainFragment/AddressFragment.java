@@ -43,7 +43,7 @@ public class AddressFragment extends ListFragment {
 //                "Circle", "000-0000-0000") ;
 //        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.profileimg),
 //                "Ind", "000-0000-0000") ;
-        
+
         for(int i = 0; i<phoneNumberList.size();i++){
             adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.profileimg),
                     phoneNameList.get(i).toString(), phoneNumberList.get(i));

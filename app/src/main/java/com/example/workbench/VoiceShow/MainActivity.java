@@ -257,8 +257,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void getAddressBooks (){
-        nameList = new ArrayList<String>();
-        numberList = new ArrayList<String>();
+        //주소록 가져오는 부분
+        nameList = new ArrayList();
+        numberList = new ArrayList();
 
         Cursor c = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI,
                 null,null,null,
