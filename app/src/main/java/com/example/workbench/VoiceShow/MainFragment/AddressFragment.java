@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.support.v4.content.ContextCompat;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,16 @@ public class AddressFragment extends ListFragment {
 
     private ArrayList phoneNameList;
     private ArrayList<String> phoneNumberList;
+
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+        //Toast.makeText(getContext(), position + " 번째 선택", Toast.LENGTH_SHORT).show();
+        Toast toast = new Toast(this.getContext());
+        toast.setGravity(Gravity.CENTER,0,0);
+        toast.setView(getLayoutInflater().inflate(R.layout.address_simple_menu,null));
+        toast.show();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
