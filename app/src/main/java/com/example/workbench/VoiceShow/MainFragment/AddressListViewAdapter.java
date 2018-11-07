@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.workbench.VoiceShow.R;
 
@@ -52,7 +53,7 @@ public class AddressListViewAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        //final int pos = position;
+        final int pos = position;
         final Context context = parent.getContext();
 
         // "fragment_address"의 Layout을 inflate하여 convertView 참조 획득?
@@ -74,7 +75,12 @@ public class AddressListViewAdapter extends BaseAdapter{
         nameView.setText(listViewItem.getName());
         numberView.setText(listViewItem.getNumber());
 
-        
+        profileImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, pos + " 번째 이미지 선택", Toast.LENGTH_SHORT).show();
+            }
+        });
         return convertView;
     }
 }
