@@ -62,8 +62,8 @@ public class AddressListViewAdapter extends BaseAdapter{
         }
 
         // 화면에 표시될 View(Layout이 inflate 된)으로부터 위젯에 대한 참조 획득
-        ImageView profileImageView = (ImageView) convertView.findViewById(R.id.profileImage);
-        TextView nameView = (TextView) convertView.findViewById(R.id.addressName);
+        ImageView profileImageView = convertView.findViewById(R.id.profileImage);
+        TextView nameView = convertView.findViewById(R.id.addressName);
         TextView numberView = convertView.findViewById(R.id.addressNum);
 
         //Data Set(AddresslistViewItem)에서 position에 위치한 데이터 참조 획득
@@ -74,6 +74,7 @@ public class AddressListViewAdapter extends BaseAdapter{
         nameView.setText(listViewItem.getName());
         numberView.setText(listViewItem.getNumber());
 
+        
         return convertView;
     }
 }

@@ -8,11 +8,13 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.Toast;
+
 import com.example.workbench.VoiceShow.MainActivity;
 import com.example.workbench.VoiceShow.R;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 
 /**
@@ -24,7 +26,6 @@ public class AddressFragment extends ListFragment {
 
     private ArrayList phoneNameList;
     private ArrayList<String> phoneNumberList;
-    private String hello;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,18 +38,11 @@ public class AddressFragment extends ListFragment {
         phoneNameList = ((MainActivity)getActivity()).getNames();
         phoneNumberList = ((MainActivity)getActivity()).getNumbers();
 
-        //첫번째 아이템 추가
-
-//        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.profileimg),
-//                "Circle", "000-0000-0000") ;
-//        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.profileimg),
-//                "Ind", "000-0000-0000") ;
-
+        // 아이템 추가
         for(int i = 0; i<phoneNumberList.size();i++){
             adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.profileimg),
                     phoneNameList.get(i).toString(), phoneNumberList.get(i));
         }
-
 
 
         //return inflater.inflate(R.layout.fragment_address, container, false);
