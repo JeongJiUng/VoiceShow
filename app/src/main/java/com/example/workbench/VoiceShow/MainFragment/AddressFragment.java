@@ -33,7 +33,6 @@ public class AddressFragment extends ListFragment {
         super.onListItemClick(l, v, position, id);
         //Toast.makeText(getContext(), position + " 번째 선택", Toast.LENGTH_SHORT).show();
         Toast toast = new Toast(this.getContext());
-        toast.setGravity(Gravity.CENTER,0,0);
         toast.setView(getLayoutInflater().inflate(R.layout.address_simple_menu,null));
         toast.show();
     }

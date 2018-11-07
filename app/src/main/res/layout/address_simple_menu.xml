@@ -3,13 +3,12 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding = "10dp"
-    android:background="#FFFF00">
+    android:padding = "10dp">
 
-    <Button
+    <ImageButton
         android:id="@+id/simple_menu_calling"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="calling"
-        android:textSize="24sp"/>
+        android:layout_width="160dp"
+        android:layout_height="80dp"
+        android:src="@drawable/calling_img"
+        android:scaleType="fitCenter"/>
 </LinearLayout>
