@@ -10,17 +10,19 @@
         android:layout_weight="1"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/profileimg"
         android:clickable="true"/>
+        <!--android:src="@drawable/profileimg"-->
+
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="4"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp">
 
         <TextView
-            android:paddingLeft="10dp"
             android:id="@+id/addressName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -29,7 +31,7 @@
             android:text="New Text"
             android:textColor="#ffffff"
             android:textSize="24sp"
-            android:maxLength="8"/>
+            android:maxLength="6"/>
 
         <TextView
             android:id="@+id/addressNum"
@@ -38,8 +40,7 @@
             android:layout_weight="1"
             android:text="New Text"
             android:textColor="#666666"
-            android:textSize="16sp"
-            android:paddingLeft="10dp"/>
+            android:textSize="16sp" />
 
     </LinearLayout>
 
@@ -56,8 +57,9 @@
             android:cropToPadding="false"
             android:scaleType="fitXY"
             android:adjustViewBounds="true"
-            android:src="@drawable/calling_img"
             android:clickable="true"/>
+            <!--android:src="@drawable/calling_img"-->
+
 
         <ImageView
             android:id="@+id/addressChatting"
@@ -66,8 +68,9 @@
             android:adjustViewBounds="true"
             android:layout_toRightOf="@+id/addressCalling"
             android:scaleType="fitCenter"
-            android:src="@drawable/chatting_blue_img"
             android:clickable="true"/>
+            <!--android:src="@drawable/chatting_blue_img"-->
+
     </RelativeLayout>
 
 </LinearLayout>

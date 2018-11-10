@@ -20,7 +20,6 @@ public class AddressListViewAdapter extends BaseAdapter{
     private ArrayList<AddressListViewItem> addressListViewItems = new ArrayList<AddressListViewItem>();
 
     public AddressListViewAdapter(){
-
     }
 
     @Override
@@ -41,14 +40,18 @@ public class AddressListViewAdapter extends BaseAdapter{
     }
 
     //아이템 데이터를 추가를 위한 함수.
-    public void addItem( String name, String number) {
+    public void addItem(Drawable icon, String name, String number, Drawable addressCalling, Drawable addressChatting) {
         AddressListViewItem item = new AddressListViewItem();
 
+        item.setIcon(icon);
         item.setName(name);
         item.setNumber(number);
+        item.setAddressCalling(addressCalling);
+        item.setAddressChatting(addressChatting);
 
         addressListViewItems.add(item);
     }
+
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -62,16 +65,35 @@ public class AddressListViewAdapter extends BaseAdapter{
         }
 
         // 화면에 표시될 View(Layout이 inflate 된)으로부터 위젯에 대한 참조 획득
+        ImageView profileImageView = convertView.findViewById(R.id.profileImage);
         TextView nameView = convertView.findViewById(R.id.addressName);
         TextView numberView = convertView.findViewById(R.id.addressNum);
+        ImageView addressCallingImageView = convertView.findViewById(R.id.addressCalling);
+        ImageView addressChattingImageView = convertView.findViewById(R.id.addressChatting);
 
         //Data Set(AddresslistViewItem)에서 position에 위치한 데이터 참조 획득
         AddressListViewItem listViewItem = addressListViewItems.get(position);
 
         //아이템 내 각 위젯에 데이터 반영
+        profileImageView.setImageDrawable(listViewItem.getIcon());
         nameView.setText(listViewItem.getName());
         numberView.setText(listViewItem.getNumber());
+        addressCallingImageView.setImageDrawable(listViewItem.getAddressCalling());
+        addressChattingImageView.setImageDrawable(listViewItem.getAddressChatting());
 
+        profileImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, pos + " 번째 이미지 선택", Toast.LENGTH_SHORT).show();
+            }
+        });
+        addressCallingImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, pos + " 번째 이미지 선택", Toast.LENGTH_SHORT).show();
+            }
+        });
         return convertView;
     }
+
 }
