@@ -62,7 +62,6 @@ public class AddressListViewAdapter extends BaseAdapter{
         }
 
         // 화면에 표시될 View(Layout이 inflate 된)으로부터 위젯에 대한 참조 획득
-        ImageView profileImageView = convertView.findViewById(R.id.profileImage);
         TextView nameView = convertView.findViewById(R.id.addressName);
         TextView numberView = convertView.findViewById(R.id.addressNum);
 
@@ -70,16 +69,9 @@ public class AddressListViewAdapter extends BaseAdapter{
         AddressListViewItem listViewItem = addressListViewItems.get(position);
 
         //아이템 내 각 위젯에 데이터 반영
-        profileImageView.setImageDrawable(listViewItem.getIcon());
         nameView.setText(listViewItem.getName());
         numberView.setText(listViewItem.getNumber());
 
-        profileImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, pos + " 번째 이미지 선택", Toast.LENGTH_SHORT).show();
-            }
-        });
         return convertView;
     }
 }
