@@ -41,10 +41,9 @@ public class AddressListViewAdapter extends BaseAdapter{
     }
 
     //아이템 데이터를 추가를 위한 함수.
-    public void addItem(Drawable icon, String name, String number) {
+    public void addItem( String name, String number) {
         AddressListViewItem item = new AddressListViewItem();
 
-        item.setIcon(icon);
         item.setName(name);
         item.setNumber(number);
 

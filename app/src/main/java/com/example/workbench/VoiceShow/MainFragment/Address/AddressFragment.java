@@ -1,6 +1,7 @@
 package com.example.workbench.VoiceShow.MainFragment.Address;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
@@ -8,6 +9,8 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.example.workbench.VoiceShow.MainActivity;
@@ -29,10 +32,7 @@ public class AddressFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-        //Toast.makeText(getContext(), position + " 번째 선택", Toast.LENGTH_SHORT).show();
-//        Toast toast = new Toast(this.getContext());
-//        toast.setView(getLayoutInflater().inflate(R.layout.address_simple_menu,null));
-//        toast.show();
+
     }
 
     @Override
@@ -48,8 +48,7 @@ public class AddressFragment extends ListFragment {
 
         // 아이템 추가
         for(int i = 0; i<phoneNumberList.size();i++){
-            adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.profileimg),
-                    phoneNameList.get(i).toString(), phoneNumberList.get(i));
+            adapter.addItem(phoneNameList.get(i).toString(), phoneNumberList.get(i));
         }
 
 

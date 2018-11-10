@@ -9,6 +9,9 @@
         android:id="@+id/simple_menu_calling"
         android:layout_width="160dp"
         android:layout_height="80dp"
-        android:src="@drawable/calling_img"
-        android:scaleType="fitCenter"/>
+        android:src="@drawable/calling_img" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="hello"/>
 </LinearLayout>
