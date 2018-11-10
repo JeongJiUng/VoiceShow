@@ -1,16 +1,14 @@
-package com.example.workbench.VoiceShow.MainFragment;
+package com.example.workbench.VoiceShow.MainFragment.Address;
 
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.support.v4.content.ContextCompat;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.workbench.VoiceShow.MainActivity;
 import com.example.workbench.VoiceShow.R;
@@ -32,9 +30,9 @@ public class AddressFragment extends ListFragment {
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         //Toast.makeText(getContext(), position + " 번째 선택", Toast.LENGTH_SHORT).show();
-        Toast toast = new Toast(this.getContext());
-        toast.setView(getLayoutInflater().inflate(R.layout.address_simple_menu,null));
-        toast.show();
+//        Toast toast = new Toast(this.getContext());
+//        toast.setView(getLayoutInflater().inflate(R.layout.address_simple_menu,null));
+//        toast.show();
     }
 
     @Override

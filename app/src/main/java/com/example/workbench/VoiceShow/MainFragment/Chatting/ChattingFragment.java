@@ -1,4 +1,4 @@
-package com.example.workbench.VoiceShow.MainFragment;
+package com.example.workbench.VoiceShow.MainFragment.Chatting;
 
 
 import android.os.Bundle;
@@ -13,12 +13,10 @@ import com.example.workbench.VoiceShow.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CallingFragment extends Fragment {
+public class ChattingFragment extends Fragment {
 
 
-
-
-    public CallingFragment() {
+    public ChattingFragment() {
         // Required empty public constructor
     }
 
@@ -27,7 +25,7 @@ public class CallingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_calling, container, false);
+        return inflater.inflate(R.layout.fragment_chatting, container, false);
     }
 
 }

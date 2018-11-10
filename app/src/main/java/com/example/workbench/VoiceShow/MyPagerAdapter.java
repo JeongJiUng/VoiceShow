@@ -5,10 +5,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.example.workbench.VoiceShow.MainFragment.AddressFragment;
-import com.example.workbench.VoiceShow.MainFragment.CallingFragment;
-import com.example.workbench.VoiceShow.MainFragment.ChattingFragment;
-import com.example.workbench.VoiceShow.MainFragment.RecentFragment;
+import com.example.workbench.VoiceShow.MainFragment.Address.AddressFragment;
+import com.example.workbench.VoiceShow.MainFragment.Calling.CallingFragment;
+import com.example.workbench.VoiceShow.MainFragment.Chatting.ChattingFragment;
+import com.example.workbench.VoiceShow.MainFragment.Recently.RecentFragment;
 
 import java.util.ArrayList;
 
