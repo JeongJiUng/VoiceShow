@@ -14,15 +14,15 @@ public class AddressListViewItem {
         iconDrawable = icon;
     }
     public void setName(String name){
-        this.name = name;
-    }
-    public void setNumber(String number){
-        this.number = number;
-    }
-    public void setAddressCalling(Drawable addressCalling){
-        this.addressCalling = addressCalling;
-    }public void setAddressChatting(Drawable addressChatting){
-        this.addressChatting = addressChatting;
+            this.name = name;
+        }
+        public void setNumber(String number){
+            this.number = number;
+        }
+        public void setAddressCalling(Drawable addressCalling){
+            this.addressCalling = addressCalling;
+        }public void setAddressChatting(Drawable addressChatting){
+            this.addressChatting = addressChatting;
     }
 
     public Drawable getIcon(){

@@ -1,7 +1,9 @@
 package com.example.workbench.VoiceShow.MainFragment.Address;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +14,15 @@ import android.widget.Toast;
 
 import com.example.workbench.VoiceShow.R;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class AddressListViewAdapter extends BaseAdapter{
 
     //Adapter에 추가된 데이터를 저장하기 위한 ArrayList
     private ArrayList<AddressListViewItem> addressListViewItems = new ArrayList<AddressListViewItem>();
+
+    private ArrayList<String> tel;
 
     public AddressListViewAdapter(){
     }
@@ -39,6 +44,9 @@ public class AddressListViewAdapter extends BaseAdapter{
         return position;
     }
 
+    public void setAddressOnClick(ArrayList tel){
+        this.tel = tel;
+    }
     //아이템 데이터를 추가를 위한 함수.
     public void addItem(Drawable icon, String name, String number, Drawable addressCalling, Drawable addressChatting) {
         AddressListViewItem item = new AddressListViewItem();
@@ -87,12 +95,16 @@ public class AddressListViewAdapter extends BaseAdapter{
                 Toast.makeText(context, pos + " 번째 이미지 선택", Toast.LENGTH_SHORT).show();
             }
         });
+
+        // 전화기능
         addressCallingImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
+           @Override
             public void onClick(View v) {
-                Toast.makeText(context, pos + " 번째 이미지 선택", Toast.LENGTH_SHORT).show();
-            }
+               Toast.makeText(context, pos + tel.get(pos), Toast.LENGTH_SHORT).show();
+               context.startActivity(new Intent("android.intent.action.CALL", Uri.parse(tel.get(pos))));
+          }
         });
+
         return convertView;
     }
 

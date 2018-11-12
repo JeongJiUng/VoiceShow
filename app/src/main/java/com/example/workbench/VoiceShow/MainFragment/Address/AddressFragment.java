@@ -1,7 +1,5 @@
 package com.example.workbench.VoiceShow.MainFragment.Address;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
@@ -10,18 +8,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.workbench.VoiceShow.MainActivity;
 import com.example.workbench.VoiceShow.R;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AddressFragment extends ListFragment{
+public class AddressFragment extends ListFragment implements View.OnClickListener {
 
     AddressListViewAdapter adapter;
 
@@ -31,17 +29,8 @@ public class AddressFragment extends ListFragment{
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-        String tel ="tel:" + phoneNumberList.get(position);
-        tel.replace("-","");
-        startActivity(new Intent("android.intent.action.CALL", Uri.parse(tel)));
-//
-//        switch(l.getId()){
-//        case R.id.addressCalling:
-//            Toast.makeText(getContext(), position + " 번째 이미지 선택", Toast.LENGTH_SHORT).show();
-//            break;
-//        }
-
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,13 +43,21 @@ public class AddressFragment extends ListFragment{
         phoneNameList = ((MainActivity)getActivity()).getNames();
         phoneNumberList = ((MainActivity)getActivity()).getNumbers();
 
+        ArrayList<String> tel = new ArrayList();
+        for(int i = 0; i<phoneNumberList.size();i++) {
+            tel.add("tel:" + phoneNumberList.get(i));
+        }
         // 아이템 추가
         for(int i = 0; i<phoneNumberList.size();i++){
+            adapter.setAddressOnClick(tel);
+
             adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.profileimg),
                     phoneNameList.get(i).toString(),
                     phoneNumberList.get(i),
                     ContextCompat.getDrawable(getActivity(), R.drawable.calling_img),
                     ContextCompat.getDrawable(getActivity(), R.drawable.chatting_blue_img));
+
+
         }
 
 
@@ -72,4 +69,8 @@ public class AddressFragment extends ListFragment{
         return phoneNameList.get(position).toString();
     }
 
+    @Override
+    public void onClick(View v) {
+        v.findViewById(R.id.addressCalling);
+    }
 }
