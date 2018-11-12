@@ -1,5 +1,6 @@
 package com.example.workbench.VoiceShow;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,17 +10,11 @@ public class LoadingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_loading);
-        startLoading();
+
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+
+        finish();
     }
 
-    private void startLoading(){
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                finish();
-            }
-        }, 2000); //2000딜레이
-    }
 }

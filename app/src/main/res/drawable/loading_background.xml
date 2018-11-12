@@ -4,9 +4,11 @@
     <item android:drawable="@android:color/background_light" />
 
     <item>
+
         <bitmap
             android:src="@drawable/chatting_blue_img"
             android:gravity="center"
             ></bitmap>
+
     </item>
 </layer-list>
