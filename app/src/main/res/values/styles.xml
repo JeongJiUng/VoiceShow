@@ -9,4 +9,8 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- Loading theme. -->
+    <style name="LoadingTheme" parent="Theme.Design.NoActionBar">
+        <item name="android:windowBackground">@drawable/loading_background</item>
+    </style>
 </resources>

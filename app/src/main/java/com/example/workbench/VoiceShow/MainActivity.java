@@ -113,7 +113,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         checkPermission();
         getAddressBooks(); // 전화번호부 가져오기.
+
+
         setContentView(com.example.workbench.VoiceShow.R.layout.activity_main);
+
+//        //로딩화면
+//        Intent intent = new Intent(this, LoadingActivity.class);
+//        startActivity(intent);
 
         TabLayout tabLayout = findViewById(R.id.tl_tabs);// 텝 레이아웃 을 찾아준다.
         ViewPager viewPager = findViewById(R.id.vp_pager); //뷰 페이져
