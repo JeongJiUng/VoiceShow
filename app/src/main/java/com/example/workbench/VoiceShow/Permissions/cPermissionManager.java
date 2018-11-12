@@ -2,7 +2,14 @@ package com.example.workbench.VoiceShow.Permissions;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
+import android.provider.Settings;
+import android.util.Log;
+
+import com.example.workbench.VoiceShow.Util.cCallBroadcastService;
+import com.example.workbench.VoiceShow.cSystemManager;
 
 public class cPermissionManager
 {
@@ -12,8 +19,8 @@ public class cPermissionManager
 
     //private static final int    MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1;
     private String[]        mPermissions = {Manifest.permission.CALL_PHONE,
-                            Manifest.permission.INTERNET,
-                            Manifest.permission.RECORD_AUDIO};
+                            Manifest.permission.RECORD_AUDIO,
+                            Manifest.permission.READ_PHONE_STATE};
 
     public static cPermissionManager GetInst()
     {
@@ -40,12 +47,28 @@ public class cPermissionManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
             GetPermissions();
+            onObtainingPermissionOverlayWindow();
         }
     }
 
+    /**
+     * 퍼미션 등록 : 전화걸기, 음성녹음
+     */
     public void GetPermissions()
     {
         mActivity.requestPermissions(mPermissions, 1000);
+    }
+
+    /**
+     * 오버레이에 관한 퍼미션 등록
+     */
+    public void onObtainingPermissionOverlayWindow()
+    {
+        if (!Settings.canDrawOverlays(mActivity.getApplicationContext()))
+        {
+            Intent          myIntent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + mActivity.getPackageName()));
+            mActivity.startActivityForResult(myIntent, 101);
+        }
     }
 
  /*   public ActivityCompat.OnRequestPermissionsResultCallback RequestPermissionsResult = new ActivityCompat.OnRequestPermissionsResultCallback()

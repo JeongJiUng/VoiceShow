@@ -5,11 +5,14 @@ import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.IBinder;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.workbench.VoiceShow.R;
@@ -20,10 +23,15 @@ import butterknife.ButterKnife;
 /**
  * 앱이 실행중이지 않은 경우에도 기능을 실행하기 위한 서비스
  * 음성인식 모듈에 대한 처리를 이곳에서 진행
+ * 오버레이 뷰를 사용.
+ * 오버레이 뷰에 발신자의 전화번호 표시
+ * 오버레이 뷰에 발신자와 수신자의 대화 내용 기록
+ * 윈도우 매니저 레이아웃 타입 : TYPE_APPLICATION_OVERLAY
+ * 필요 퍼미션 : SYSTEM_ALERT_WINDOW, ACTION_MANAGE_OVERLAY_PERMISSION
  */
 public class cCallBroadcastService extends Service
 {
-    String                  TAG = "PHONE STATE_SERVICE";
+    String                  TAG = "PHONE_STATE_SERVICE";
     String                  mCallNumber;
     protected View          mRootView;
 
@@ -34,26 +42,49 @@ public class cCallBroadcastService extends Service
     @BindView(R.id.CALL_NUMBER)
     TextView                mTvCallNumber;
 
+    @BindView(R.id.BTN_CLOSE)
+    ImageButton             mCloseBtn;
+
     @Override
     public void onCreate()
     {
         super.onCreate();
+        Log.i(TAG, "onCreate()");
+
 
         // 팝업으로 사용 될 Layout 크기 조정
         mWindowManager      = (WindowManager)getSystemService(WINDOW_SERVICE);
         Display             display = mWindowManager.getDefaultDisplay();
         int                 width = (int)(display.getWidth() * 0.9);    // Display 사이즈의 90%
 
-        mParams             = new WindowManager.LayoutParams(width, WindowManager.LayoutParams.WRAP_CONTENT,
-                                                                WindowManager.LayoutParams.TYPE_SYSTEM_ERROR,
-                                                                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
-                                                                WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON,
-                                                                PixelFormat.TRANSLUCENT);
+        mParams             = new WindowManager.LayoutParams(width,
+                                                            WindowManager.LayoutParams.WRAP_CONTENT,
+                                                            WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,    // 오버레이 뷰를 사용하려면 TYPE_APPLICATION_OVERLAY 타입으로 하고, SYSTEM_ALERT_WINDOW 퍼미션과 ACTION_MANAGE_OVERLAY_PERMISSION를 줘야 함.
+                                                            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                                                            WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON,
+                                                            PixelFormat.TRANSLUCENT);
 
         LayoutInflater      layoutInflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
-        mRootView           = layoutInflater.inflate(R.layout.popup_ringing, null);
-        ButterKnife.bind(this, mRootView);
+        mRootView           = layoutInflater.inflate(R.layout.overlay_ringing, null);
+        try
+        {
+            ButterKnife.bind(this, mRootView);
+        }
+        catch (Exception e)
+        {
+            Log.d(TAG, e.toString());
+        }
         setDraggable();
+
+        // 종료버튼 리스너 등록
+        mCloseBtn.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                removeOverlay();
+            }
+        });
     }
 
     private void setDraggable()
@@ -101,7 +132,14 @@ public class cCallBroadcastService extends Service
     public int onStartCommand(Intent intent, int flags, int startId)
     {
         // WindowManager에 팝업View 등록
-        mWindowManager.addView(mRootView, mParams);
+        try
+        {
+            mWindowManager.addView(mRootView, mParams);
+        }
+        catch (Exception e)
+        {
+            Log.i(TAG, e.toString());
+        }
         // 전화번호 TextView에 세팅
         setExtra(intent);
 
@@ -115,17 +153,21 @@ public class cCallBroadcastService extends Service
     {
         if (intent == null)
         {
-            removePopup();
+            removeOverlay();
             return;
         }
 
         mCallNumber         = intent.getStringExtra(EXTRA_CALL_NUMBER);
     }
 
-    private void removePopup()
+    private void removeOverlay()
     {
         if (mRootView != null && mWindowManager != null)
+        {
             mWindowManager.removeView(mRootView);
+            mRootView       = null;
+            stopSelf();
+        }
     }
 
     @Override

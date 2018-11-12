@@ -83,8 +83,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 변수 초기화
         mPhoneNumber        = "";
 
-        mTelManager         = (TelephonyManager)getSystemService(TELEPHONY_SERVICE);
-        mTelManager.listen(mPhoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
+ /*       mTelManager         = (TelephonyManager)getSystemService(TELEPHONY_SERVICE);
+        mTelManager.listen(mPhoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);*/
 
         // 기능 초기화
         CheckFirstTime();
@@ -129,8 +129,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //int         len = mPhoneNumber.length();
                 //mPhoneNumber.substring()
                 //.getInstance().GetSTTModule().onStart();
-                Intent      send = new Intent("com.example.workbench.VoiceShow.Util.cCallBroadcastReceiver");
-                sendBroadcast(send);
                 break;
 
             case R.id.ADD_PHONE_NUM:
