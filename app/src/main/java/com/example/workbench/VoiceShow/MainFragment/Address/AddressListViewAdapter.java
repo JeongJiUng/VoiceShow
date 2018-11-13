@@ -100,7 +100,7 @@ public class AddressListViewAdapter extends BaseAdapter{
         addressCallingImageView.setOnClickListener(new View.OnClickListener() {
            @Override
             public void onClick(View v) {
-               Toast.makeText(context, pos + tel.get(pos), Toast.LENGTH_SHORT).show();
+               //Toast.makeText(context, pos + tel.get(pos), Toast.LENGTH_SHORT).show();
                context.startActivity(new Intent("android.intent.action.CALL", Uri.parse(tel.get(pos))));
           }
         });

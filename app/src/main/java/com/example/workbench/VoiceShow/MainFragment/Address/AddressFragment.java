@@ -12,7 +12,6 @@ import android.widget.ListView;
 import com.example.workbench.VoiceShow.MainActivity;
 import com.example.workbench.VoiceShow.R;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
@@ -47,6 +46,7 @@ public class AddressFragment extends ListFragment implements View.OnClickListene
         for(int i = 0; i<phoneNumberList.size();i++) {
             tel.add("tel:" + phoneNumberList.get(i));
         }
+
         // 아이템 추가
         for(int i = 0; i<phoneNumberList.size();i++){
             adapter.setAddressOnClick(tel);
@@ -54,8 +54,8 @@ public class AddressFragment extends ListFragment implements View.OnClickListene
             adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.profileimg),
                     phoneNameList.get(i).toString(),
                     phoneNumberList.get(i),
-                    ContextCompat.getDrawable(getActivity(), R.drawable.calling_img),
-                    ContextCompat.getDrawable(getActivity(), R.drawable.chatting_blue_img));
+                    ContextCompat.getDrawable(getActivity(), R.drawable.calling_icon_white),
+                    ContextCompat.getDrawable(getActivity(), R.drawable.chatting_icon_white));
 
 
         }
@@ -63,10 +63,6 @@ public class AddressFragment extends ListFragment implements View.OnClickListene
 
         //return inflater.inflate(R.layout.fragment_address, container, false);
         return super.onCreateView(inflater, container,savedInstanceState);
-    }
-
-    public String getNumber(int position){
-        return phoneNameList.get(position).toString();
     }
 
     @Override

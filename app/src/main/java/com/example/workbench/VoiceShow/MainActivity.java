@@ -26,7 +26,6 @@ import android.widget.Toast;
 import com.example.workbench.VoiceShow.Permissions.cPermissionManager;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener
 {
@@ -292,8 +291,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             phoneCursor.close();
         }
         c.close();
-        //this.nameList = nameLists;
-        //this.numberList = numberLists;
+
     }
     public  ArrayList getNames(){
         return this.nameList;

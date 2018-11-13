@@ -60,7 +60,10 @@
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:clickable="true"
-            android:scaleType="fitXY" />
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:scaleType="fitCenter" />
             <!--android:src="@drawable/calling_img"-->
 
 
@@ -70,7 +73,7 @@
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:layout_toRightOf="@+id/addressCalling"
-            android:scaleType="fitXY"
+            android:scaleType="fitCenter"
             android:clickable="true"/>
             <!--android:src="@drawable/chatting_blue_img"-->
 
