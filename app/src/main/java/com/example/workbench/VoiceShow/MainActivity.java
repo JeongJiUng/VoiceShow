@@ -110,10 +110,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        checkPermission();
-        getAddressBooks(); // 전화번호부 가져오기.
-
-
         setContentView(com.example.workbench.VoiceShow.R.layout.activity_main);
 
 //        //로딩화면
@@ -128,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         Initialize();
-
+        getAddressBooks(); // 전화번호부 가져오기.
        // startActivity(new Intent("android.intent.action.DIAL"));
     }
 
@@ -217,10 +213,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (v.getId() != R.id.KEYPAD_CALL && v.getId() != R.id.KEYPAD_VCALL && v.getId() != R.id.KEYPAD_HIDE)
             tv_PhoneNum.setText(mPhoneNumber);
     }
-    public void MoveToSettings(View v) {
+
+    public void MoveToSettings(View v)
+    {
         startActivity(new Intent(MainActivity.this,activity_SETTINGS.class));
     }
-    public void getAddressBooks (){
+
+    public void getAddressBooks ()
+    {
         //주소록 가져오는 부분
         nameList = new ArrayList();
         numberList = new ArrayList();
