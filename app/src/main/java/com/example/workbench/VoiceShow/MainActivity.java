@@ -194,4 +194,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (v.getId() != R.id.KEYPAD_CALL && v.getId() != R.id.KEYPAD_VCALL && v.getId() != R.id.KEYPAD_HIDE)
             tv_PhoneNum.setText(mPhoneNumber);
     }
+    public void MoveToSettings(View v) {
+        startActivity(new Intent(MainActivity.this,activity_SETTINGS.class));
+    }
 }
