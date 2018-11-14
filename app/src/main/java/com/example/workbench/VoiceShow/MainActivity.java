@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 기능 초기화
         CheckFirstTime();
-        cPermissionManager.GetInst().Initialize(this);
+
         cSystemManager.getInstance().Initialize(this, getApplicationContext());
     }
 
