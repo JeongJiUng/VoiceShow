@@ -2,7 +2,9 @@ package com.example.workbench.VoiceShow.Permissions;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.os.Build;
+import android.support.v4.app.ActivityCompat;
 
 public class cPermissionManager
 {
@@ -49,28 +51,4 @@ public class cPermissionManager
     {
         mActivity.requestPermissions(mPermissions, 1000);
     }
-
- /*   public ActivityCompat.OnRequestPermissionsResultCallback RequestPermissionsResult = new ActivityCompat.OnRequestPermissionsResultCallback()
-    {
-        @Override
-        public void onRequestPermissionsResult(int i, @NonNull String[] strings, @NonNull int[] ints)
-        {
-            switch (i)
-            {
-                case MY_PERMISSIONS_REQUEST_READ_CONTACTS:
-                    if (ints.length > 0 && ints[0] == PackageManager.PERMISSION_GRANTED)
-                    {
-                        // 권한 획득에 성공하였을 때 수행할 내용
-                    }
-                    else
-                    {
-                        // 권한 획득에 실패했을 때 수행할 내용
-                        // 퍼미션을 거부했으면 어플리케이션 강제 종료.
-                        mActivity.moveTaskToBack(true);
-                        mActivity.finish();
-                        android.os.Process.killProcess(android.os.Process.myPid());
-                    }
-            }
-        }
-    };*/
 }
