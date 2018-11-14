@@ -1,9 +1,16 @@
 package com.example.workbench.VoiceShow;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
+import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.PhoneStateListener;
@@ -14,12 +21,19 @@ import android.widget.TextView;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.widget.Toast;
 
 import com.example.workbench.VoiceShow.Permissions.cPermissionManager;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener
 {
     private String          mPhoneNumber;                           // 핸드폰 번호 문자열
+
+    //전화번호부 가져오기위한 리스트
+    private ArrayList<String> nameList;
+    private ArrayList<String> numberList;
 
     //전화 상태 및 전화 상태 변화에대한 리스너 및 관련 객체
     TelephonyManager        mTelManager;    // 안드로이드 폰의 전화 서비스에 대한 정보에 접근하기 위한 객체
@@ -96,13 +110,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        checkPermission();
+        getAddressBooks(); // 전화번호부 가져오기.
+
+
         setContentView(com.example.workbench.VoiceShow.R.layout.activity_main);
+
+//        //로딩화면
+//        Intent intent = new Intent(this, LoadingActivity.class);
+//        startActivity(intent);
 
         TabLayout tabLayout = findViewById(R.id.tl_tabs);// 텝 레이아웃 을 찾아준다.
         ViewPager viewPager = findViewById(R.id.vp_pager); //뷰 페이져
         MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
+
 
         Initialize();
 
@@ -197,4 +220,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void MoveToSettings(View v) {
         startActivity(new Intent(MainActivity.this,activity_SETTINGS.class));
     }
+    public void getAddressBooks (){
+        //주소록 가져오는 부분
+        nameList = new ArrayList();
+        numberList = new ArrayList();
+
+        Cursor c = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI,
+                null,null,null,
+                ContactsContract.Contacts.DISPLAY_NAME_PRIMARY + " asc");
+
+        while(c.moveToNext()){
+            //연락처 id 값
+            String id = c.getString(c.getColumnIndex(ContactsContract.Contacts._ID)); // 아이디 가져온다.
+            String name = c.getString(c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME_PRIMARY)); //이름을 가져온다.
+
+            nameList.add(name);
+
+            Cursor phoneCursor = getContentResolver().query(
+                    ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                    null,
+                    ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + id,
+                    null,null);
+
+            if(phoneCursor.moveToNext()){
+                String number = phoneCursor.getString(phoneCursor.getColumnIndex(
+                        ContactsContract.CommonDataKinds.Phone.NUMBER));
+                numberList.add(number);
+            }
+            phoneCursor.close();
+        }
+        c.close();
+
+    }
+    public  ArrayList getNames(){
+        return this.nameList;
+    }
+
+    public ArrayList getNumbers(){
+        return this.numberList;
+    }
+
+
 }

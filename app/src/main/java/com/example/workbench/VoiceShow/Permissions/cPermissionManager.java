@@ -13,7 +13,9 @@ public class cPermissionManager
     //private static final int    MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1;
     private String[]        mPermissions = {Manifest.permission.CALL_PHONE,
                             Manifest.permission.INTERNET,
-                            Manifest.permission.RECORD_AUDIO};
+                            Manifest.permission.RECORD_AUDIO,
+                            Manifest.permission.READ_EXTERNAL_STORAGE,
+                            Manifest.permission.READ_CONTACTS};
 
     public static cPermissionManager GetInst()
     {
