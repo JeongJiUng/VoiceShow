@@ -327,7 +327,5 @@
 
             </TableRow>
         </TableLayout>
-
-    </LinearLayout>
-
-</android.support.constraint.ConstraintLayout>
+    </android.support.design.widget.TabLayout>
+</RelativeLayout>
