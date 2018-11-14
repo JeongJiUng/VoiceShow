@@ -15,12 +15,13 @@
             android:layout_weight="15"
             android:orientation="horizontal"
             android:padding="2dp">
+
             <ImageButton
                 android:id="@+id/SETTINGS_BACK_BUTTON"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="6"
-                android:background="@drawable/temp_backspace"/>
+                android:background="@drawable/bnt_back" />
 
             <TextView
                 android:layout_width="match_parent"
