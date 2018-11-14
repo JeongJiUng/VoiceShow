@@ -150,6 +150,7 @@ public class cSTTModuleManager
         return mText;
     }
 
+    //TODO:: 임시코드
     /**
      * 임시 함수. 음성 인식 결과를 전화 화면의 핸드폰 번호를 보여주는 텍스트뷰에 표시한다.
      */

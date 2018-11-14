@@ -11,8 +11,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.workbench.VoiceShow.R;
@@ -39,11 +39,16 @@ public class cCallBroadcastService extends Service
     WindowManager.LayoutParams  mParams;
     private WindowManager   mWindowManager;
 
+    cCustomAdapter          mAdapter;
+
     @BindView(R.id.CALL_NUMBER)
     TextView                mTvCallNumber;
 
     @BindView(R.id.BTN_CLOSE)
     ImageButton             mCloseBtn;
+
+    @BindView(R.id.LISTVIEW_CHATLIST)
+    ListView                mListView;
 
     @Override
     public void onCreate()
@@ -65,7 +70,7 @@ public class cCallBroadcastService extends Service
                                                             PixelFormat.TRANSLUCENT);
 
         LayoutInflater      layoutInflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
-        mRootView           = layoutInflater.inflate(R.layout.overlay_ringing, null);
+        mRootView           = layoutInflater.inflate(R.layout.overlay_chatview, null);
         try
         {
             ButterKnife.bind(this, mRootView);
@@ -85,6 +90,26 @@ public class cCallBroadcastService extends Service
                 removeOverlay();
             }
         });
+
+        //TODO:: 임시코드
+        mAdapter            = new cCustomAdapter();
+        mListView.setAdapter(mAdapter);
+        mAdapter.addItem(" ", 1);
+        mAdapter.addItem("테스트2", 0);
+        mAdapter.addItem("테스트", 1);
+        mAdapter.addItem("테스트2", 0);
+        mAdapter.addItem(" ", 1);
+        mAdapter.addItem("테스트2", 0);
+        mAdapter.addItem("테스트", 1);
+        mAdapter.addItem("테스트2", 0);
+        mAdapter.addItem(" ", 1);
+        mAdapter.addItem("테스트2", 0);
+        mAdapter.addItem("테스트", 1);
+        mAdapter.addItem("테스트2", 1);
+        mAdapter.addItem(" ", 1);
+        mAdapter.addItem("테스트2", 0);
+        mAdapter.addItem("테스트", 0);
+        mAdapter.addItem("테스트2", 0);
     }
 
     private void setDraggable()
