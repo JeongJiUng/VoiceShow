@@ -1,6 +1,7 @@
 package com.example.workbench.VoiceShow.Util;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,6 +45,16 @@ public class cCustomAdapter extends BaseAdapter
     public cCustomAdapter()
     {
         mList               = new ArrayList<cListContents>();
+    }
+
+    public cCustomAdapter getCustomAdapter()
+    {
+        return this;
+    }
+
+    public ArrayList<cListContents> getList()
+    {
+        return mList;
     }
 
     public void addItem(String _msg, int _type)

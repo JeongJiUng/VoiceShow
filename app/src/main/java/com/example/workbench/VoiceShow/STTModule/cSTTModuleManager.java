@@ -65,18 +65,24 @@ public class cSTTModuleManager
     };
 
     /**
-     * 음성인식 시작
+     * 음성인식 시작 전 단계
      * 음성인식에 필요한 구글 SpeechService 기능이 초기화 되어있지 않다면 초기화 수행.
      * 음성인식에 필요한 리스너(mServiceConnection) 등록 및 서비스 바인드
      */
-    public void onStart()
+    public void onInit()
     {
         if (mSpeechService == null)
             mSpeechService  = new cSpeechService();
         // Prepare Cloud Speech API
         cSystemManager.getInstance().GetActivity().bindService(new Intent(cSystemManager.getInstance().GetActivity(), cSpeechService.class), mServiceConnection, Context.BIND_AUTO_CREATE);
         mSpeechService.addListener(mSpeechServiceListener);
+    }
 
+    /**
+     * 음성인식 시작
+     */
+    public void onStart()
+    {
         // Start listening to voices
         startVoiceRecorder();
     }
@@ -134,14 +140,16 @@ public class cSTTModuleManager
         @Override
         public void onSpeechRecognized(String _text, boolean _isFinal)
         {
+            mText           = _text;
+            Log.i("Speech Debug_onSpeechRecognized", _text);
+
+            // 문장이 완성 되었을 때 (더이상 아무 말도 하지 않았을 때)
+            // TODO:: 이 부분에서 타이머 체크로 3초 이상 말 안했을 경우 처리 가능할 듯.
             if (_isFinal)
             {
-                mVoiceRecorder.dismiss();
+                GetResultText();
+                //mVoiceRecorder.dismiss();
             }
-
-            mText           = _text;
-            ModifyResultText();
-            Log.d("Speech Debug_onSpeechRecognized", _text);
         }
     };
 
@@ -150,14 +158,12 @@ public class cSTTModuleManager
         return mText;
     }
 
-    //TODO:: 임시코드
     /**
-     * 임시 함수. 음성 인식 결과를 전화 화면의 핸드폰 번호를 보여주는 텍스트뷰에 표시한다.
+     * Override 전용 함수.
+     * 해당 함수를 Override 해서 채팅 UI등 원하는 곳에서 결과 반환.
      */
-    public void ModifyResultText()
+    public void GetResultText()
     {
-        TextView tv_PhoneNum = (TextView)cSystemManager.getInstance().GetActivity().findViewById(R.id.TEXT_PHONE_NUM);
 
-        tv_PhoneNum.setText(GetSpeechToTextResult());
     }
 }

@@ -1,9 +1,13 @@
 package com.example.workbench.VoiceShow.Util;
 
+import android.app.Activity;
 import android.app.Service;
 import android.content.Intent;
 import android.graphics.PixelFormat;
+import android.os.Binder;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Display;
@@ -16,6 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.workbench.VoiceShow.R;
+import com.example.workbench.VoiceShow.STTModule.cSTTModuleManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,31 +37,73 @@ import butterknife.ButterKnife;
 public class cCallBroadcastService extends Service
 {
     String                  TAG = "PHONE_STATE_SERVICE";
+
+    private final IBinder   mBinder = new cLocalBinder();
+
+    boolean                 isRinging = false;                                      // Ringing 상태를 거치지 않고 바로 OFFHOOK인 경우 엑티비티 초기화를 위해 사용 됨.
     String                  mCallNumber;
+    String                  mTelephonyState;
     protected View          mRootView;
 
     public static final String  EXTRA_CALL_NUMBER = "call_number";
+    public static final String  EXTRA_TELEPHONY_STATE = "telephony_state";          // EXTRA_STATE_OFFHOOK : 통화 상태, EXTRA_STATE_IDLE : 통화 종료
     WindowManager.LayoutParams  mParams;
     private WindowManager   mWindowManager;
-
     cCustomAdapter          mAdapter;
+    cSTTModuleManager       mReceiver;      // 수신자 음성인식
+    cSTTModuleManager       mCaller;        // 발신자 음성인식
 
     @BindView(R.id.CALL_NUMBER)
     TextView                mTvCallNumber;
-
     @BindView(R.id.BTN_CLOSE)
     ImageButton             mCloseBtn;
-
     @BindView(R.id.LISTVIEW_CHATLIST)
     ListView                mListView;
+
+    class cLocalBinder extends Binder
+    {
+        cCallBroadcastService getService()
+        {
+            return cCallBroadcastService.this;
+        }
+    }
 
     @Override
     public void onCreate()
     {
         super.onCreate();
-        Log.i(TAG, "onCreate()");
+        initLayout();
 
+        // 채팅 UI 초기화
+        mAdapter            = new cCustomAdapter();
+        mListView.setAdapter(mAdapter);
 
+        // cSTTModuleManager 초기 세팅
+        mReceiver           = new cSTTModuleManager()
+        {
+            @Override
+            public void GetResultText()
+            {
+                super.GetResultText();
+                mAdapter.addItem(GetSpeechToTextResult(), 1);
+                refreshLsitView();
+            }
+        };
+
+        mCaller             = new cSTTModuleManager()
+        {
+            @Override
+            public void GetResultText()
+            {
+                super.GetResultText();
+                mAdapter.addItem(GetSpeechToTextResult(), 0);
+                refreshLsitView();
+            }
+        };
+    }
+
+    public void initLayout()
+    {
         // 팝업으로 사용 될 Layout 크기 조정
         mWindowManager      = (WindowManager)getSystemService(WINDOW_SERVICE);
         Display             display = mWindowManager.getDefaultDisplay();
@@ -71,6 +118,7 @@ public class cCallBroadcastService extends Service
 
         LayoutInflater      layoutInflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
         mRootView           = layoutInflater.inflate(R.layout.overlay_chatview, null);
+
         try
         {
             ButterKnife.bind(this, mRootView);
@@ -79,6 +127,7 @@ public class cCallBroadcastService extends Service
         {
             Log.d(TAG, e.toString());
         }
+
         setDraggable();
 
         // 종료버튼 리스너 등록
@@ -90,26 +139,6 @@ public class cCallBroadcastService extends Service
                 removeOverlay();
             }
         });
-
-        //TODO:: 임시코드
-        mAdapter            = new cCustomAdapter();
-        mListView.setAdapter(mAdapter);
-        mAdapter.addItem(" ", 1);
-        mAdapter.addItem("테스트2", 0);
-        mAdapter.addItem("테스트", 1);
-        mAdapter.addItem("테스트2", 0);
-        mAdapter.addItem(" ", 1);
-        mAdapter.addItem("테스트2", 0);
-        mAdapter.addItem("테스트", 1);
-        mAdapter.addItem("테스트2", 0);
-        mAdapter.addItem(" ", 1);
-        mAdapter.addItem("테스트2", 0);
-        mAdapter.addItem("테스트", 1);
-        mAdapter.addItem("테스트2", 1);
-        mAdapter.addItem(" ", 1);
-        mAdapter.addItem("테스트2", 0);
-        mAdapter.addItem("테스트", 0);
-        mAdapter.addItem("테스트2", 0);
     }
 
     private void setDraggable()
@@ -156,6 +185,38 @@ public class cCallBroadcastService extends Service
     @Override
     public int onStartCommand(Intent intent, int flags, int startId)
     {
+        // Extra로 넘어온 데이터 추출
+        setExtra(intent);
+
+        switch (mTelephonyState)
+        {
+            case "OFFHOOK":
+                if (isRinging == false)
+                {
+                    onStartRinging();
+                    InitSTT();
+                }
+                StartSTT();
+                break;
+
+            case "IDLE":
+                StopSTT();
+                // TODO:: 음성 데이터 저장
+                break;
+
+            case "RINGING":
+                onStartRinging();
+                break;
+        }
+
+        return START_REDELIVER_INTENT;  // service가 강제종료 되더라도 다시 시작해주고 이전에 넘겨받았던 intent를 그대로 넘겨받을 수 있다.
+    }
+
+    /**
+     * RINGING 상태로 서비스가 넘어왔을 때 해당 함수 수행
+     */
+    private void onStartRinging()
+    {
         // WindowManager에 팝업View 등록
         try
         {
@@ -165,13 +226,11 @@ public class cCallBroadcastService extends Service
         {
             Log.i(TAG, e.toString());
         }
-        // 전화번호 TextView에 세팅
-        setExtra(intent);
 
         if (!TextUtils.isEmpty(mCallNumber))
             mTvCallNumber.setText(mCallNumber);
 
-        return START_REDELIVER_INTENT;  // service가 강제종료 되더라도 다시 시작해주고 이전에 넘겨받았던 intent를 그대로 넘겨받을 수 있다.
+        isRinging           = true;
     }
 
     private void setExtra(Intent intent)
@@ -183,6 +242,7 @@ public class cCallBroadcastService extends Service
         }
 
         mCallNumber         = intent.getStringExtra(EXTRA_CALL_NUMBER);
+        mTelephonyState     = intent.getStringExtra(EXTRA_TELEPHONY_STATE);
     }
 
     private void removeOverlay()
@@ -198,7 +258,43 @@ public class cCallBroadcastService extends Service
     @Override
     public IBinder onBind(Intent _intent)
     {
-        // 사용하지 않음.
-        return null;
+        return mBinder;
+    }
+
+    final Handler           mHandler = new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg)
+        {
+            super.handleMessage(msg);
+            mAdapter.notifyDataSetChanged();
+        }
+    };
+
+    private void refreshLsitView()
+    {
+        Message         msg = mHandler.obtainMessage();
+        mHandler.sendMessage(msg);
+    }
+
+    public void InitSTT()
+    {
+        Log.i(TAG, "Init STT");
+        mReceiver.onInit();
+        //mCaller.onInit();
+    }
+
+    public void StartSTT()
+    {
+        Log.i(TAG, "Start STT");
+        mReceiver.onStart();
+        //mCaller.onStart();
+    }
+
+    public void StopSTT()
+    {
+        Log.i(TAG, "Stop STT");
+        mReceiver.onStop();
+        //mCaller.onStop();
     }
 }
