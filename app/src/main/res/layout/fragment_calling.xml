@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="3"
-            android:background="@color/colorAccent"
+            android:background="@drawable/rectangle_button"
             android:onClick="onClick"
             android:src="@drawable/plus_button" />
 
@@ -48,18 +48,19 @@
             android:layout_weight="3"
             android:background="@drawable/rectangle_button"
             android:onClick="onClick"
-            android:src="@android:drawable/stat_notify_more" />
+            android:src="@drawable/bnt_backspace" />
     </LinearLayout>
 
     <TableLayout
+        android:id="@+id/LAYOUT_KEYPAD"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginEnd="40dp"
         android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
         android:layout_weight="1"
         android:gravity="bottom|center"
         android:padding="2dp"
-        >
+        android:visibility="visible">
 
         <TableRow
             android:layout_width="match_parent"
@@ -78,6 +79,7 @@
                 android:background="@drawable/rectangle_button"
                 android:elevation="0dp"
                 android:onClick="onClick"
+                android:src="@drawable/dial_1"
                 tools:layout_editor_absoluteX="20dp"
                 tools:layout_editor_absoluteY="200dp" />
 
@@ -89,7 +91,8 @@
                 android:layout_marginRight="2dp"
                 android:layout_weight="0"
                 android:background="@drawable/rectangle_button"
-                android:onClick="onClick" />
+                android:onClick="onClick"
+                android:src="@drawable/dial_2" />
 
             <ImageButton
                 android:id="@+id/KEYPAD_3"
@@ -99,7 +102,8 @@
                 android:layout_marginRight="2dp"
                 android:layout_weight="0"
                 android:background="@drawable/rectangle_button"
-                android:onClick="onClick" />
+                android:onClick="onClick"
+                android:src="@drawable/dial_3" />
         </TableRow>
 
         <TableRow
@@ -118,6 +122,7 @@
                 android:layout_weight="0"
                 android:background="@drawable/rectangle_button"
                 android:onClick="onClick"
+                android:src="@drawable/dial_4"
                 tools:layout_editor_absoluteX="20dp"
                 tools:layout_editor_absoluteY="200dp" />
 
@@ -129,7 +134,8 @@
                 android:layout_marginRight="2dp"
                 android:layout_weight="0"
                 android:background="@drawable/rectangle_button"
-                android:onClick="onClick" />
+                android:onClick="onClick"
+                android:src="@drawable/dial_5" />
 
             <ImageButton
                 android:id="@+id/KEYPAD_6"
@@ -139,7 +145,8 @@
                 android:layout_marginRight="2dp"
                 android:layout_weight="0"
                 android:background="@drawable/rectangle_button"
-                android:onClick="onClick" />
+                android:onClick="onClick"
+                android:src="@drawable/dial_6" />
         </TableRow>
 
         <TableRow
@@ -158,6 +165,7 @@
                 android:layout_weight="0"
                 android:background="@drawable/rectangle_button"
                 android:onClick="onClick"
+                android:src="@drawable/dial_7"
                 tools:layout_editor_absoluteX="20dp"
                 tools:layout_editor_absoluteY="200dp" />
 
@@ -169,7 +177,8 @@
                 android:layout_marginRight="2dp"
                 android:layout_weight="0"
                 android:background="@drawable/rectangle_button"
-                android:onClick="onClick" />
+                android:onClick="onClick"
+                android:src="@drawable/dial_8" />
 
             <ImageButton
                 android:id="@+id/KEYPAD_9"
@@ -179,7 +188,8 @@
                 android:layout_marginRight="2dp"
                 android:layout_weight="0"
                 android:background="@drawable/rectangle_button"
-                android:onClick="onClick" />
+                android:onClick="onClick"
+                android:src="@drawable/dial_9" />
         </TableRow>
 
         <TableRow
@@ -198,6 +208,7 @@
                 android:layout_weight="0"
                 android:background="@drawable/rectangle_button"
                 android:onClick="onClick"
+                android:src="@drawable/dial_star"
                 tools:layout_editor_absoluteX="20dp"
                 tools:layout_editor_absoluteY="200dp" />
 
@@ -209,7 +220,8 @@
                 android:layout_marginRight="2dp"
                 android:layout_weight="0"
                 android:background="@drawable/rectangle_button"
-                android:onClick="onClick" />
+                android:onClick="onClick"
+                android:src="@drawable/dial_1" />
 
             <ImageButton
                 android:id="@+id/KEYPAD_SHAP"
@@ -219,7 +231,8 @@
                 android:layout_marginRight="2dp"
                 android:layout_weight="0"
                 android:background="@drawable/rectangle_button"
-                android:onClick="onClick" />
+                android:onClick="onClick"
+                android:src="@drawable/dial_shap" />
         </TableRow>
 
         <TableRow
@@ -238,6 +251,7 @@
                 android:layout_weight="0"
                 android:background="@drawable/rectangle_button"
                 android:onClick="onClick"
+                android:src="@drawable/dial_call"
                 tools:layout_editor_absoluteX="20dp"
                 tools:layout_editor_absoluteY="200dp" />
 
@@ -248,9 +262,9 @@
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="2dp"
                 android:layout_weight="0"
-                android:background="@color/colorAccent"
+                android:background="@drawable/rectangle_button"
                 android:onClick="onClick"
-                android:src="@drawable/calling_button" />
+                android:src="@drawable/dial_call" />
 
             <ImageButton
                 android:id="@+id/KEYPAD_HIDE"
@@ -260,7 +274,8 @@
                 android:layout_marginRight="2dp"
                 android:layout_weight="0"
                 android:background="@drawable/rectangle_button"
-                android:onClick="onClick" />
+                android:onClick="onClick"
+                android:src="@drawable/dial_call" />
 
         </TableRow>
     </TableLayout>
