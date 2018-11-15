@@ -42,7 +42,7 @@ public class cCallBroadcastReceiver extends BroadcastReceiver
 
             Intent              serviceIntent = new Intent(context, cCallBroadcastService.class);           // 현재 화면(리시버)에서 넘어갈 컴포넌트 설정(서비스);
             serviceIntent.putExtra(cCallBroadcastService.EXTRA_TELEPHONY_STATE, state);                     // 현재 통화 상태 전달
-            context.startService(serviceIntent);                                                            // 서비스 시작
+            context.startService(serviceIntent);                                                             // 서비스 시작
         }
         else if (state.equals(TelephonyManager.EXTRA_STATE_RINGING))
         {
