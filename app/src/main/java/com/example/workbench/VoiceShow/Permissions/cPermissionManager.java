@@ -2,9 +2,10 @@ package com.example.workbench.VoiceShow.Permissions;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.pm.PackageManager;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
-import android.support.v4.app.ActivityCompat;
+import android.provider.Settings;
 
 public class cPermissionManager
 {
@@ -17,7 +18,8 @@ public class cPermissionManager
                             Manifest.permission.INTERNET,
                             Manifest.permission.RECORD_AUDIO,
                             Manifest.permission.READ_EXTERNAL_STORAGE,
-                            Manifest.permission.READ_CONTACTS};
+                            Manifest.permission.READ_CONTACTS,
+                            Manifest.permission.READ_PHONE_STATE};
 
     public static cPermissionManager GetInst()
     {
@@ -44,11 +46,27 @@ public class cPermissionManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
             GetPermissions();
+            onObtainingPermissionOverlayWindow();
         }
     }
 
+    /**
+     * 퍼미션 등록 : 전화걸기, 음성녹음
+     */
     public void GetPermissions()
     {
         mActivity.requestPermissions(mPermissions, 1000);
+    }
+
+    /**
+     * 오버레이에 관한 퍼미션 등록
+     */
+    public void onObtainingPermissionOverlayWindow()
+    {
+        if (!Settings.canDrawOverlays(mActivity.getApplicationContext()))
+        {
+            Intent          myIntent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + mActivity.getPackageName()));
+            mActivity.startActivityForResult(myIntent, 101);
+        }
     }
 }

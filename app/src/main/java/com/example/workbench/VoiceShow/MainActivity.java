@@ -35,40 +35,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ArrayList<String> nameList;
     private ArrayList<String> numberList;
 
-    //전화 상태 및 전화 상태 변화에대한 리스너 및 관련 객체
-    TelephonyManager        mTelManager;    // 안드로이드 폰의 전화 서비스에 대한 정보에 접근하기 위한 객체
-    public PhoneStateListener   mPhoneStateListener = new PhoneStateListener()
-    {
-        /**
-         * CALL_STATE_IDLE : 아무 행동도 없는 상태
-         * CALL_STATE_RINGING : 전화가 오고 있는 상태
-         * CALL_STATE_OFFHOOK : 전화를 걸거나, 전화중인 상태(통화 시작)
-         * @param _state
-         * @param _incomingNumber
-         */
-        @Override
-        public void onCallStateChanged(int _state, String _incomingNumber)
-        {
-            switch(_state)
-            {
-                case TelephonyManager.CALL_STATE_IDLE:
-                    cSystemManager.getInstance().GetSTTModule().onStop();
-                    Log.i("Telephony", "STATE_IDLE");
-                    break;
-
-                case TelephonyManager.CALL_STATE_RINGING:
-                    Log.i("Telephony", "STATE_RINGING");
-                    break;
-
-                case TelephonyManager.CALL_STATE_OFFHOOK:
-                    cSystemManager.getInstance().GetSTTModule().onStart();
-                    Log.i("Telephony", "STATE_OFFHOOK");
-                    break;
-            }
-            super.onCallStateChanged(_state, _incomingNumber);
-        }
-    };
-
     /**
      * 어플리케이션 최초 실행 여부 확인.
      */
@@ -96,9 +62,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         // 변수 초기화
         mPhoneNumber        = "";
-
-        mTelManager         = (TelephonyManager)getSystemService(TELEPHONY_SERVICE);
-        mTelManager.listen(mPhoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
 
         // 기능 초기화
         CheckFirstTime();
@@ -147,11 +110,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // 핸드폰번호 뒤에서 하나씩 지움.
                 //int         len = mPhoneNumber.length();
                 //mPhoneNumber.substring()
-                cSystemManager.getInstance().GetSTTModule().onStart();
+                //.getInstance().GetSTTModule().onStart();
                 break;
 
             case R.id.ADD_PHONE_NUM:
-                cSystemManager.getInstance().GetSTTModule().onStop();
+                //cSystemManager.getInstance().GetSTTModule().onStop();
                 break;
 
             case R.id.KEYPAD_0:
