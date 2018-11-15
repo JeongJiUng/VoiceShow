@@ -16,7 +16,9 @@ import android.os.Bundle;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 import android.support.design.widget.TabLayout;
@@ -27,6 +29,9 @@ import com.example.workbench.VoiceShow.Permissions.cPermissionManager;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener
 {
     private String          mPhoneNumber;                           // 핸드폰 번호 문자열
@@ -34,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //전화번호부 가져오기위한 리스트
     private ArrayList<String> nameList;
     private ArrayList<String> numberList;
+
+    TableLayout             mKeyPadLayout;
 
     /**
      * 어플리케이션 최초 실행 여부 확인.
@@ -62,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         // 변수 초기화
         mPhoneNumber        = "";
+        mKeyPadLayout       = (TableLayout)findViewById(R.id.LAYOUT_KEYPAD);
 
         // 기능 초기화
         CheckFirstTime();
@@ -169,6 +177,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.KEYPAD_HIDE:
                 // 키 패드 활성/비활성
+                mKeyPadLayout.setVisibility(View.GONE);
+                break;
+
+            case R.id.TEXT_PHONE_NUM:
+                mKeyPadLayout.setVisibility(View.VISIBLE);
                 break;
         }
 
