@@ -17,19 +17,17 @@
         android:label="voshow"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-
         <activity
             android:name=".LoadingActivity"
             android:label="voshow"
             android:theme="@style/LoadingTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".MainActivity">
-        </activity>
+        <activity android:name=".MainActivity" />
 
         <receiver
             android:name=".Util.cCallBroadcastReceiver"
@@ -39,10 +37,10 @@
         <service
             android:name=".Util.cCallBroadcastService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
 
-        <activity android:name=".activity_SETTINGS">
-        </activity>
+        <activity android:name=".activity_SETTINGS" />
+        <activity android:name=".ChattingRoom"></activity>
     </application>
 
 </manifest>
