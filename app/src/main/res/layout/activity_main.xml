@@ -8,7 +8,28 @@
     tools:context=".MainActivity"
     tools:layout_editor_absoluteY="73dp">
 
+    <ImageView
+        android:layout_margin="10dp"
+        android:id="@+id/voshow"
+        android:layout_width="150dp"
+        android:layout_centerHorizontal="true"
+        android:layout_height="30dp"
+        android:src="@drawable/logo"
+        />
+
+    <ImageView
+        android:layout_toRightOf="@+id/voshow"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="50dp"
+        android:id="@+id/settingImgButton"
+        android:layout_alignParentRight="true"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:clickable="true"
+        android:src="@drawable/option_button"/>
+
     <android.support.design.widget.TabLayout
+        android:layout_below="@+id/voshow"
         android:id="@+id/tl_tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
