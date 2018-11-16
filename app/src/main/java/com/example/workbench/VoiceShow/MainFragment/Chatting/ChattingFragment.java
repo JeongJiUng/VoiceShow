@@ -2,12 +2,16 @@ package com.example.workbench.VoiceShow.MainFragment.Chatting;
 
 
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+
 import com.example.workbench.VoiceShow.R;
+
+import java.util.Vector;
 
 
 /**
@@ -15,6 +19,7 @@ import com.example.workbench.VoiceShow.R;
  */
 public class ChattingFragment extends Fragment {
 
+    Vector<ContactsContract.Profile> profiles;
 
     public ChattingFragment() {
         // Required empty public constructor
@@ -25,6 +30,7 @@ public class ChattingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_chatting, container, false);
     }
 

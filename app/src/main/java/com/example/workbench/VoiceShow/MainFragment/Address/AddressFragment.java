@@ -18,7 +18,7 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AddressFragment extends ListFragment implements View.OnClickListener {
+public class AddressFragment extends ListFragment {
 
     AddressListViewAdapter adapter;
 
@@ -65,8 +65,5 @@ public class AddressFragment extends ListFragment implements View.OnClickListene
         return super.onCreateView(inflater, container,savedInstanceState);
     }
 
-    @Override
-    public void onClick(View v) {
-        v.findViewById(R.id.addressCalling);
-    }
+
 }
