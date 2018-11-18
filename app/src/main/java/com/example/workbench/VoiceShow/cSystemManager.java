@@ -18,8 +18,8 @@ public class cSystemManager
     {
     }
 
-    private Activity        mActivity;
-    private Context         mContext;
+    private Activity        mActivity = null;
+    private Context         mContext = null;
 
     private cSTTModuleManager   mSTTModule;
 
@@ -30,6 +30,16 @@ public class cSystemManager
 
         // initialize Modules
         mSTTModule          = new cSTTModuleManager();
+    }
+
+    public void SetActivity(Activity _act)
+    {
+        mActivity           = _act;
+    }
+
+    public void SetContext(Context _cont)
+    {
+        mContext            = _cont;
     }
 
     public Activity GetActivity()

@@ -8,9 +8,10 @@
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
     <uses-permission android:name="android.permission.READ_CONTACTS" /> <!-- 전화번호 가져오기 위한 퍼미션 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/> <!-- 전화 발신처리 접근 퍼미션 -->
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" /> <!-- 전화 발신처리 접근 퍼미션 -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> <!-- 안드로이드 윈도우 Overlay 퍼미션 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:allowBackup="true"
@@ -18,27 +19,25 @@
         android:label="voshow"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-
         <activity
             android:name=".LoadingActivity"
             android:label="voshow"
             android:theme="@style/LoadingTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".MainActivity">
-        </activity>
+        <activity android:name=".MainActivity"></activity>
 
         <receiver
             android:name=".Util.cCallBroadcastReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.PHONE_STATE"/>
-                <action android:name="android.intent.action.NEW_OUTGOING_CALL"/>
+                <action android:name="android.intent.action.PHONE_STATE" />
+                <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
             </intent-filter>
         </receiver>
 
@@ -47,8 +46,8 @@
             android:enabled="true"
             android:exported="true"></service>
 
-        <activity android:name=".activity_SETTINGS">
-        </activity>
+        <activity android:name=".activity_SETTINGS"></activity>
+
     </application>
 
 </manifest>

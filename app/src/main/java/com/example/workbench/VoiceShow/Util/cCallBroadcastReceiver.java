@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -24,8 +25,6 @@ public class cCallBroadcastReceiver extends BroadcastReceiver
     @Override
     public void onReceive(Context context, Intent intent)
     {
-        // This method is called when the BroadcastReceiver is receiving
-        // an Intent broadcast.
         String              state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
         Toast.makeText(context, "OnReceive", Toast.LENGTH_SHORT).show();
 
@@ -33,13 +32,21 @@ public class cCallBroadcastReceiver extends BroadcastReceiver
         {
             // 전화가 왔을 때
             //String          incomingNumber = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER); // 전화 온 번호
-            String          incomingNumber = "01089471758";                                               // 테스트용 임시
-            final String    phoneNumber = PhoneNumberUtils.formatNumber(incomingNumber);                    // String 형으로 변경
-            Intent          serviceIntent = new Intent(context, cCallBroadcastService.class);               // 현재 화면(리시버)에서 넘어갈 컴포넌트 설정(서비스);
-            serviceIntent.putExtra(cCallBroadcastService.EXTRA_CALL_NUMBER, phoneNumber);                   // 서비스에 전달 할 데이터
+            String          incomingNumber = "01089471758";                                                     // 테스트용 임시
+            final String    phoneNumber = PhoneNumberUtils.formatNumber(incomingNumber);                        // String 형으로 변경
+            Intent          serviceIntent = new Intent(context, cCallBroadcastService.class);                   // 현재 화면(리시버)에서 넘어갈 컴포넌트 설정(서비스);
+            serviceIntent.putExtra(cCallBroadcastService.EXTRA_CALL_NUMBER, phoneNumber);                       // 서비스에 전달 할 데이터
+
             try
             {
-                context.startService(serviceIntent);                                                            // 서비스 시작
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                {
+                    context.startForegroundService(serviceIntent);                                              // 포어그라운드 서비스 시작
+                }
+                else
+                {
+                    context.startService(serviceIntent);                                                        // 서비스 시작
+                }
             }
             catch (Exception e)
             {
@@ -55,13 +62,21 @@ public class cCallBroadcastReceiver extends BroadcastReceiver
             if (isFirst == true)
             {
                 //String          incomingNumber = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER); // 전화 온 번호
-                String          incomingNumber = "01089471758";                                               // 테스트용 임시
+                String          incomingNumber = "01089471758";                                                 // 테스트용 임시
                 final String    phoneNumber = PhoneNumberUtils.formatNumber(incomingNumber);                    // String 형으로 변경
                 Intent          serviceIntent = new Intent(context, cCallBroadcastService.class);               // 현재 화면(리시버)에서 넘어갈 컴포넌트 설정(서비스);
                 serviceIntent.putExtra(cCallBroadcastService.EXTRA_CALL_NUMBER, phoneNumber);                   // 서비스에 전달 할 데이터
+
                 try
                 {
-                    context.startService(serviceIntent);                                                            // 서비스 시작
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                    {
+                        context.startForegroundService(serviceIntent);                                          // 포어그라운드 서비스 시작
+                    }
+                    else
+                    {
+                        context.startService(serviceIntent);                                                    // 서비스 시작
+                    }
                 }
                 catch (Exception e)
                 {
