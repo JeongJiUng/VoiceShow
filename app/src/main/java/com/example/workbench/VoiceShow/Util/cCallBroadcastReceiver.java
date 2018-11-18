@@ -1,13 +1,9 @@
 package com.example.workbench.VoiceShow.Util;
 
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
-import android.os.Handler;
-import android.os.IBinder;
-import android.os.Looper;
+import android.content.SharedPreferences;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -22,52 +18,63 @@ import android.widget.Toast;
  */
 public class cCallBroadcastReceiver extends BroadcastReceiver
 {
+    boolean                 isFirst = true;                                                         // 본인이 전화를 걸때는 OFFHOOK으로, 전화가 왔을 때는 RINGING으로 통화 상태가 넘어옴. 이걸 구분해서 서비스에 연결하기 위해 해당 변수 추가.
     String                  TAG = "PHONE_STATE_RECEIVER";
-
-    private final           Handler mHandler = new Handler(Looper.getMainLooper());
 
     @Override
     public void onReceive(Context context, Intent intent)
     {
         // This method is called when the BroadcastReceiver is receiving
         // an Intent broadcast.
-        Log.i(TAG, "onReceive()");
         String              state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
+        Toast.makeText(context, "OnReceive", Toast.LENGTH_SHORT).show();
 
-        if (state.equals(TelephonyManager.EXTRA_STATE_IDLE))
+        if (state.equals(TelephonyManager.EXTRA_STATE_RINGING))
         {
-            // 임시 코드
-            Toast.makeText(context, "EXTRA_STATE_IDLE", Toast.LENGTH_SHORT).show();
-            Log.i(TAG, "EXTRA_STATE_IDLE");
-
-            Intent              serviceIntent = new Intent(context, cCallBroadcastService.class);           // 현재 화면(리시버)에서 넘어갈 컴포넌트 설정(서비스);
-            serviceIntent.putExtra(cCallBroadcastService.EXTRA_TELEPHONY_STATE, state);                     // 현재 통화 상태 전달
-            context.startService(serviceIntent);                                                             // 서비스 시작
-        }
-        else if (state.equals(TelephonyManager.EXTRA_STATE_RINGING))
-        {
-            // 임시 코드
-            Toast.makeText(context, "EXTRA_STATE_RINGING", Toast.LENGTH_SHORT).show();
-            Log.i(TAG, "EXTRA_STATE_RINGING");
-
             // 전화가 왔을 때
-            String          incomingNumber = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER); // 전화 온 번호
-            //String          incomingNumber = "01089471758";                                                 // 테스트용 임시
+            //String          incomingNumber = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER); // 전화 온 번호
+            String          incomingNumber = "01089471758";                                               // 테스트용 임시
             final String    phoneNumber = PhoneNumberUtils.formatNumber(incomingNumber);                    // String 형으로 변경
-            Intent              serviceIntent = new Intent(context, cCallBroadcastService.class);           // 현재 화면(리시버)에서 넘어갈 컴포넌트 설정(서비스);
+            Intent          serviceIntent = new Intent(context, cCallBroadcastService.class);               // 현재 화면(리시버)에서 넘어갈 컴포넌트 설정(서비스);
             serviceIntent.putExtra(cCallBroadcastService.EXTRA_CALL_NUMBER, phoneNumber);                   // 서비스에 전달 할 데이터
-            serviceIntent.putExtra(cCallBroadcastService.EXTRA_TELEPHONY_STATE, state);                     // 현재 통화 상태 전달
-            context.startService(serviceIntent);                                                            // 서비스 시작
+            try
+            {
+                context.startService(serviceIntent);                                                            // 서비스 시작
+            }
+            catch (Exception e)
+            {
+                Log.i(TAG, "RINGING_START_SERVICE " + e.toString());
+            }
+
+            isFirst         = false;
+
+            Toast.makeText(context, "EXTRA_STATE_RINGING", Toast.LENGTH_SHORT).show();
         }
         else if (state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK))
         {
-            // 임시 코드
-            Toast.makeText(context, "EXTRA_STATE_OFFHOOK", Toast.LENGTH_SHORT).show();
-            Log.i(TAG, "EXTRA_STATE_OFFHOOK");
+            if (isFirst == true)
+            {
+                //String          incomingNumber = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER); // 전화 온 번호
+                String          incomingNumber = "01089471758";                                               // 테스트용 임시
+                final String    phoneNumber = PhoneNumberUtils.formatNumber(incomingNumber);                    // String 형으로 변경
+                Intent          serviceIntent = new Intent(context, cCallBroadcastService.class);               // 현재 화면(리시버)에서 넘어갈 컴포넌트 설정(서비스);
+                serviceIntent.putExtra(cCallBroadcastService.EXTRA_CALL_NUMBER, phoneNumber);                   // 서비스에 전달 할 데이터
+                try
+                {
+                    context.startService(serviceIntent);                                                            // 서비스 시작
+                }
+                catch (Exception e)
+                {
+                    Log.i(TAG, "OFFHOOK_START_SERVICE " + e.toString());
+                }
 
-            Intent              serviceIntent = new Intent(context, cCallBroadcastService.class);           // 현재 화면(리시버)에서 넘어갈 컴포넌트 설정(서비스);
-            serviceIntent.putExtra(cCallBroadcastService.EXTRA_TELEPHONY_STATE, state);                     // 현재 통화 상태 전달
-            context.startService(serviceIntent);                                                            // 서비스 시작
+                Toast.makeText(context, "EXTRA_STATE_OFFHOOK", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else if (state.equals(TelephonyManager.EXTRA_STATE_IDLE))
+        {
+            isFirst         = true;
+            Toast.makeText(context, "EXTRA_STATE_IDLE", Toast.LENGTH_SHORT).show();
         }
     }
 }

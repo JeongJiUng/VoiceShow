@@ -3,11 +3,14 @@ package com.example.workbench.VoiceShow.Util;
 import android.app.Activity;
 import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Display;
@@ -18,6 +21,7 @@ import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.workbench.VoiceShow.R;
 import com.example.workbench.VoiceShow.STTModule.cSTTModuleManager;
@@ -34,19 +38,18 @@ import butterknife.ButterKnife;
  * 윈도우 매니저 레이아웃 타입 : TYPE_APPLICATION_OVERLAY
  * 필요 퍼미션 : SYSTEM_ALERT_WINDOW, ACTION_MANAGE_OVERLAY_PERMISSION
  */
-public class cCallBroadcastService extends Service
+public class cCallBroadcastService extends  Service
 {
     String                  TAG = "PHONE_STATE_SERVICE";
 
     private final IBinder   mBinder = new cLocalBinder();
 
-    boolean                 isRinging = false;                                      // Ringing 상태를 거치지 않고 바로 OFFHOOK인 경우 엑티비티 초기화를 위해 사용 됨.
     String                  mCallNumber;
-    String                  mTelephonyState;
+
     protected View          mRootView;
 
     public static final String  EXTRA_CALL_NUMBER = "call_number";
-    public static final String  EXTRA_TELEPHONY_STATE = "telephony_state";          // EXTRA_STATE_OFFHOOK : 통화 상태, EXTRA_STATE_IDLE : 통화 종료
+
     WindowManager.LayoutParams  mParams;
     private WindowManager   mWindowManager;
     cCustomAdapter          mAdapter;
@@ -59,6 +62,32 @@ public class cCallBroadcastService extends Service
     ImageButton             mCloseBtn;
     @BindView(R.id.LISTVIEW_CHATLIST)
     ListView                mListView;
+
+    TelephonyManager        mTelManager; // 안드로이드 폰의 전화 서비스에 대한 정보에 접근하기 위한 객체
+    public PhoneStateListener   mPhoneStateListener = new PhoneStateListener()
+    {
+        /**
+         * CALL_STATE_IDLE : 아무 행동도 없는 상태
+         * CALL_STATE_RINGING : 전화가 오고 있는 상태
+         * CALL_STATE_OFFHOOK : 전화를 걸거나, 전화중인 상태(통화 시작)
+         * @param _state
+         * @param _incomingNumber
+         */
+        @Override
+        public void onCallStateChanged(int _state, String _incomingNumber)
+        {
+            switch(_state)
+            {
+                case TelephonyManager.CALL_STATE_IDLE:
+                    removeOverlay();
+                    break;
+                case TelephonyManager.CALL_STATE_OFFHOOK:
+                    StartSTT();
+                    break;
+            }
+            super.onCallStateChanged(_state, _incomingNumber);
+        }
+    };
 
     class cLocalBinder extends Binder
     {
@@ -77,6 +106,10 @@ public class cCallBroadcastService extends Service
         // 채팅 UI 초기화
         mAdapter            = new cCustomAdapter();
         mListView.setAdapter(mAdapter);
+
+        // Telephony State 리스너 등록
+        mTelManager         = (TelephonyManager)getSystemService(TELEPHONY_SERVICE);
+        mTelManager.listen(mPhoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
 
         // cSTTModuleManager 초기 세팅
         mReceiver           = new cSTTModuleManager()
@@ -136,7 +169,7 @@ public class cCallBroadcastService extends Service
             @Override
             public void onClick(View v)
             {
-                removeOverlay();
+                //removeOverlay();
             }
         });
     }
@@ -188,35 +221,6 @@ public class cCallBroadcastService extends Service
         // Extra로 넘어온 데이터 추출
         setExtra(intent);
 
-        switch (mTelephonyState)
-        {
-            case "OFFHOOK":
-                if (isRinging == false)
-                {
-                    onStartRinging();
-                    InitSTT();
-                }
-                StartSTT();
-                break;
-
-            case "IDLE":
-                StopSTT();
-                // TODO:: 음성 데이터 저장
-                break;
-
-            case "RINGING":
-                onStartRinging();
-                break;
-        }
-
-        return START_REDELIVER_INTENT;  // service가 강제종료 되더라도 다시 시작해주고 이전에 넘겨받았던 intent를 그대로 넘겨받을 수 있다.
-    }
-
-    /**
-     * RINGING 상태로 서비스가 넘어왔을 때 해당 함수 수행
-     */
-    private void onStartRinging()
-    {
         // WindowManager에 팝업View 등록
         try
         {
@@ -230,7 +234,9 @@ public class cCallBroadcastService extends Service
         if (!TextUtils.isEmpty(mCallNumber))
             mTvCallNumber.setText(mCallNumber);
 
-        isRinging           = true;
+        InitSTT();
+
+        return START_REDELIVER_INTENT;  // service가 강제종료 되더라도 다시 시작해주고 이전에 넘겨받았던 intent를 그대로 넘겨받을 수 있다.
     }
 
     private void setExtra(Intent intent)
@@ -242,7 +248,6 @@ public class cCallBroadcastService extends Service
         }
 
         mCallNumber         = intent.getStringExtra(EXTRA_CALL_NUMBER);
-        mTelephonyState     = intent.getStringExtra(EXTRA_TELEPHONY_STATE);
     }
 
     private void removeOverlay()
@@ -252,6 +257,7 @@ public class cCallBroadcastService extends Service
             mWindowManager.removeView(mRootView);
             mRootView       = null;
             stopSelf();
+            StopSTT();
         }
     }
 
