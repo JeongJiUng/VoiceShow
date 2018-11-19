@@ -29,11 +29,12 @@ public class ChattingRoomAdapter extends BaseAdapter {
     private ArrayList<ListContents> chattingList;
 
     public ChattingRoomAdapter(){
-        chattingList = new ArrayList<>();
+        chattingList = new ArrayList();
     }
     //외부에서 아이템 추가 요청 시 사용
-    public void add(String _msg, int _type){
-        chattingList.add(new ListContents(_msg,_type));
+    public void add(String msg, int type){
+        ListContents contents = new ListContents(msg,type);
+        chattingList.add(contents);
     }
     //외부에서 아이템 삭제 요청 시 사용
     public void remove(int position){
@@ -61,7 +62,7 @@ public class ChattingRoomAdapter extends BaseAdapter {
         final Context context = parent.getContext();
 
         TextView text = null;
-        CustomHolder holder;
+        CustomHolder holder = null;
         LinearLayout layout = null;
         View viewRight = null;
         View viewLeft = null;
@@ -71,6 +72,11 @@ public class ChattingRoomAdapter extends BaseAdapter {
             //view 가 null일 경우 커스텀 레이아웃을 얻어 옴
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.chatting_item,parent,false);
+
+            layout = (LinearLayout) convertView.findViewById(R.id.chattingRoomLayout);
+            text = convertView.findViewById(R.id.chattingText);
+            viewRight = convertView.findViewById(R.id.imageViewRight);
+            viewLeft = convertView.findViewById(R.id.imageViewLeft);
 
             //홀더 생성 및 Tag로 등록
             holder = new CustomHolder();
@@ -88,7 +94,7 @@ public class ChattingRoomAdapter extends BaseAdapter {
             viewLeft = holder.viewLeft;
         }
         //Text등록 (이부분 msg문제 해결)
-        //text.setText(chattingList.get(position).msg);
+        text.setText(chattingList.get(pos).msg);
 
         if(chattingList.get(position).type == 0){
             text.setBackgroundResource(R.drawable.yellowbox);

@@ -17,7 +17,7 @@ public class ChattingRoom extends AppCompatActivity {
         chattingRoomAdapter = new ChattingRoomAdapter();
 
         //Xml에서 추가한 ListView 연결
-        chattingRoomView = (ListView) findViewById(R.id.listView1);
+        chattingRoomView = findViewById(R.id.listView22);
 
         //ListView에 어댑터 연결
         chattingRoomView.setAdapter(chattingRoomAdapter);
@@ -25,5 +25,6 @@ public class ChattingRoom extends AppCompatActivity {
         chattingRoomAdapter.add("이건 뭐지",1);
         chattingRoomAdapter.add("쿨쿨",1);
         chattingRoomAdapter.add("쿨쿨쿨쿨",0);
+
     }
 }
