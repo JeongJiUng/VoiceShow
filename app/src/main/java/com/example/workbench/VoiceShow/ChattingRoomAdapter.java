@@ -88,7 +88,7 @@ public class ChattingRoomAdapter extends BaseAdapter {
             viewLeft = holder.viewLeft;
         }
         //Text등록 (이부분 msg문제 해결)
-        text.setText(chattingList.get(position).msg);
+        //text.setText(chattingList.get(position).msg);
 
         if(chattingList.get(position).type == 0){
             text.setBackgroundResource(R.drawable.yellowbox);
