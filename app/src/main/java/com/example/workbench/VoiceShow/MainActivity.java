@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         // 변수 초기화
         mPhoneNumber        = "";
-        mKeyPadLayout       = (TableLayout)findViewById(R.id.LAYOUT_KEYPAD);
+        mKeyPadLayout       = findViewById(R.id.LAYOUT_KEYPAD);
 
         // 기능 초기화
         CheckFirstTime();
