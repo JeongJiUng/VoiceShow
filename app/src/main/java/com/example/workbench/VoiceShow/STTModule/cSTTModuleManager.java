@@ -1,10 +1,13 @@
 package com.example.workbench.VoiceShow.STTModule;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -29,6 +32,8 @@ public class cSTTModuleManager
             super.onVoiceStart();
             if (mSpeechService != null)
                 mSpeechService.startRecognizing(mVoiceRecorder.getSampleRate());
+            else
+                Log.i("STT Service Info", "onVoiceStart() => mSpeechService is null");
         }
 
         @Override
@@ -69,12 +74,21 @@ public class cSTTModuleManager
      * 음성인식에 필요한 구글 SpeechService 기능이 초기화 되어있지 않다면 초기화 수행.
      * 음성인식에 필요한 리스너(mServiceConnection) 등록 및 서비스 바인드
      */
-    public void onInit()
+    public void onInit(Context _cont)
     {
         if (mSpeechService == null)
             mSpeechService  = new cSpeechService();
         // Prepare Cloud Speech API
-        cSystemManager.getInstance().GetActivity().bindService(new Intent(cSystemManager.getInstance().GetActivity(), cSpeechService.class), mServiceConnection, Context.BIND_AUTO_CREATE);
+        //cSystemManager.getInstance().GetActivity().bindService(new Intent(cSystemManager.getInstance().GetActivity(), cSpeechService.class), mServiceConnection, Context.BIND_AUTO_CREATE);
+        try
+        {
+            _cont.bindService(new Intent(_cont, cSpeechService.class), mServiceConnection, Context.BIND_AUTO_CREATE);
+            Log.i("STT Service Info", "onInit()");
+        }
+        catch (Exception e)
+        {
+            Log.i("STT Service Info", "onInit() + " + e.toString());
+        }
         mSpeechService.addListener(mSpeechServiceListener);
     }
 
@@ -92,14 +106,15 @@ public class cSTTModuleManager
      * 리스너 해제와 서비스 언바인드.
      * 음성인식에 필요한 구글 SpeechService 기능 해제
      */
-    public void onStop()
+    public void onStop(Context _cont)
     {
         // Stop listening to voice
         stopVoiceRecorder();
         if (mSpeechService != null)
         {
             mSpeechService.removeListener(mSpeechServiceListener);
-            cSystemManager.getInstance().GetActivity().unbindService(mServiceConnection);
+            //cSystemManager.getInstance().GetActivity().unbindService(mServiceConnection);
+            _cont.unbindService(mServiceConnection);
             mSpeechService.onDestroy();
             mSpeechService  = null;
         }
@@ -113,8 +128,10 @@ public class cSTTModuleManager
         if (mVoiceRecorder != null)
         {
             mVoiceRecorder.stop();
+            Log.i("STT Service Info", "startVoiceRecorder() => mVoiceRecorder is null");
         }
 
+        Log.i("STT Service Info", "startVoiceRecorder()");
         // mVoiceRecorder 초기화 및 mVoiceCallback 등록
         mVoiceRecorder      = new cVoiceRecorder(mVoiceCallback);
         mVoiceRecorder.start();
@@ -141,7 +158,7 @@ public class cSTTModuleManager
         public void onSpeechRecognized(String _text, boolean _isFinal)
         {
             mText           = _text;
-            Log.i("Speech Debug_onSpeechRecognized", _text);
+            Log.i("STT Service Info", _text);
 
             // 문장이 완성 되었을 때 (더이상 아무 말도 하지 않았을 때)
             // TODO:: 이 부분에서 타이머 체크로 3초 이상 말 안했을 경우 처리 가능할 듯.

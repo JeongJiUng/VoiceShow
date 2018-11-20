@@ -1,6 +1,7 @@
 package com.example.workbench.VoiceShow.Util;
 
 import android.app.Activity;
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -178,9 +179,9 @@ public class cCallBroadcastService extends Service
      */
     void startForegroundService()
     {
-        Intent              notificationIntent = new Intent(this, MainActivity.class);
+        /*Intent              notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent       pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-        RemoteViews         remoteViews = new RemoteViews(getPackageName(), R.layout.overlay_chatview);
+        RemoteViews         remoteViews = new RemoteViews(getPackageName(), R.layout.activity_main);
 
         NotificationCompat.Builder  builder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
@@ -196,7 +197,24 @@ public class cCallBroadcastService extends Service
             builder         = new NotificationCompat.Builder(this);
         }
         builder.setSmallIcon(R.mipmap.ic_launcher).setContent(remoteViews).setContentIntent(pendingIntent);
-        startForeground(1, builder.build());
+        startForeground(1, builder.build());*/
+
+        NotificationCompat.Builder  builder = new NotificationCompat.Builder(this, "default");
+        builder.setSmallIcon(R.mipmap.ic_launcher);
+        builder.setContentTitle(null);
+        builder.setContentText(null);
+        Intent              notificationIntent = new Intent(this, MainActivity.class);
+        PendingIntent       pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+        builder.setContentIntent(pendingIntent);
+
+        NotificationManager manager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        {
+            manager.createNotificationChannel(new NotificationChannel("default", "default channel", NotificationManager.IMPORTANCE_DEFAULT));
+        }
+
+        Notification        notification = builder.build();
+        startForeground(1, notification);
     }
 
     @Override
@@ -205,9 +223,6 @@ public class cCallBroadcastService extends Service
         super.onCreate();
         startForegroundService();
         initLayout();
-
-        if (cSystemManager.getInstance().GetContext() == null)
-            cSystemManager.getInstance().SetContext(this.getApplicationContext());
 
         // 채팅 UI 초기화
         mAdapter            = new cCustomAdapter();
@@ -246,6 +261,8 @@ public class cCallBroadcastService extends Service
     @Override
     public int onStartCommand(Intent intent, int flags, int startId)
     {
+        setExtra(intent);
+
         // WindowManager에 팝업View 등록
         try
         {
@@ -256,10 +273,21 @@ public class cCallBroadcastService extends Service
             Log.i(TAG, e.toString());
         }
 
-        /*if (!TextUtils.isEmpty(mCallNumber))
-            mTvCallNumber.setText(mCallNumber);*/
+        if (!TextUtils.isEmpty(mCallNumber))
+            mTvCallNumber.setText(mCallNumber);
 
         return START_REDELIVER_INTENT;  // Service가 강제종료 되더라도 다시 시작해주고 이전에 넘겨받았떤 intent를 그대로 넘겨받을 수 있다.
+    }
+
+    private void setExtra(Intent intent)
+    {
+        if (intent == null)
+        {
+            removeOverlay();
+            return;
+        }
+
+        mCallNumber         = intent.getStringExtra(EXTRA_CALL_NUMBER);
     }
 
     private void removeOverlay()
@@ -301,7 +329,7 @@ public class cCallBroadcastService extends Service
     public void InitSTT()
     {
         Log.i(TAG, "Init STT");
-        mReceiver.onInit();
+        mReceiver.onInit(getApplicationContext());
         //mCaller.onInit();
     }
 
@@ -315,7 +343,7 @@ public class cCallBroadcastService extends Service
     public void StopSTT()
     {
         Log.i(TAG, "Stop STT");
-        mReceiver.onStop();
+        mReceiver.onStop(getApplicationContext());
         //mCaller.onStop();
     }
 

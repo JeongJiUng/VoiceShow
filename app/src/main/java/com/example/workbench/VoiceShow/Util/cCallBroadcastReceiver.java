@@ -3,12 +3,13 @@ package com.example.workbench.VoiceShow.Util;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.example.workbench.VoiceShow.cSystemManager;
 
 /**
  * 단말기의 통화 상태를 감지하기 위해 리시버를 사용하여 브로드케스팅 한다.
@@ -27,6 +28,16 @@ public class cCallBroadcastReceiver extends BroadcastReceiver
     {
         String              state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
         Toast.makeText(context, "OnReceive", Toast.LENGTH_SHORT).show();
+
+        if (cSystemManager.getInstance().GetContext() == null)
+        {
+            cSystemManager.getInstance().SetContext(context);
+        }
+
+        if (cSystemManager.getInstance().GetIntent() == null)
+        {
+            cSystemManager.getInstance().SetIntent(intent);
+        }
 
         if (state.equals(TelephonyManager.EXTRA_STATE_RINGING))
         {
