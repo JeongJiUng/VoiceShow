@@ -102,7 +102,7 @@ public class ChattingRoomAdapter extends BaseAdapter {
             viewRight.setVisibility(View.GONE);
             viewLeft.setVisibility(View.GONE);
         }else if(chattingList.get(position).type == 1){
-            text.setBackgroundResource(R.drawable.bluebox);
+            text.setBackgroundResource(R.drawable.right_text);
             layout.setGravity(Gravity.RIGHT);
             viewRight.setVisibility(View.GONE);
             viewLeft.setVisibility(View.GONE);

@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
+import android.provider.CallLog;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -111,10 +112,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         super.onCreate(savedInstanceState);
         setContentView(com.example.workbench.VoiceShow.R.layout.activity_main);
-
-//        //로딩화면
-//        Intent intent = new Intent(this, LoadingActivity.class);
-//        startActivity(intent);
 
         TabLayout tabLayout = findViewById(R.id.tl_tabs);// 텝 레이아웃 을 찾아준다.
         ViewPager viewPager = findViewById(R.id.vp_pager); //뷰 페이져
@@ -229,11 +226,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 null,null,null,
                 ContactsContract.Contacts.DISPLAY_NAME_PRIMARY + " asc");
 
+        //전화기록을 가져오기위한 커서
+//        Cursor call = getContentResolver().query(Uri.parse("content://call_log/calls"),
+//                null,null,null,
+//                ContactsContract.Contacts.CONTACT_LAST_UPDATED_TIMESTAMP + " asc");
+
+
         while(c.moveToNext()){
             //연락처 id 값
             String id = c.getString(c.getColumnIndex(ContactsContract.Contacts._ID)); // 아이디 가져온다.
             String name = c.getString(c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME_PRIMARY)); //이름을 가져온다.
-
+//            String call_ID = call.getString(call.getColumnIndex(android.provider.CallLog.Calls._ID));//콜 인덱스 아이디 가져온다.
+//            String call_Number = call.getString(call.getColumnIndex(CallLog.Calls.NUMBER)); //콜 아이디
+//            String call_Date = call.getString(call.getColumnIndex(android.provider.CallLog.Calls.DATE)); // 콜 날짜
+//            String call_Type = call.getString(call.getColumnIndex(android.provider.CallLog.Calls.NEW)); // 콜 타입
             nameList.add(name);
 
             Cursor phoneCursor = getContentResolver().query(

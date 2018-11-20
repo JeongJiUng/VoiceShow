@@ -7,9 +7,68 @@
 
 
 
-    <Button
-        android:id="@+id/chattingButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="goToChattingRoom"/>
+    <ImageView
+        android:id="@+id/chattingProfile"
+        android:layout_weight="1"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:clickable="true"/>
+    <!--android:src="@drawable/profileimg"-->
+
+
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_weight="4"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:id="@+id/chattingName"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="2"
+            android:maxLength="8"
+            android:text="New Text"
+            android:textColor="#ffffff"
+            android:textSize="22dp" />
+
+        <TextView
+            android:id="@+id/chattingInfo"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="New Text"
+            android:textColor="#666666"
+            android:textSize="16dp" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_weight="1"
+        android:paddingLeft="10dp"
+        android:layout_width="120dp"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingRight="10dp">
+
+        <ImageView
+            android:id="@+id/goToChattingRoom"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:clickable="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:scaleType="fitCenter" />
+        <!--android:src="@drawable/calling_img"-->
+
+
+    </RelativeLayout>
+
 </LinearLayout>
