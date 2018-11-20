@@ -87,6 +87,7 @@ public class cCallBroadcastService extends Service
             switch(_state)
             {
                 case TelephonyManager.CALL_STATE_IDLE:
+                    //TODO:: 데이터 저장
                     removeOverlay();
                     break;
                 case TelephonyManager.CALL_STATE_OFFHOOK:
