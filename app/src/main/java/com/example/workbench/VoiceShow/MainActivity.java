@@ -1,83 +1,102 @@
 package com.example.workbench.VoiceShow;
 
-import android.Manifest;
-import android.content.DialogInterface;
+import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
-import android.support.v7.app.AlertDialog;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
-    public class MainActivity extends AppCompatActivity implements View.OnClickListener
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
+
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener
+{
+    private String          mPhoneNumber;                           // 핸드폰 번호 문자열
+
+    //전화번호부 가져오기위한 리스트
+    private ArrayList<String> nameList;
+    private ArrayList<String> numberList;
+
+    //전화 상태 및 전화 상태 변화에대한 리스너 및 관련 객체
+    TelephonyManager        mTelManager;    // 안드로이드 폰의 전화 서비스에 대한 정보에 접근하기 위한 객체
+    public PhoneStateListener   mPhoneStateListener = new PhoneStateListener()
     {
-        private String          mPhoneNumber;                           // 핸드폰 번호 문자열
-
-        private void initialize()
+        /**
+         * CALL_STATE_IDLE : 아무 행동도 없는 상태
+         * CALL_STATE_RINGING : 전화가 오고 있는 상태
+         * CALL_STATE_OFFHOOK : 전화를 걸거나, 전화중인 상태(통화 시작)
+         * @param _state
+         * @param _incomingNumber
+         */
+        @Override
+        public void onCallStateChanged(int _state, String _incomingNumber)
         {
-            mPhoneNumber        = "";
-        }
-
-        // 어플리케이션에서 사용 될 퍼미션 관련 코드
-        private void setPermission()
-        {
-            // OS 버전이 마시멜로우 이상인지 체크
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            switch(_state)
             {
-                // 단말기의 권한 중 전화걸기 권한이 허용되어 있는지 확인
-                int             permissionResult = checkSelfPermission(Manifest.permission.CALL_PHONE);
+                case TelephonyManager.CALL_STATE_IDLE:
+                    cSystemManager.getInstance().GetSTTModule().onStop();
+                    Log.i("Telephony", "STATE_IDLE");
+                    break;
 
-                // 현재 어플리케이션이 CALL_PHONE 에 대해 거부되어있는지 확인한다.
-                if (permissionResult == PackageManager.PERMISSION_DENIED)
-                {
-                    // 사용자가 CALL_PHONE 권한을 거부한 적이 있는지 확인한다.
-                    // 거부한적이 있으면 True 리턴
-                    // 거부한적이 없으면 False 리턴
-                    if (shouldShowRequestPermissionRationale(Manifest.permission.CALL_PHONE))
-                    {
-                        // 거부한 적이 있는 경우
-                        AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
-                        dialog.setTitle("권한이 필요합니다.").setMessage("이 기능을 사용하기 위해서는 단말기의 \"전화걸기\" 권한이 필요합니다. 계속 하시겠습니까?")
-                                .setPositiveButton("네", new DialogInterface.OnClickListener()
-                                {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which)
-                                    {
-                                        // 새로운 인스턴스(onClickListener)를 생성했기 때문에 버전체크를 다시 해준다.
-                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                                        {
-                                            // CALL_PHONE 권한을 OS에 요청
-                                            requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, 1000);
-                                        }
-                                    }
-                                })
-                                .setNegativeButton("아니요", new DialogInterface.OnClickListener()
-                                {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which)
-                                    {
-                                        Toast.makeText(MainActivity.this, "기능을 취소했습니다", Toast.LENGTH_SHORT).show();
+                case TelephonyManager.CALL_STATE_RINGING:
+                    Log.i("Telephony", "STATE_RINGING");
+                    break;
 
-                                        moveTaskToBack(true);
-                                        finish();
-                                        android.os.Process.killProcess(android.os.Process.myPid());
-                                    }
-                                })
-                                .create().show();
-                    }
-                    else
-                    {
-                        // 거부한 적이 없는 경우
-                        // CALL_PHONE 권한을 OS에 요청
-                        requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, 1000);
-                    }
-                }
+                case TelephonyManager.CALL_STATE_OFFHOOK:
+                    cSystemManager.getInstance().GetSTTModule().onStart();
+                    Log.i("Telephony", "STATE_OFFHOOK");
+                    break;
             }
+            super.onCallStateChanged(_state, _incomingNumber);
         }
+    };
+
+    /**
+     * 어플리케이션 최초 실행 여부 확인.
+     */
+    private void CheckFirstTime()
+    {
+        SharedPreferences   pref = getSharedPreferences("isFirst", Activity.MODE_PRIVATE);
+        boolean             first = pref.getBoolean("isFirst", false);
+
+        if (first == false)
+        {
+            Log.d("Is first Time?", "first");
+            SharedPreferences.Editor    editor = pref.edit();
+            editor.putBoolean("isFirst", true);
+            editor.commit();
+
+            // 앱 최초 실행시 수행할 작업
+        }
+        else
+        {
+            Log.d("Is first Time?", "not first");
+        }
+    }
+
+    private void Initialize()
+    {
+        // 변수 초기화
+        mPhoneNumber        = "";
+
+        mTelManager         = (TelephonyManager)getSystemService(TELEPHONY_SERVICE);
+        mTelManager.listen(mPhoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
+
+        // 기능 초기화
+        CheckFirstTime();
+
+        cSystemManager.getInstance().Initialize(this, getApplicationContext());
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -85,16 +104,32 @@ import android.widget.Toast;
         super.onCreate(savedInstanceState);
         setContentView(com.example.workbench.VoiceShow.R.layout.activity_main);
 
-        initialize();
-        setPermission();
-       // startActivity(new Intent("android.intent.action.DIAL"));kf
+//        //로딩화면
+//        Intent intent = new Intent(this, LoadingActivity.class);
+//        startActivity(intent);
+
+        TabLayout tabLayout = findViewById(R.id.tl_tabs);// 텝 레이아웃 을 찾아준다.
+        ViewPager viewPager = findViewById(R.id.vp_pager); //뷰 페이져
+        MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
+
+
+        Initialize();
+        getAddressBooks(); // 전화번호부 가져오기.
+       // startActivity(new Intent("android.intent.action.DIAL"));
     }
 
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+    }
 
     @Override
-    // activiy_main 에서 발생되는 버튼 이벤트 처리.
     public void onClick(View v)
     {
+        // activity_main 에서 발생되는 버튼 이벤트 처리.
         // 핸드폰 번호를 보여 줄 텍스트뷰 아이디
         TextView        tv_PhoneNum = (TextView)findViewById(R.id.TEXT_PHONE_NUM);
 
@@ -104,6 +139,11 @@ import android.widget.Toast;
                 // 핸드폰번호 뒤에서 하나씩 지움.
                 //int         len = mPhoneNumber.length();
                 //mPhoneNumber.substring()
+                cSystemManager.getInstance().GetSTTModule().onStart();
+                break;
+
+            case R.id.ADD_PHONE_NUM:
+                cSystemManager.getInstance().GetSTTModule().onStop();
                 break;
 
             case R.id.KEYPAD_0:
@@ -165,7 +205,51 @@ import android.widget.Toast;
         if (v.getId() != R.id.KEYPAD_CALL && v.getId() != R.id.KEYPAD_VCALL && v.getId() != R.id.KEYPAD_HIDE)
             tv_PhoneNum.setText(mPhoneNumber);
     }
+
     public void MoveToSettings(View v) {
-        startActivity(new Intent(MainActivity.this,activity_SETTINGS.class));
+        startActivity(new Intent(MainActivity.this,SettingsActivity.class));
     }
+
+    public void getAddressBooks ()
+    {
+        //주소록 가져오는 부분
+        nameList = new ArrayList();
+        numberList = new ArrayList();
+
+        Cursor c = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI,
+                null,null,null,
+                ContactsContract.Contacts.DISPLAY_NAME_PRIMARY + " asc");
+
+        while(c.moveToNext()){
+            //연락처 id 값
+            String id = c.getString(c.getColumnIndex(ContactsContract.Contacts._ID)); // 아이디 가져온다.
+            String name = c.getString(c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME_PRIMARY)); //이름을 가져온다.
+
+            nameList.add(name);
+
+            Cursor phoneCursor = getContentResolver().query(
+                    ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                    null,
+                    ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + id,
+                    null,null);
+
+            if(phoneCursor.moveToNext()){
+                String number = phoneCursor.getString(phoneCursor.getColumnIndex(
+                        ContactsContract.CommonDataKinds.Phone.NUMBER));
+                numberList.add(number);
+            }
+            phoneCursor.close();
+        }
+        c.close();
+
+    }
+    public  ArrayList getNames(){
+        return this.nameList;
+    }
+
+    public ArrayList getNumbers(){
+        return this.numberList;
+    }
+
+
 }
