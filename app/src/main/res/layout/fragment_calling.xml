@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainFragment.Calling.CallingFragment"
+    android:background="#ffffff"
     android:orientation="vertical">
 
     <LinearLayout
@@ -18,18 +19,18 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1.5"
+        android:layout_weight="1.8"
         android:orientation="horizontal"
         android:padding="2dp">
 
-        <ImageButton
+        <ImageView
             android:id="@+id/ADD_PHONE_NUM"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="3"
-            android:background="@color/colorAccent"
-            android:onClick="onClick"
-            android:src="@drawable/plus_button" />
+            android:scaleType="fitCenter"
+            android:clickable="true"
+            android:src="@drawable/calling_plus_black" />
 
         <TextView
             android:id="@+id/TEXT_PHONE_NUM"
@@ -41,227 +42,389 @@
             android:textAllCaps="false"
             android:textSize="24sp" />
 
-        <ImageButton
+        <ImageView
             android:id="@+id/BACK_SPACE"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="3"
-            android:background="@drawable/rectangle_button"
-            android:src="@android:drawable/stat_notify_more" />
+            android:scaleType="fitCenter"
+            android:clickable="true"
+            android:src="@drawable/calling_cancel_black" />
     </LinearLayout>
 
-    <TableLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginEnd="40dp"
-        android:layout_marginStart="40dp"
         android:layout_weight="1"
-        android:gravity="bottom|center"
-        android:padding="2dp"
-        >
-
-        <TableRow
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal">
+        <RelativeLayout
+            android:id="@+id/topKey"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="2dp"
-            android:layout_weight="1"
-            android:gravity="center">
+            android:layout_height="wrap_content">
 
-            <ImageButton
+            <TextView
                 android:id="@+id/KEYPAD_1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:layout_weight="0"
-                android:background="@drawable/rectangle_button"
-                android:elevation="0dp"
-                android:onClick="onClick"
-                tools:layout_editor_absoluteX="20dp"
-                tools:layout_editor_absoluteY="200dp" />
-
-            <ImageButton
+                android:layout_width="123dp"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:gravity="center"
+                android:text="1"
+                android:clickable="true"
+                android:layout_alignParentLeft="true"
+                android:textSize="50dp"/>
+            <TextView
                 android:id="@+id/KEYPAD_2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:layout_weight="0"
-                android:background="@drawable/rectangle_button"
-                android:onClick="onClick" />
-
-            <ImageButton
+                android:layout_toRightOf="@id/KEYPAD_1"
+                android:layout_width="123dp"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:gravity="center"
+                android:text="2"
+                android:clickable="true"
+                android:textSize="50dp"/>
+            <TextView
                 android:id="@+id/KEYPAD_3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:layout_weight="0"
-                android:background="@drawable/rectangle_button"
-                android:onClick="onClick" />
-        </TableRow>
-
-        <TableRow
+                android:layout_toRightOf="@id/KEYPAD_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:gravity="center"
+                android:text="3"
+                android:clickable="true"
+                android:layout_alignParentRight="true"
+                android:textSize="50dp"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/middleKey"
+            android:layout_below="@id/topKey"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="2dp"
-            android:layout_weight="1"
-            android:gravity="center">
+            android:layout_height="wrap_content">
 
-            <ImageButton
+            <TextView
                 android:id="@+id/KEYPAD_4"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:layout_weight="0"
-                android:background="@drawable/rectangle_button"
-                android:onClick="onClick"
-                tools:layout_editor_absoluteX="20dp"
-                tools:layout_editor_absoluteY="200dp" />
-
-            <ImageButton
+                android:layout_width="123dp"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:gravity="center"
+                android:text="4"
+                android:clickable="true"
+                android:layout_alignParentLeft="true"
+                android:textSize="50dp"/>
+            <TextView
                 android:id="@+id/KEYPAD_5"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:layout_weight="0"
-                android:background="@drawable/rectangle_button"
-                android:onClick="onClick" />
-
-            <ImageButton
+                android:layout_toRightOf="@id/KEYPAD_4"
+                android:layout_width="123dp"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:gravity="center"
+                android:text="5"
+                android:clickable="true"
+                android:textSize="50dp"/>
+            <TextView
                 android:id="@+id/KEYPAD_6"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:layout_weight="0"
-                android:background="@drawable/rectangle_button"
-                android:onClick="onClick" />
-        </TableRow>
-
-        <TableRow
+                android:layout_toRightOf="@id/KEYPAD_5"
+                android:layout_width="123dp"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:gravity="center"
+                android:text="6"
+                android:clickable="true"
+                android:layout_alignParentRight="true"
+                android:textSize="50dp"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/bottomKey"
+            android:layout_below="@id/middleKey"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="2dp"
-            android:layout_weight="1"
-            android:gravity="center">
+            android:layout_height="wrap_content">
 
-            <ImageButton
+            <TextView
                 android:id="@+id/KEYPAD_7"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:layout_weight="0"
-                android:background="@drawable/rectangle_button"
-                android:onClick="onClick"
-                tools:layout_editor_absoluteX="20dp"
-                tools:layout_editor_absoluteY="200dp" />
-
-            <ImageButton
+                android:layout_width="123dp"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:gravity="center"
+                android:text="7"
+                android:clickable="true"
+                android:layout_alignParentLeft="true"
+                android:textSize="50dp"/>
+            <TextView
                 android:id="@+id/KEYPAD_8"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:layout_weight="0"
-                android:background="@drawable/rectangle_button"
-                android:onClick="onClick" />
-
-            <ImageButton
+                android:layout_toRightOf="@id/KEYPAD_7"
+                android:layout_width="123dp"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:gravity="center"
+                android:text="8"
+                android:clickable="true"
+                android:textSize="50dp"/>
+            <TextView
                 android:id="@+id/KEYPAD_9"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:layout_weight="0"
-                android:background="@drawable/rectangle_button"
-                android:onClick="onClick" />
-        </TableRow>
-
-        <TableRow
+                android:layout_toRightOf="@id/KEYPAD_8"
+                android:layout_width="123dp"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:gravity="center"
+                android:text="9"
+                android:clickable="true"
+                android:layout_alignParentRight="true"
+                android:textSize="50dp"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/callingKey"
+            android:layout_below="@id/bottomKey"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="2dp"
-            android:layout_weight="1"
-            android:gravity="center">
+            android:layout_height="wrap_content">
 
-            <ImageButton
-                android:id="@+id/KEYPAD_STAR"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:layout_weight="0"
-                android:background="@drawable/rectangle_button"
-                android:onClick="onClick"
-                tools:layout_editor_absoluteX="20dp"
-                tools:layout_editor_absoluteY="200dp" />
 
-            <ImageButton
-                android:id="@+id/KEYPAD_0"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:layout_weight="0"
-                android:background="@drawable/rectangle_button"
-                android:onClick="onClick" />
-
-            <ImageButton
-                android:id="@+id/KEYPAD_SHAP"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:layout_weight="0"
-                android:background="@drawable/rectangle_button"
-                android:onClick="onClick" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="2dp"
-            android:layout_weight="1"
-            android:gravity="center">
-
-            <ImageButton
-                android:id="@+id/KEYPAD_VCALL"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:layout_weight="0"
-                android:background="@drawable/rectangle_button"
-                android:onClick="onClick"
-                tools:layout_editor_absoluteX="20dp"
-                tools:layout_editor_absoluteY="200dp" />
-
-            <ImageButton
+            <ImageView
                 android:id="@+id/KEYPAD_CALL"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:layout_weight="0"
-                android:background="@color/colorAccent"
-                android:onClick="onClick"
-                android:src="@drawable/calling_button" />
+                android:padding="10dp"
+                android:layout_width="123dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:gravity="center"
+                android:clickable="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/calling_calling_black">
 
-            <ImageButton
-                android:id="@+id/KEYPAD_HIDE"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:layout_weight="0"
-                android:background="@drawable/rectangle_button"
-                android:onClick="onClick" />
+            </ImageView>
+            <TextView
+                android:id="@+id/KEYPAD_0"
+                android:layout_toRightOf="@id/KEYPAD_CALL"
+                android:layout_width="123dp"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:gravity="center"
+                android:text="0"
+                android:clickable="true"
+                android:textSize="50dp"/>
+            <TextView
+                android:id="@+id/KEYPAD_SHAP"
+                android:layout_toRightOf="@id/KEYPAD_0"
+                android:layout_width="123dp"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:gravity="center"
+                android:text="#"
+                android:clickable="true"
+                android:layout_alignParentRight="true"
+                android:textSize="50dp"/>
+        </RelativeLayout>
+    </RelativeLayout>
+    <!--<TableLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_marginEnd="40dp"-->
+        <!--android:layout_marginStart="40dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:gravity="bottom|center"-->
+        <!--android:padding="2dp"-->
+        <!--&gt;-->
 
-        </TableRow>
-    </TableLayout>
+        <!--<TableRow-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_marginBottom="2dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="center">-->
+
+            <!--<ImageButton-->
+                <!--android:id="@+id/KEYPAD_1"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_marginLeft="2dp"-->
+                <!--android:layout_marginRight="2dp"-->
+                <!--android:layout_weight="0"-->
+                <!--android:background="@drawable/rectangle_button"-->
+                <!--android:elevation="0dp"-->
+                <!--tools:layout_editor_absoluteX="20dp"-->
+                <!--tools:layout_editor_absoluteY="200dp" />-->
+
+            <!--<ImageButton-->
+                <!--android:id="@+id/KEYPAD_2"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_marginLeft="2dp"-->
+                <!--android:layout_marginRight="2dp"-->
+                <!--android:layout_weight="0"-->
+                <!--android:background="@drawable/rectangle_button"-->
+                <!--android:onClick="onClick" />-->
+
+            <!--<ImageButton-->
+                <!--android:id="@+id/KEYPAD_3"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_marginLeft="2dp"-->
+                <!--android:layout_marginRight="2dp"-->
+                <!--android:layout_weight="0"-->
+                <!--android:background="@drawable/rectangle_button"-->
+                <!--android:onClick="onClick" />-->
+        <!--</TableRow>-->
+
+        <!--<TableRow-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_marginBottom="2dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="center">-->
+
+            <!--<ImageButton-->
+                <!--android:id="@+id/KEYPAD_4"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_marginLeft="2dp"-->
+                <!--android:layout_marginRight="2dp"-->
+                <!--android:layout_weight="0"-->
+                <!--android:background="@drawable/rectangle_button"-->
+                <!--android:onClick="onClick"-->
+                <!--tools:layout_editor_absoluteX="20dp"-->
+                <!--tools:layout_editor_absoluteY="200dp" />-->
+
+            <!--<ImageButton-->
+                <!--android:id="@+id/KEYPAD_5"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_marginLeft="2dp"-->
+                <!--android:layout_marginRight="2dp"-->
+                <!--android:layout_weight="0"-->
+                <!--android:background="@drawable/rectangle_button"-->
+                <!--android:onClick="onClick" />-->
+
+            <!--<ImageButton-->
+                <!--android:id="@+id/KEYPAD_6"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_marginLeft="2dp"-->
+                <!--android:layout_marginRight="2dp"-->
+                <!--android:layout_weight="0"-->
+                <!--android:background="@drawable/rectangle_button"-->
+                <!--android:onClick="onClick" />-->
+        <!--</TableRow>-->
+
+        <!--<TableRow-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_marginBottom="2dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="center">-->
+
+            <!--<ImageButton-->
+                <!--android:id="@+id/KEYPAD_7"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_marginLeft="2dp"-->
+                <!--android:layout_marginRight="2dp"-->
+                <!--android:layout_weight="0"-->
+                <!--android:background="@drawable/rectangle_button"-->
+                <!--android:onClick="onClick"-->
+                <!--tools:layout_editor_absoluteX="20dp"-->
+                <!--tools:layout_editor_absoluteY="200dp" />-->
+
+            <!--<ImageButton-->
+                <!--android:id="@+id/KEYPAD_8"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_marginLeft="2dp"-->
+                <!--android:layout_marginRight="2dp"-->
+                <!--android:layout_weight="0"-->
+                <!--android:background="@drawable/rectangle_button"-->
+                <!--android:onClick="onClick" />-->
+
+            <!--<ImageButton-->
+                <!--android:id="@+id/KEYPAD_9"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_marginLeft="2dp"-->
+                <!--android:layout_marginRight="2dp"-->
+                <!--android:layout_weight="0"-->
+                <!--android:background="@drawable/rectangle_button"-->
+                <!--android:onClick="onClick" />-->
+        <!--</TableRow>-->
+
+        <!--<TableRow-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_marginBottom="2dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="center">-->
+
+            <!--<ImageButton-->
+                <!--android:id="@+id/KEYPAD_STAR"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_marginLeft="2dp"-->
+                <!--android:layout_marginRight="2dp"-->
+                <!--android:layout_weight="0"-->
+                <!--android:background="@drawable/rectangle_button"-->
+                <!--android:onClick="onClick"-->
+                <!--tools:layout_editor_absoluteX="20dp"-->
+                <!--tools:layout_editor_absoluteY="200dp" />-->
+
+            <!--<ImageButton-->
+                <!--android:id="@+id/KEYPAD_0"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_marginLeft="2dp"-->
+                <!--android:layout_marginRight="2dp"-->
+                <!--android:layout_weight="0"-->
+                <!--android:background="@drawable/rectangle_button"-->
+                <!--android:onClick="onClick" />-->
+
+            <!--<ImageButton-->
+                <!--android:id="@+id/KEYPAD_SHAP"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_marginLeft="2dp"-->
+                <!--android:layout_marginRight="2dp"-->
+                <!--android:layout_weight="0"-->
+                <!--android:background="@drawable/rectangle_button"-->
+                <!--android:onClick="onClick" />-->
+        <!--</TableRow>-->
+
+        <!--<TableRow-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_marginBottom="2dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="center">-->
+
+            <!--<ImageButton-->
+                <!--android:id="@+id/KEYPAD_VCALL"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_marginLeft="2dp"-->
+                <!--android:layout_marginRight="2dp"-->
+                <!--android:layout_weight="0"-->
+                <!--android:background="@drawable/rectangle_button"-->
+                <!--android:onClick="onClick"-->
+                <!--tools:layout_editor_absoluteX="20dp"-->
+                <!--tools:layout_editor_absoluteY="200dp" />-->
+
+            <!--<ImageButton-->
+                <!--android:id="@+id/KEYPAD_CALL"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_marginLeft="2dp"-->
+                <!--android:layout_marginRight="2dp"-->
+                <!--android:layout_weight="0"-->
+                <!--android:background="@color/colorAccent"-->
+                <!--android:onClick="onClick"-->
+                <!--android:src="@drawable/calling_button" />-->
+
+            <!--<ImageButton-->
+                <!--android:id="@+id/KEYPAD_HIDE"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_marginLeft="2dp"-->
+                <!--android:layout_marginRight="2dp"-->
+                <!--android:layout_weight="0"-->
+                <!--android:background="@drawable/rectangle_button"-->
+                <!--android:onClick="onClick" />-->
+
+        <!--</TableRow>-->
+    <!--</TableLayout>-->
 
 </LinearLayout>

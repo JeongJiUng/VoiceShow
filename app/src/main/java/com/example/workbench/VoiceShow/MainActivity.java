@@ -1,17 +1,11 @@
 package com.example.workbench.VoiceShow;
 
-import android.Manifest;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
-import android.provider.CallLog;
 import android.provider.ContactsContract;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.PhoneStateListener;
@@ -22,9 +16,6 @@ import android.widget.TextView;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.widget.Toast;
-
-import com.example.workbench.VoiceShow.Permissions.cPermissionManager;
 
 import java.util.ArrayList;
 
@@ -182,16 +173,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mPhoneNumber    += "9";
                 break;
 
-            case R.id.KEYPAD_STAR:
-                mPhoneNumber    += "*";
-                break;
+//            case R.id.KEYPAD_STAR:
+//                mPhoneNumber    += "*";
+//                break;
             case R.id.KEYPAD_SHAP:
                 mPhoneNumber    += "#";
                 break;
 
-            case R.id.KEYPAD_VCALL:
-                // 영상 통화
-                break;
+//            case R.id.KEYPAD_VCALL:
+//                // 영상 통화
+//                break;
             case R.id.KEYPAD_CALL:
                 // 음성 통화
                 String      tel = "tel:" + mPhoneNumber;
@@ -201,14 +192,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mPhoneNumber    = "";
                 tv_PhoneNum.setText(mPhoneNumber);
                 break;
-            case R.id.KEYPAD_HIDE:
-                // 키 패드 활성/비활성
-                break;
+//            case R.id.KEYPAD_HIDE:
+//                // 키 패드 활성/비활성
+//                break;
         }
 
-        // 영상/음성 통화, 키패드 활성/비활성 버튼이 아닌 경우 텍스트뷰에 핸드폰 번호 갱신.
-        if (v.getId() != R.id.KEYPAD_CALL && v.getId() != R.id.KEYPAD_VCALL && v.getId() != R.id.KEYPAD_HIDE)
-            tv_PhoneNum.setText(mPhoneNumber);
+//        // 영상/음성 통화, 키패드 활성/비활성 버튼이 아닌 경우 텍스트뷰에 핸드폰 번호 갱신.
+//        if (v.getId() != R.id.KEYPAD_CALL && v.getId() != R.id.KEYPAD_VCALL && v.getId() != R.id.KEYPAD_HIDE)
+//            tv_PhoneNum.setText(mPhoneNumber);
     }
 
     public void MoveToSettings(View v)
@@ -258,10 +249,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         c.close();
 
     }
+
+    // 주소록을 보내주는 함수.
     public  ArrayList getNames(){
         return this.nameList;
     }
-
     public ArrayList getNumbers(){
         return this.numberList;
     }
