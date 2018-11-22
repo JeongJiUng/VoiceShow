@@ -23,21 +23,24 @@ public class cCallBroadcastReceiver extends BroadcastReceiver
     boolean                 isFirst = true;                                                         // 본인이 전화를 걸때는 OFFHOOK으로, 전화가 왔을 때는 RINGING으로 통화 상태가 넘어옴. 이걸 구분해서 서비스에 연결하기 위해 해당 변수 추가.
     String                  TAG = "PHONE_STATE_RECEIVER";
 
+    private static String   mLastState;
+
     @Override
     public void onReceive(Context context, Intent intent)
     {
         String              state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
-        Toast.makeText(context, "OnReceive", Toast.LENGTH_SHORT).show();
 
-        if (cSystemManager.getInstance().GetContext() == null)
+        if (state.equals(mLastState))
         {
-            cSystemManager.getInstance().SetContext(context);
+            return;
+        }
+        else
+        {
+            mLastState      = state;
         }
 
-        if (cSystemManager.getInstance().GetIntent() == null)
-        {
-            cSystemManager.getInstance().SetIntent(intent);
-        }
+        cSystemManager.getInstance().SetContext(context);
+        cSystemManager.getInstance().SetIntent(intent);
 
         if (state.equals(TelephonyManager.EXTRA_STATE_RINGING))
         {
@@ -65,8 +68,6 @@ public class cCallBroadcastReceiver extends BroadcastReceiver
             }
 
             isFirst         = false;
-
-            Toast.makeText(context, "EXTRA_STATE_RINGING", Toast.LENGTH_SHORT).show();
         }
         else if (state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK))
         {
@@ -93,14 +94,11 @@ public class cCallBroadcastReceiver extends BroadcastReceiver
                 {
                     Log.i(TAG, "OFFHOOK_START_SERVICE " + e.toString());
                 }
-
-                Toast.makeText(context, "EXTRA_STATE_OFFHOOK", Toast.LENGTH_SHORT).show();
             }
         }
         else if (state.equals(TelephonyManager.EXTRA_STATE_IDLE))
         {
             isFirst         = true;
-            Toast.makeText(context, "EXTRA_STATE_IDLE", Toast.LENGTH_SHORT).show();
         }
     }
 }

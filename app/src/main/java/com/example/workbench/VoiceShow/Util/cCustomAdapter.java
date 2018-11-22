@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.example.workbench.VoiceShow.R;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,11 +25,13 @@ public class cCustomAdapter extends BaseAdapter
     {
         String              mMsg;
         int                 mType;
+        Long                mDate;
 
-        cListContents(String _msg, int _type)
+        cListContents(String _msg, int _type, Long _date)
         {
             this.mMsg       = _msg;
             this.mType      = _type;
+            this.mDate      = _date;
         }
     }
 
@@ -57,9 +60,9 @@ public class cCustomAdapter extends BaseAdapter
         return mList;
     }
 
-    public void addItem(String _msg, int _type)
+    public void addItem(String _msg, int _type, long _date)
     {
-        mList.add(new cListContents(_msg, _type));
+        mList.add(new cListContents(_msg, _type, _date));
     }
 
     public void removeItem(int _pos)
@@ -74,7 +77,7 @@ public class cCustomAdapter extends BaseAdapter
     }
 
     @Override
-    public Object getItem(int position)
+    public cListContents getItem(int position)
     {
         return mList.get(position);
     }
