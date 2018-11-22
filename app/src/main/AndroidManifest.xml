@@ -31,7 +31,7 @@
         <activity android:name=".MainActivity">
         </activity>
 
-        <activity android:name=".SettingsActivity">
+        <activity android:name=".Settings.SettingsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,7 +39,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ThemeActivity">
+        <activity android:name=".Settings.ThemeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -47,7 +47,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ChatsetActivity">
+        <activity android:name=".Settings.ChatsetActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -55,7 +55,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".PasswordSettingsActivity">
+        <activity android:name=".Settings.PasswordSettingsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -63,7 +63,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".PasswordActivity">
+        <activity android:name=".Settings.PasswordActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -71,7 +71,15 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".DeleteFreqActivity">
+        <activity android:name=".Settings.PasswordCheckActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".Settings.DeleteFreqActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

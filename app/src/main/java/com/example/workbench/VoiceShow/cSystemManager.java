@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 
 import com.example.workbench.VoiceShow.STTModule.cSTTModuleManager;
+import com.example.workbench.VoiceShow.Settings.cSettingsManager;
 
 public class cSystemManager
 {
@@ -22,6 +23,7 @@ public class cSystemManager
     private Context         mContext;
 
     private cSTTModuleManager   mSTTModule;
+    private cSettingsManager    mSettings;
 
     public void Initialize(Activity _act, Context _cont)
     {
@@ -44,5 +46,9 @@ public class cSystemManager
     public cSTTModuleManager GetSTTModule()
     {
         return mSTTModule;
+    }
+    public cSettingsManager GetSettings()
+    {
+        return mSettings;
     }
 }

@@ -1,4 +1,4 @@
-package com.example.workbench.VoiceShow;
+package com.example.workbench.VoiceShow.Settings;
 
 import android.Manifest;
 import android.content.DialogInterface;
@@ -19,18 +19,18 @@ import android.graphics.Color;
 
 import com.example.workbench.VoiceShow.R;
 
-public class PasswordActivity extends AppCompatActivity {
+public class PasswordCheckActivity extends AppCompatActivity {
 
-    private String password_num1;
-    private String password_num2;
-    private String password_num3;
-    private String password_num4;
+    private String password_check_num1;
+    private String password_check_num2;
+    private String password_check_num3;
+    private String password_check_num4;
     public int i = 0;
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_password);
 
-        ImageButton backbutton = (ImageButton)findViewById((R.id.SETTINGS_BACK_BUTTON4));
+        ImageButton backbutton = (ImageButton)findViewById((R.id.SETTINGS_BACK_BUTTON5));
         backbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,16 +52,16 @@ public class PasswordActivity extends AppCompatActivity {
                     break;
                 }
                 else if(i == 1) {
-                    password_num1 = "";
-                    password_check1.setText(password_num1);
+                    password_check_num1 = "";
+                    password_check1.setText(password_check_num1);
                 }
                 else if(i == 2) {
-                    password_num2 = "";
-                    password_check2.setText(password_num2);
+                    password_check_num2 = "";
+                    password_check2.setText(password_check_num2);
                 }
                 else if(i == 3){
-                    password_num3 = "";
-                    password_check3.setText(password_num3);
+                    password_check_num3 = "";
+                    password_check3.setText(password_check_num3);
                 }
                 i--;
                 break;
@@ -107,20 +107,20 @@ public class PasswordActivity extends AppCompatActivity {
                 break;
         }
         if(i == 1) {
-            password_num1 = "*";
-            password_check1.setText(password_num1);
+            password_check_num1 = "*";
+            password_check1.setText(password_check_num1);
         }
         else if(i == 2) {
-            password_num2 = "*";
-            password_check2.setText(password_num2);
+            password_check_num2 = "*";
+            password_check2.setText(password_check_num2);
         }
         else if(i == 3){
-            password_num3 = "*";
-            password_check3.setText(password_num3);
+            password_check_num3 = "*";
+            password_check3.setText(password_check_num3);
         }
         else if(i == 4) {
-            password_num4 = "*";
-            password_check4.setText(password_num4);
+            password_check_num4 = "*";
+            password_check4.setText(password_check_num4);
             finish();
         }
     }

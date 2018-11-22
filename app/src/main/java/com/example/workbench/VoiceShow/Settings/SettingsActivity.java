@@ -1,4 +1,4 @@
-package com.example.workbench.VoiceShow;
+package com.example.workbench.VoiceShow.Settings;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.Button;
+
+import com.example.workbench.VoiceShow.R;
 
 public class SettingsActivity extends AppCompatActivity {
     Dialog dialog;

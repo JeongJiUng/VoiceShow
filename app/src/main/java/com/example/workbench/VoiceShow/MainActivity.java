@@ -17,11 +17,16 @@ import android.widget.TextView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 
+import com.example.workbench.VoiceShow.Settings.PasswordCheckActivity;
+import com.example.workbench.VoiceShow.Settings.SettingsActivity;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener
 {
     private String          mPhoneNumber;                           // 핸드폰 번호 문자열
+    private boolean       isPasswordOn;                            //비밀번호 설정 여부 확인
 
     //전화번호부 가져오기위한 리스트
     private ArrayList<String> nameList;
@@ -88,7 +93,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         // 변수 초기화
         mPhoneNumber        = "";
-
+        if(!isPasswordOn)
+            isPasswordOn = false;
         mTelManager         = (TelephonyManager)getSystemService(TELEPHONY_SERVICE);
         mTelManager.listen(mPhoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
 
@@ -117,6 +123,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Initialize();
         getAddressBooks(); // 전화번호부 가져오기.
+        if(isPasswordOn){ //비밀번호 설정시 앱 실행 초기에 암호 확인 액티비티 발동
+            startActivity(new Intent(MainActivity.this,PasswordCheckActivity.class));
+        }
        // startActivity(new Intent("android.intent.action.DIAL"));
     }
 

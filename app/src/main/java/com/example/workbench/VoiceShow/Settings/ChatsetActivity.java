@@ -1,4 +1,4 @@
-package com.example.workbench.VoiceShow;
+package com.example.workbench.VoiceShow.Settings;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +7,9 @@ import android.widget.RadioButton;
 import android.util.DisplayMetrics;
 import android.widget.RadioGroup;
 import android.support.annotation.IdRes;
+
+import com.example.workbench.VoiceShow.MainActivity;
+import com.example.workbench.VoiceShow.R;
 
 public class ChatsetActivity extends AppCompatActivity {
     public RadioGroup radioGroup;

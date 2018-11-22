@@ -1,4 +1,4 @@
-package com.example.workbench.VoiceShow;
+package com.example.workbench.VoiceShow.Settings;
 
 import android.Manifest;
 import android.content.DialogInterface;
