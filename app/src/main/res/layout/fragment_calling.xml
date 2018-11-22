@@ -40,6 +40,7 @@
             android:gravity="center"
             android:textAlignment="center"
             android:textAllCaps="false"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="24sp" />
 
         <ImageView

@@ -12,16 +12,20 @@ import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener
+import static com.example.workbench.VoiceShow.R.id.BACK_SPACE;
+
+public class MainActivity extends AppCompatActivity
 {
-    private String          mPhoneNumber;                           // 핸드폰 번호 문자열
+    //private String          mPhoneNumber;                           // 핸드폰 번호 문자열
 
     //전화번호부 가져오기위한 리스트
     private ArrayList<String> nameList;
@@ -75,7 +79,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             SharedPreferences.Editor    editor = pref.edit();
             editor.putBoolean("isFirst", true);
             editor.commit();
-
             // 앱 최초 실행시 수행할 작업
         }
         else
@@ -87,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void Initialize()
     {
         // 변수 초기화
-        mPhoneNumber        = "";
+        //mPhoneNumber        = "";
 
         mTelManager         = (TelephonyManager)getSystemService(TELEPHONY_SERVICE);
         mTelManager.listen(mPhoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
@@ -110,7 +113,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
 
-
         Initialize();
         getAddressBooks(); // 전화번호부 가져오기.
        // startActivity(new Intent("android.intent.action.DIAL"));
@@ -122,85 +124,89 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onDestroy();
     }
 
-    @Override
-    public void onClick(View v)
-    {
-        // activity_main 에서 발생되는 버튼 이벤트 처리.
-        // 핸드폰 번호를 보여 줄 텍스트뷰 아이디
-        TextView        tv_PhoneNum = (TextView)findViewById(R.id.TEXT_PHONE_NUM);
-
-        switch(v.getId())
-        {
-            case R.id.BACK_SPACE:
-                // 핸드폰번호 뒤에서 하나씩 지움.
-                //int         len = mPhoneNumber.length();
-                //mPhoneNumber.substring()
-                cSystemManager.getInstance().GetSTTModule().onStart();
-                break;
-
-            case R.id.ADD_PHONE_NUM:
-                cSystemManager.getInstance().GetSTTModule().onStop();
-                break;
-
-            case R.id.KEYPAD_0:
-                mPhoneNumber    += "0";
-                break;
-            case R.id.KEYPAD_1:
-                mPhoneNumber    += "1";
-                break;
-            case R.id.KEYPAD_2:
-                mPhoneNumber    += "2";
-                break;
-            case R.id.KEYPAD_3:
-                mPhoneNumber    += "3";
-                break;
-            case R.id.KEYPAD_4:
-                mPhoneNumber    += "4";
-                break;
-            case R.id.KEYPAD_5:
-                mPhoneNumber    += "5";
-                break;
-            case R.id.KEYPAD_6:
-                mPhoneNumber    += "6";
-                break;
-            case R.id.KEYPAD_7:
-                mPhoneNumber    += "7";
-                break;
-            case R.id.KEYPAD_8:
-                mPhoneNumber    += "8";
-                break;
-            case R.id.KEYPAD_9:
-                mPhoneNumber    += "9";
-                break;
-
-//            case R.id.KEYPAD_STAR:
-//                mPhoneNumber    += "*";
+//    @Override
+//    public void onClick(View v)
+//    {
+//        // activity_main 에서 발생되는 버튼 이벤트 처리.
+//        // 핸드폰 번호를 보여 줄 텍스트뷰 아이디
+//        TextView        tv_PhoneNum = (TextView)findViewById(R.id.TEXT_PHONE_NUM);
+//
+//        switch(v.getId())
+//        {
+//            case R.id.BACK_SPACE:
+//                // 핸드폰번호 뒤에서 하나씩 지움.
+//                //int         len = mPhoneNumber.length();
+//                //mPhoneNumber.substring()
+//                Toast.makeText(this, "BACK", Toast.LENGTH_SHORT).show();
+//                cSystemManager.getInstance().GetSTTModule().onStart();
 //                break;
-            case R.id.KEYPAD_SHAP:
-                mPhoneNumber    += "#";
-                break;
-
-//            case R.id.KEYPAD_VCALL:
-//                // 영상 통화
+//
+//            case R.id.ADD_PHONE_NUM:
+//                Toast.makeText(this, "NUM", Toast.LENGTH_SHORT).show();
+//                cSystemManager.getInstance().GetSTTModule().onStop();
 //                break;
-            case R.id.KEYPAD_CALL:
-                // 음성 통화
-                String      tel = "tel:" + mPhoneNumber;
-                startActivity(new Intent("android.intent.action.CALL", Uri.parse(tel)));
-
-                // 통화 버튼을 누르면 전화번호와 텍스트뷰 초기화
-                mPhoneNumber    = "";
-                tv_PhoneNum.setText(mPhoneNumber);
-                break;
-//            case R.id.KEYPAD_HIDE:
-//                // 키 패드 활성/비활성
+//
+//            case R.id.KEYPAD_0:
+//                Toast.makeText(this, "0", Toast.LENGTH_SHORT).show();
+//                mPhoneNumber    += "0";
 //                break;
-        }
-
-//        // 영상/음성 통화, 키패드 활성/비활성 버튼이 아닌 경우 텍스트뷰에 핸드폰 번호 갱신.
-//        if (v.getId() != R.id.KEYPAD_CALL && v.getId() != R.id.KEYPAD_VCALL && v.getId() != R.id.KEYPAD_HIDE)
-//            tv_PhoneNum.setText(mPhoneNumber);
-    }
+//            case R.id.KEYPAD_1:
+//                Toast.makeText(this, "1", Toast.LENGTH_SHORT).show();
+//                mPhoneNumber    += "1";
+//                break;
+//            case R.id.KEYPAD_2:
+//                mPhoneNumber    += "2";
+//                break;
+//            case R.id.KEYPAD_3:
+//                mPhoneNumber    += "3";
+//                break;
+//            case R.id.KEYPAD_4:
+//                mPhoneNumber    += "4";
+//                break;
+//            case R.id.KEYPAD_5:
+//                mPhoneNumber    += "5";
+//                break;
+//            case R.id.KEYPAD_6:
+//                mPhoneNumber    += "6";
+//                break;
+//            case R.id.KEYPAD_7:
+//                mPhoneNumber    += "7";
+//                break;
+//            case R.id.KEYPAD_8:
+//                mPhoneNumber    += "8";
+//                break;
+//            case R.id.KEYPAD_9:
+//                mPhoneNumber    += "9";
+//                break;
+//
+////            case R.id.KEYPAD_STAR:
+////                mPhoneNumber    += "*";
+////                break;
+//            case R.id.KEYPAD_SHAP:
+//                mPhoneNumber    += "#";
+//                break;
+//
+////            case R.id.KEYPAD_VCALL:
+////                // 영상 통화
+////                break;
+//            case R.id.KEYPAD_CALL:
+//                // 음성 통화
+//                String      tel = "tel:" + mPhoneNumber;
+//                startActivity(new Intent("android.intent.action.CALL", Uri.parse(tel)));
+//
+//                // 통화 버튼을 누르면 전화번호와 텍스트뷰 초기화
+//                mPhoneNumber    = "";
+//                tv_PhoneNum.setText(mPhoneNumber);
+//                break;
+////            case R.id.KEYPAD_HIDE:
+////                // 키 패드 활성/비활성
+////                break;
+//        }
+//
+////        // 영상/음성 통화, 키패드 활성/비활성 버튼이 아닌 경우 텍스트뷰에 핸드폰 번호 갱신.
+////        if (v.getId() != R.id.KEYPAD_CALL && v.getId() != R.id.KEYPAD_VCALL && v.getId() != R.id.KEYPAD_HIDE)
+//        tv_PhoneNum.setText(mPhoneNumber);
+//    }
 
     public void MoveToSettings(View v)
     {
