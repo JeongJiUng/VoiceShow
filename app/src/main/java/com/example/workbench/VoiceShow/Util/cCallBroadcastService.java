@@ -1,18 +1,13 @@
 package com.example.workbench.VoiceShow.Util;
 
-import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.app.job.JobParameters;
-import android.app.job.JobService;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
-import android.os.Binder;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
@@ -30,14 +25,15 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.RemoteViews;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.workbench.VoiceShow.MainActivity;
 import com.example.workbench.VoiceShow.R;
 import com.example.workbench.VoiceShow.STTModule.cSTTModuleManager;
-import com.example.workbench.VoiceShow.cSystemManager;
+
+import java.util.Date;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,10 +49,13 @@ import butterknife.ButterKnife;
  */
 public class cCallBroadcastService extends Service
 {
+    boolean                 isSave;
+    Long                    mStartCalling;  // 통화 시작 시간
     String                  TAG = "PHONE_STATE_SERVICE";
     String                  mCallNumber;
-    cSTTModuleManager       mReceiver;      // 수신자 음성인식
-    cSTTModuleManager       mCaller;        // 발신자 음성인식
+    cSTTModuleManager       mReceiver;      // 본인 음성인식
+    cSTTModuleManager       mCaller;        // 상대방 음성인식
+
     public static final String  EXTRA_CALL_NUMBER = "call_number";
 
     WindowManager.LayoutParams  mParams;
@@ -87,11 +86,19 @@ public class cCallBroadcastService extends Service
             switch(_state)
             {
                 case TelephonyManager.CALL_STATE_IDLE:
+                {
                     removeOverlay();
                     break;
+                }
                 case TelephonyManager.CALL_STATE_OFFHOOK:
+                {
+                    Date    time = new Date();
+                    mStartCalling   = time.getTime();
+                    isSave  = true;
+
                     StartSTT();
                     break;
+                }
             }
             super.onCallStateChanged(_state, _incomingNumber);
         }
@@ -239,7 +246,7 @@ public class cCallBroadcastService extends Service
             public void GetResultText()
             {
                 super.GetResultText();
-                mAdapter.addItem(GetSpeechToTextResult(), 1);
+                mAdapter.addItem(GetSpeechToTextResult(), 1, new Date().getTime());
                 refreshLsitView();
             }
         };
@@ -250,7 +257,7 @@ public class cCallBroadcastService extends Service
             public void GetResultText()
             {
                 super.GetResultText();
-                mAdapter.addItem(GetSpeechToTextResult(), 0);
+                mAdapter.addItem(GetSpeechToTextResult(), 0, new Date().getTime());
                 refreshLsitView();
             }
         };
@@ -292,12 +299,20 @@ public class cCallBroadcastService extends Service
 
     private void removeOverlay()
     {
+        StopSTT();
+
         if (mRootView != null && mWindowManager != null)
         {
             mWindowManager.removeView(mRootView);
             mRootView       = null;
 
-            StopSTT();
+            if (isSave == true)
+            {
+                cSaveData   save = new cSaveData();
+                save.saveDataProc();
+                isSave  = false;
+            }
+
             stopForeground(true);
             stopSelf();
         }
@@ -352,5 +367,81 @@ public class cCallBroadcastService extends Service
     public IBinder onBind(Intent intent)
     {
         return null;
+    }
+
+    /**
+     * 채팅 리스트 저장용 클래스. 이 클레스는 데이터 저장기능만을 한다.
+     */
+    private class cSaveData
+    {
+        String                  KEY_CHAT_COUNT = "Key_ID_LIST";             // 채팅 ID 리스트 [Key_ID_LIST] => {폰번호+날짜데이터, 폰번호+날짜데이터}
+        String                  KEY = "Key_";                               // 채팅 ID, [Key_%] => (핸드폰번호<<32)|(날짜데이터)
+
+        String                  mListPrefName = "PREF_CHAT_LIST";           // 저장된 채팅 데이터 리스트 프리퍼런스 이름.
+        String                  mIDLISTPrefName = "PREF_CHAT_ID_LIST";      // 저장된 채팅 데이터 ID 리스트 프리퍼런스 이름.
+        SharedPreferences       mListPreferences;                           // 채팅 데이터 리스트 저장용 프리퍼런스
+        SharedPreferences       mIDLISTPreferences;                         // 채팅 데이터 ID 개수 저장용 프리퍼런스
+
+        /**
+         * 채팅 대화 기록이 총 몇개인지 얻어오고, 앞으로 추가될 채팅 기록을 Set에 추가하여 다시 저장.
+         * key => Set<String> [Key_ID_LIST], 지금까지 저장되어 있는 채팅 ID List. ID는 {폰번호+날짜데이터}
+         */
+        public void saveDataProc()
+        {
+            String          id = mCallNumber + mStartCalling;
+            mIDLISTPreferences  = getSharedPreferences(mIDLISTPrefName, MODE_PRIVATE);
+            SharedPreferences.Editor    editor = mIDLISTPreferences.edit();
+
+            // 채팅 ID 리스트 갱신.
+            Set<String>     list;
+            list            = mIDLISTPreferences.getStringSet(KEY_CHAT_COUNT, new LinkedHashSet<String>());
+            list.add(id);
+            editor.clear();
+            editor.putStringSet(KEY_CHAT_COUNT, list);
+            editor.commit();
+
+            saveChatData(id);
+        }
+
+        /**
+         * Key => Set<String> [Key_%]   -> 핸드폰 번호
+         *                              -> 통화 시작 시간
+         * key => Set<String> [Key_%_RecvText], 본인 음성인식 텍스트 + 시간 정보
+         * key => Set<String> [Key_%_CallerText], 상대방 음성인식 텍스트 + 시간 정보
+         */
+        private void saveChatData(String _id)
+        {
+            // TODO:: 번역된 채팅 리스트를 가지고 있는 mAdapter.mList 데이터를 저장하는 함수.
+            String              ID = KEY + _id;
+            mListPreferences    = getSharedPreferences(mListPrefName, MODE_PRIVATE);
+            SharedPreferences.Editor    editor = mListPreferences.edit();
+
+            // Key_ID 저장
+            Set<String>     Key_ID = new LinkedHashSet<String>();
+
+            Key_ID.add(mCallNumber);
+            Key_ID.add(mStartCalling.toString());
+            editor.putStringSet(ID, Key_ID);
+
+            // 본인과 상대 음성인식 텍스트 및 시간 정보 저장
+            Set<String>     Key_RecvText = new LinkedHashSet<String>();
+            Set<String>     Key_CallerText = new LinkedHashSet<String>();
+
+            for (int i = 0; i < mAdapter.getCount(); i++)
+            {
+                if (mAdapter.getItem(i).mType == 1)
+                {
+                    Key_RecvText.add(mAdapter.getItem(i).mMsg+"+"+mAdapter.getItem(i).mDate.toString());
+                }
+                else
+                {
+                    Key_CallerText.add(mAdapter.getItem(i).mMsg+"+"+mAdapter.getItem(i).mDate.toString());
+                }
+            }
+
+            editor.putStringSet(ID +"_RecvText", Key_RecvText);
+            editor.putStringSet(ID +"_CallerText", Key_CallerText);
+            editor.commit();
+        }
     }
 }
