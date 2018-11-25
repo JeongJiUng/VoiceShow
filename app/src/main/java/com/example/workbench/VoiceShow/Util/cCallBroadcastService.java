@@ -418,7 +418,7 @@ public class cCallBroadcastService extends Service
     private class cSaveData
     {
         String                  KEY_CHAT_COUNT = "Key_ID_LIST";             // 채팅 ID 리스트 [Key_ID_LIST] => {폰번호+날짜데이터, 폰번호+날짜데이터}
-        String                  KEY = "Key_";                               // 채팅 ID, [Key_%] => (핸드폰번호<<32)|(날짜데이터)
+        String                  KEY = "Key_";                               // 채팅 ID, [Key_%] => Key_(폰번호+날짜데이터)
 
         String                  mListPrefName = "PREF_CHAT_LIST";           // 저장된 채팅 데이터 리스트 프리퍼런스 이름.
         String                  mIDLISTPrefName = "PREF_CHAT_ID_LIST";      // 저장된 채팅 데이터 ID 리스트 프리퍼런스 이름.
