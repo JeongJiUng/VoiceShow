@@ -49,12 +49,12 @@ public class CallingFragment extends Fragment implements View.OnClickListener {
                 //int         len = mPhoneNumber.length();
                 //mPhoneNumber.substring()
                 Toast.makeText(getContext(), "BACK", Toast.LENGTH_SHORT).show();
-                cSystemManager.getInstance().GetSTTModule().onStart();
+                //cSystemManager.getInstance().GetSTTModule().onStart();
                 break;
 
             case R.id.ADD_PHONE_NUM:
                 Toast.makeText(getContext(), "NUM", Toast.LENGTH_SHORT).show();
-                cSystemManager.getInstance().GetSTTModule().onStop();
+                //cSystemManager.getInstance().GetSTTModule().onStop();
                 break;
 
             case R.id.KEYPAD_0:

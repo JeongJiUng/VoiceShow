@@ -27,7 +27,7 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener
 {
-    //private String          mPhoneNumber;                           // 핸드폰 번호 문자열
+    private String          mPhoneNumber;                           // 핸드폰 번호 문자열
 
     //전화번호부 가져오기위한 리스트
     private ArrayList<String> nameList;
