@@ -1,16 +1,11 @@
 package com.example.workbench.VoiceShow;
 
-import android.Manifest;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.provider.ContactsContract;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.PhoneStateListener;
@@ -25,8 +20,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.widget.Toast;
 
-import com.example.workbench.VoiceShow.Permissions.cPermissionManager;
-
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -34,7 +27,7 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener
 {
-    private String          mPhoneNumber;                           // 핸드폰 번호 문자열
+    //private String          mPhoneNumber;                           // 핸드폰 번호 문자열
 
     //전화번호부 가져오기위한 리스트
     private ArrayList<String> nameList;
@@ -56,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             SharedPreferences.Editor    editor = pref.edit();
             editor.putBoolean("isFirst", true);
             editor.commit();
-
             // 앱 최초 실행시 수행할 작업
         }
         else
@@ -88,7 +80,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
-
 
         Initialize();
         getAddressBooks(); // 전화번호부 가져오기.
@@ -205,7 +196,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //연락처 id 값
             String id = c.getString(c.getColumnIndex(ContactsContract.Contacts._ID)); // 아이디 가져온다.
             String name = c.getString(c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME_PRIMARY)); //이름을 가져온다.
-
             nameList.add(name);
 
             Cursor phoneCursor = getContentResolver().query(
@@ -224,10 +214,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         c.close();
 
     }
+
+    // 주소록을 보내주는 함수.
     public  ArrayList getNames(){
         return this.nameList;
     }
-
     public ArrayList getNumbers(){
         return this.numberList;
     }

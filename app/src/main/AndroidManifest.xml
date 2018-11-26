@@ -30,6 +30,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+      
         <activity android:name=".MainActivity"></activity>
 
         <receiver
@@ -45,9 +46,10 @@
         <service
             android:name=".Util.cCallBroadcastService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
 
-        <activity android:name=".activity_SETTINGS"></activity>
+        <activity android:name=".activity_SETTINGS" />
+        <activity android:name=".ChattingRoom"></activity>
 
     </application>
 
