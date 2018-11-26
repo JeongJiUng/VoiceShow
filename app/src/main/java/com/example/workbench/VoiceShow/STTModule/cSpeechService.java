@@ -157,6 +157,7 @@ public class cSpeechService extends Service
             InputStream     credentials = assetManager.open("credentials.json");
             ManagedChannel  channel = CreateChannel(HOSTNAME, PORT, credentials);
             mApi            = SpeechGrpc.newStub(channel);
+            Log.i("STT Service Info", "onCreate()");
         }
         catch (Exception e)
         {
@@ -226,10 +227,9 @@ public class cSpeechService extends Service
      */
     public void startRecognizing(int sampleRate)
     {
-        Log.d("Speech Debug", "startRecognizing");
         if (mApi == null)
         {
-            Log.w(TAG, "API not ready. Ignoring the request.");
+            Log.i("STT Service Info", "startRecognizing() => mApi is null");
             return;
         }
         // Configure the API
@@ -237,6 +237,7 @@ public class cSpeechService extends Service
         mRequestObserver.onNext(StreamingRecognizeRequest.newBuilder().setStreamingConfig(StreamingRecognitionConfig.newBuilder().setConfig(RecognitionConfig.newBuilder()
                                 .setLanguageCode(getDefaultLanguageCode()).setEncoding(RecognitionConfig.AudioEncoding.LINEAR16).setSampleRateHertz(sampleRate).build())
                                 .setInterimResults(true).setSingleUtterance(true).build()).build());
+        Log.i("STT Service Info", "startRecognizing()");
     }
 
     /**

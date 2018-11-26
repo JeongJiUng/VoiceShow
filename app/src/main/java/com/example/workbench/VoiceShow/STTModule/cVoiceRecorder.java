@@ -78,7 +78,10 @@ public class cVoiceRecorder
         mAudioRecord        = createAudioRecord();
 
         if (mAudioRecord == null)
+        {
+            Log.i("STT Service Info", "start() => mAudioRecord is null");
             throw new RuntimeException("Cannot instantiate VoiceRecorder");
+        }
 
         // Start recording.
         mAudioRecord.startRecording();
@@ -86,6 +89,7 @@ public class cVoiceRecorder
         mThread             = new Thread(new ProcessVoice());
         mThread.start();
         Log.d("Speech Debug", "Thread 생성 완료");
+        Log.i("STT Service Info", "start()");
     }
 
     /**
@@ -173,7 +177,7 @@ public class cVoiceRecorder
         @Override
         public void run()
         {
-            Log.d("Speech Debug", "thread run 진입");
+            Log.i("STT Service Info", "thread run");
             while (true)
             {
                 synchronized (mLock)
