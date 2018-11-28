@@ -20,7 +20,8 @@ public class cPermissionManager
                             Manifest.permission.RECORD_AUDIO,
                             Manifest.permission.READ_EXTERNAL_STORAGE,
                             Manifest.permission.READ_CONTACTS,
-                            Manifest.permission.READ_PHONE_STATE};
+                            Manifest.permission.READ_PHONE_STATE,
+                            Manifest.permission.READ_PHONE_NUMBERS};
 
     public static cPermissionManager GetInst()
     {
