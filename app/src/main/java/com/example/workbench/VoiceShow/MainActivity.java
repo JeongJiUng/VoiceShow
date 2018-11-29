@@ -21,6 +21,10 @@ import android.support.v4.view.ViewPager;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -223,5 +227,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return this.numberList;
     }
 
+    public ArrayList getChattingDataName(){
+        ArrayList<String> chattingName = new ArrayList<>();
+        Set<String> chattingData;
+        SharedPreferences sharedChattingData = getSharedPreferences("PREF_CHAT_ID_LIST",MODE_PRIVATE);
+
+        chattingData = (sharedChattingData.getStringSet("Key_ID_LIST", new HashSet<String>()));
+
+        Iterator<String> itr = chattingData.iterator();
+
+        while(itr.hasNext()){
+            chattingName.add(itr.next());
+        }
+
+        return chattingName;
+    }
 
 }

@@ -431,7 +431,7 @@ public class cCallBroadcastService extends Service
          */
         public void saveDataProc()
         {
-            String          id = mCallNumber + mStartCalling;
+            String          id = mCallNumber + "#" + mStartCalling; //#을 넣어 구분하엿다 id값
             mIDLISTPreferences  = getSharedPreferences(mIDLISTPrefName, MODE_PRIVATE);
             SharedPreferences.Editor    editor = mIDLISTPreferences.edit();
 
@@ -474,11 +474,11 @@ public class cCallBroadcastService extends Service
             {
                 if (mAdapter.getItem(i).mType == 1)
                 {
-                    Key_RecvText.add(mAdapter.getItem(i).mMsg+"+"+mAdapter.getItem(i).mDate.toString());
+                    Key_RecvText.add(mAdapter.getItem(i).mMsg+"@"+mAdapter.getItem(i).mDate.toString()); //더하기가 아니라 @로 바꿈
                 }
                 else
                 {
-                    Key_CallerText.add(mAdapter.getItem(i).mMsg+"+"+mAdapter.getItem(i).mDate.toString());
+                    Key_CallerText.add(mAdapter.getItem(i).mMsg+"@"+mAdapter.getItem(i).mDate.toString());
                 }
             }
 
