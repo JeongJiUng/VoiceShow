@@ -44,8 +44,6 @@ public class PasswordActivity extends AppCompatActivity {
         });
     }
     public void ButtonClick(View v) {
-        // activity_main 에서 발생되는 버튼 이벤트 처리.
-        // 핸드폰 번호를 보여 줄 텍스트뷰 아이디
         TextView    password_check1 = (TextView)findViewById(R.id.Password_Num1);
         TextView    password_check2 = (TextView)findViewById(R.id.Password_Num2);
         TextView    password_check3 = (TextView)findViewById(R.id.Password_Num3);
@@ -74,315 +72,71 @@ public class PasswordActivity extends AppCompatActivity {
                 i--;
                 break;
             case R.id.Password_KEYPAD_0:
-                if(i == 0) {
-                    password_star1 = "*";
-                    password_num1 = 0;
-                    password_check1.setText(password_star1);
-                    i++;
-                }
-                else if(i == 1) {
-                    password_star2 = "*";
-                    password_num2 = 0;
-                    password_check2.setText(password_star2);
-                    i++;
-                }
-                else if(i == 2){
-                    password_star3 = "*";
-                    password_num3 = 0;
-                    password_check3.setText(password_star3);
-                    i++;
-                }
-                else if(i == 3){
-                    password_star4 = "*";
-                    password_num4 = 0;
-                    password_check4.setText(password_star4);
-                    i = 0;
-                    int pInt = password_num1 * 1000 + password_num2 * 100 + password_num3 *10 + password_num4;
-                    String pString = String.valueOf(pInt);
-                    cSystemManager.getInstance().GetSettings().SetPassword(pString);
-                    cSystemManager.getInstance().GetSettings().SetmbSecure(true);
-                    finish();
-                }
+                ButtonFunc(0);
                 break;
             case R.id.Password_KEYPAD_1:
-                if(i == 0) {
-                    password_star1 = "*";
-                    password_num1 = 1;
-                    password_check1.setText(password_star1);
-                    i++;
-                }
-                else if(i == 1) {
-                    password_star2 = "*";
-                    password_num2 = 1;
-                    password_check2.setText(password_star2);
-                    i++;
-                }
-                else if(i == 2){
-                    password_star3 = "*";
-                    password_num3 = 1;
-                    password_check3.setText(password_star3);
-                    i++;
-                }
-                else if(i == 3){
-                    password_star4 = "*";
-                    password_num4 = 1;
-                    password_check4.setText(password_star4);
-                    i = 0;
-                    int pInt = password_num1 * 1000 + password_num2 * 100 + password_num3 *10 + password_num4;
-                    String pString = String.valueOf(pInt);
-                    cSystemManager.getInstance().GetSettings().SetPassword(pString);
-                    cSystemManager.getInstance().GetSettings().SetmbSecure(true);
-                    finish();
-                }
+                ButtonFunc(1);
                 break;
             case R.id.Password_KEYPAD_2:
-                if(i == 0) {
-                    password_star1 = "*";
-                    password_num1 = 2;
-                    password_check1.setText(password_star1);
-                    i++;
-                }
-                else if(i == 1) {
-                    password_star2 = "*";
-                    password_num2 = 2;
-                    password_check2.setText(password_star2);
-                    i++;
-                }
-                else if(i == 2){
-                    password_star3 = "*";
-                    password_num3 = 2;
-                    password_check3.setText(password_star3);
-                    i++;
-                }
-                else if(i == 3){
-                    password_star4 = "*";
-                    password_num4 = 2;
-                    password_check4.setText(password_star4);
-                    i = 0;
-                    int pInt = password_num1 * 1000 + password_num2 * 100 + password_num3 *10 + password_num4;
-                    String pString = String.valueOf(pInt);
-                    cSystemManager.getInstance().GetSettings().SetPassword(pString);
-                    cSystemManager.getInstance().GetSettings().SetmbSecure(true);
-                    finish();
-                }
+                ButtonFunc(2);
                 break;
             case R.id.Password_KEYPAD_3:
-                if(i == 0) {
-                    password_star1 = "*";
-                    password_num1 = 3;
-                    password_check1.setText(password_star1);
-                    i++;
-                }
-                else if(i == 1) {
-                    password_star2 = "*";
-                    password_num2 = 3;
-                    password_check2.setText(password_star2);
-                    i++;
-                }
-                else if(i == 2){
-                    password_star3 = "*";
-                    password_num3 = 3;
-                    password_check3.setText(password_star3);
-                    i++;
-                }
-                else if(i == 3){
-                    password_star4 = "*";
-                    password_num4 = 3;
-                    password_check4.setText(password_star4);
-                    i = 0;
-                    int pInt = password_num1 * 1000 + password_num2 * 100 + password_num3 *10 + password_num4;
-                    String pString = String.valueOf(pInt);
-                    cSystemManager.getInstance().GetSettings().SetPassword(pString);
-                    cSystemManager.getInstance().GetSettings().SetmbSecure(true);
-                    finish();
-                }
+                ButtonFunc(3);
                 break;
             case R.id.Password_KEYPAD_4:
-                if(i == 0) {
-                    password_star1 = "*";
-                    password_num1 = 4;
-                    password_check1.setText(password_star1);
-                    i++;
-                }
-                else if(i == 1) {
-                    password_star2 = "*";
-                    password_num2 = 4;
-                    password_check2.setText(password_star2);
-                    i++;
-                }
-                else if(i == 2){
-                    password_star3 = "*";
-                    password_num3 = 4;
-                    password_check3.setText(password_star3);
-                    i++;
-                }
-                else if(i == 3){
-                    password_star4 = "*";
-                    password_num4 = 4;
-                    password_check4.setText(password_star4);
-                    i = 0;
-                    int pInt = password_num1 * 1000 + password_num2 * 100 + password_num3 *10 + password_num4;
-                    String pString = String.valueOf(pInt);
-                    cSystemManager.getInstance().GetSettings().SetPassword(pString);
-                    cSystemManager.getInstance().GetSettings().SetmbSecure(true);
-                    finish();
-                }
+                ButtonFunc(4);
                 break;
             case R.id.Password_KEYPAD_5:
-                if(i == 0) {
-                    password_star1 = "*";
-                    password_num1 = 5;
-                    password_check1.setText(password_star1);
-                    i++;
-                }
-                else if(i == 1) {
-                    password_star2 = "*";
-                    password_num2 = 5;
-                    password_check2.setText(password_star2);
-                    i++;
-                }
-                else if(i == 2){
-                    password_star3 = "*";
-                    password_num3 = 5;
-                    password_check3.setText(password_star3);
-                    i++;
-                }
-                else if(i == 3){
-                    password_star4 = "*";
-                    password_num4 = 5;
-                    password_check4.setText(password_star4);
-                    i = 0;
-                    int pInt = password_num1 * 1000 + password_num2 * 100 + password_num3 *10 + password_num4;
-                    String pString = String.valueOf(pInt);
-                    cSystemManager.getInstance().GetSettings().SetPassword(pString);
-                    cSystemManager.getInstance().GetSettings().SetmbSecure(true);
-                    finish();
-                }
+                ButtonFunc(5);
                 break;
             case R.id.Password_KEYPAD_6:
-                if(i == 0) {
-                    password_star1 = "*";
-                    password_num1 = 6;
-                    password_check1.setText(password_star1);
-                    i++;
-                }
-                else if(i == 1) {
-                    password_star2 = "*";
-                    password_num2 = 6;
-                    password_check2.setText(password_star2);
-                    i++;
-                }
-                else if(i == 2){
-                    password_star3 = "*";
-                    password_num3 = 6;
-                    password_check3.setText(password_star3);
-                    i++;
-                }
-                else if(i == 3){
-                    password_star4 = "*";
-                    password_num4 = 6;
-                    password_check4.setText(password_star4);
-                    i = 0;
-                    int pInt = password_num1 * 1000 + password_num2 * 100 + password_num3 *10 + password_num4;
-                    String pString = String.valueOf(pInt);
-                    cSystemManager.getInstance().GetSettings().SetPassword(pString);
-                    cSystemManager.getInstance().GetSettings().SetmbSecure(true);
-                    finish();
-                }
+                ButtonFunc(6);
                 break;
             case R.id.Password_KEYPAD_7:
-                if(i == 0) {
-                    password_star1 = "*";
-                    password_num1 = 7;
-                    password_check1.setText(password_star1);
-                    i++;
-                }
-                else if(i == 1) {
-                    password_star2 = "*";
-                    password_num2 = 7;
-                    password_check2.setText(password_star2);
-                    i++;
-                }
-                else if(i == 2){
-                    password_star3 = "*";
-                    password_num3 = 7;
-                    password_check3.setText(password_star3);
-                    i++;
-                }
-                else if(i == 3){
-                    password_star4 = "*";
-                    password_num4 = 7;
-                    password_check4.setText(password_star4);
-                    i = 0;
-                    int pInt = password_num1 * 1000 + password_num2 * 100 + password_num3 *10 + password_num4;
-                    String pString = String.valueOf(pInt);
-                    cSystemManager.getInstance().GetSettings().SetPassword(pString);
-                    cSystemManager.getInstance().GetSettings().SetmbSecure(true);
-                    finish();
-                }
+                ButtonFunc(7);
                 break;
             case R.id.Password_KEYPAD_8:
-                if(i == 0) {
-                    password_star1 = "*";
-                    password_num1 = 8;
-                    password_check1.setText(password_star1);
-                    i++;
-                }
-                else if(i == 1) {
-                    password_star2 = "*";
-                    password_num2 = 8;
-                    password_check2.setText(password_star2);
-                    i++;
-                }
-                else if(i == 2){
-                    password_star3 = "*";
-                    password_num3 = 8;
-                    password_check3.setText(password_star3);
-                    i++;
-                }
-                else if(i == 3){
-                    password_star4 = "*";
-                    password_num4 = 8;
-                    password_check4.setText(password_star4);
-                    i = 0;
-                    int pInt = password_num1 * 1000 + password_num2 * 100 + password_num3 *10 + password_num4;
-                    String pString = String.valueOf(pInt);
-                    cSystemManager.getInstance().GetSettings().SetPassword(pString);
-                    cSystemManager.getInstance().GetSettings().SetmbSecure(true);
-                    finish();
-                }
+                ButtonFunc(8);
                 break;
             case R.id.Password_KEYPAD_9:
-                if(i == 0) {
-                    password_star1 = "*";
-                    password_num1 = 9;
-                    password_check1.setText(password_star1);
-                    i++;
-                }
-                else if(i == 1) {
-                    password_star2 = "*";
-                    password_num2 = 9;
-                    password_check2.setText(password_star2);
-                    i++;
-                }
-                else if(i == 2){
-                    password_star3 = "*";
-                    password_num3 = 9;
-                    password_check3.setText(password_star3);
-                    i++;
-                }
-                else if(i == 3){
-                    password_star4 = "*";
-                    password_num4 = 9;
-                    password_check4.setText(password_star4);
-                    i = 0;
-                    int pInt = password_num1 * 1000 + password_num2 * 100 + password_num3 *10 + password_num4;
-                    String pString = String.valueOf(pInt);
-                    cSystemManager.getInstance().GetSettings().SetPassword(pString);
-                    cSystemManager.getInstance().GetSettings().SetmbSecure(true);
-                    finish();
-                }
+                ButtonFunc(9);
                 break;
+        }
+    }
+    public void ButtonFunc(int _i){
+        TextView    password_check1 = (TextView)findViewById(R.id.Password_Num1);
+        TextView    password_check2 = (TextView)findViewById(R.id.Password_Num2);
+        TextView    password_check3 = (TextView)findViewById(R.id.Password_Num3);
+        TextView    password_check4 = (TextView)findViewById(R.id.Password_Num4);
+
+        if(i == 0) {
+            password_star1 = "*";
+            password_num1 = _i;
+            password_check1.setText(password_star1);
+            i++;
+        }
+        else if(i == 1) {
+            password_star2 = "*";
+            password_num2 = _i;
+            password_check2.setText(password_star2);
+            i++;
+        }
+        else if(i == 2){
+            password_star3 = "*";
+            password_num3 = _i;
+            password_check3.setText(password_star3);
+            i++;
+        }
+        else if(i == 3){
+            password_star4 = "*";
+            password_num4 = _i;
+            password_check4.setText(password_star4);
+            i = 0;
+            int pInt = password_num1 * 1000 + password_num2 * 100 + password_num3 *10 + password_num4;
+            String pString = String.valueOf(pInt);
+            cSystemManager.getInstance().GetSettings().SetPassword(pString);
+            cSystemManager.getInstance().GetSettings().SetmbSecure(true);
+            finish();
         }
     }
 }

@@ -35,6 +35,10 @@ public class PasswordCheckActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_password_check);
+        String pString = cSystemManager.getInstance().GetSettings().GetPassword();
+        int pInt = Integer.parseInt(pString);
+        if(pInt < 0)
+            finish();
     }
     public void ButtonClick(View v) {
         // activity_main 에서 발생되는 버튼 이벤트 처리.
@@ -45,6 +49,8 @@ public class PasswordCheckActivity extends AppCompatActivity {
         TextView    password_check2 = (TextView)findViewById(R.id.Password_Check2);
         TextView    password_check3 = (TextView)findViewById(R.id.Password_Check3);
         TextView    password_check4 = (TextView)findViewById(R.id.Password_Check4);
+
+
 
         switch (v.getId()) {
             case R.id.Password_Check_BACK_SPACE:
@@ -439,5 +445,11 @@ public class PasswordCheckActivity extends AppCompatActivity {
                 }
                 break;
         }
+    }
+    @Override
+    public void onBackPressed(){
+        finishAffinity();
+        System.runFinalization();
+        System.exit(0);
     }
 }
