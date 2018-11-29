@@ -10,6 +10,7 @@ import android.support.annotation.IdRes;
 
 import com.example.workbench.VoiceShow.MainActivity;
 import com.example.workbench.VoiceShow.R;
+import com.example.workbench.VoiceShow.cSystemManager;
 
 public class DeleteFreqActivity extends AppCompatActivity {
     public RadioGroup radioGroup;
@@ -40,21 +41,16 @@ public class DeleteFreqActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
                 switch (i){
                     case R.id.radio1:
-                        i=50;break;
+                        cSystemManager.getInstance().GetSettings().SetDeleteFreq(1);
+                        break;
                     case R.id.radio2:
-                        i=100;break;
+                        cSystemManager.getInstance().GetSettings().SetDeleteFreq(2);
+                        break;
                     case R.id.radio3:
-                        i=150;break;
+                        cSystemManager.getInstance().GetSettings().SetDeleteFreq(3);
+                        break;
                 }
             }
         };
-        RadioGroup rg = (RadioGroup)findViewById(R.id.radioGroup1); // 라디오그룹 객체 맵핑
-        RadioButton selectedRdo = (RadioButton)findViewById(rg.getCheckedRadioButtonId()); // rg 라디오그룹의 체크된(getCheckedRadioButtonId) 라디오버튼 객체 맵핑
-        String selectedValue = selectedRdo.getText().toString(); // 해당 라디오버튼 객체의 값 가져오기
-        selectedValue = selectedValue.equals("무한") ? "00" : selectedValue; // 삼항연산자 (체크된 값이 "무한" 이 참이면 "00"으로, 거짓이면 원래 selectedValue 그대로)
-
-        Intent intent = new Intent(DeleteFreqActivity.this, MainActivity.class);    // 보내는 클래스, 받는 클래스
-        intent.putExtra("chatNum", selectedValue); // "TIME"이란 키 값으로 selectedValue를 넘김
-        startActivity(intent);
     }
 }

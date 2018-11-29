@@ -2,6 +2,7 @@ package com.example.workbench.VoiceShow;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 
 import com.example.workbench.VoiceShow.STTModule.cSTTModuleManager;
 import com.example.workbench.VoiceShow.Settings.cSettingsManager;
@@ -19,8 +20,9 @@ public class cSystemManager
     {
     }
 
-    private Activity        mActivity;
-    private Context         mContext;
+    private Activity        mActivity = null;
+    private Context         mContext = null;
+    private Intent          mIntent = null;
 
     private cSTTModuleManager   mSTTModule;
     private cSettingsManager    mSettings;
@@ -32,6 +34,22 @@ public class cSystemManager
 
         // initialize Modules
         mSTTModule          = new cSTTModuleManager();
+        mSettings           = new cSettingsManager();
+    }
+
+    public void SetActivity(Activity _act)
+    {
+        mActivity           = _act;
+    }
+
+    public void SetContext(Context _cont)
+    {
+        mContext            = _cont;
+    }
+
+    public void SetIntent(Intent _intent)
+    {
+        mIntent             = _intent;
     }
 
     public Activity GetActivity()
@@ -43,12 +61,14 @@ public class cSystemManager
         return mContext;
     }
 
+    public Intent GetIntent()
+    {
+        return mIntent;
+    }
+
     public cSTTModuleManager GetSTTModule()
     {
         return mSTTModule;
     }
-    public cSettingsManager GetSettings()
-    {
-        return mSettings;
-    }
+    public cSettingsManager GetSettings() { return mSettings; }
 }

@@ -8,10 +8,9 @@ import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.telephony.PhoneStateListener;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 import android.support.design.widget.TabLayout;
@@ -21,50 +20,16 @@ import com.example.workbench.VoiceShow.Settings.PasswordCheckActivity;
 import com.example.workbench.VoiceShow.Settings.SettingsActivity;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener
 {
     private String          mPhoneNumber;                           // 핸드폰 번호 문자열
-    private boolean       isPasswordOn;                            //비밀번호 설정 여부 확인
 
     //전화번호부 가져오기위한 리스트
     private ArrayList<String> nameList;
     private ArrayList<String> numberList;
 
-    //전화 상태 및 전화 상태 변화에대한 리스너 및 관련 객체
-    TelephonyManager        mTelManager;    // 안드로이드 폰의 전화 서비스에 대한 정보에 접근하기 위한 객체
-    public PhoneStateListener   mPhoneStateListener = new PhoneStateListener()
-    {
-        /**
-         * CALL_STATE_IDLE : 아무 행동도 없는 상태
-         * CALL_STATE_RINGING : 전화가 오고 있는 상태
-         * CALL_STATE_OFFHOOK : 전화를 걸거나, 전화중인 상태(통화 시작)
-         * @param _state
-         * @param _incomingNumber
-         */
-        @Override
-        public void onCallStateChanged(int _state, String _incomingNumber)
-        {
-            switch(_state)
-            {
-                case TelephonyManager.CALL_STATE_IDLE:
-                    cSystemManager.getInstance().GetSTTModule().onStop();
-                    Log.i("Telephony", "STATE_IDLE");
-                    break;
-
-                case TelephonyManager.CALL_STATE_RINGING:
-                    Log.i("Telephony", "STATE_RINGING");
-                    break;
-
-                case TelephonyManager.CALL_STATE_OFFHOOK:
-                    cSystemManager.getInstance().GetSTTModule().onStart();
-                    Log.i("Telephony", "STATE_OFFHOOK");
-                    break;
-            }
-            super.onCallStateChanged(_state, _incomingNumber);
-        }
-    };
+    TableLayout             mKeyPadLayout;
 
     /**
      * 어플리케이션 최초 실행 여부 확인.
@@ -93,15 +58,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         // 변수 초기화
         mPhoneNumber        = "";
-        if(!isPasswordOn)
-            isPasswordOn = false;
-        mTelManager         = (TelephonyManager)getSystemService(TELEPHONY_SERVICE);
-        mTelManager.listen(mPhoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
+        mKeyPadLayout       = findViewById(R.id.LAYOUT_KEYPAD);
 
         // 기능 초기화
         CheckFirstTime();
 
         cSystemManager.getInstance().Initialize(this, getApplicationContext());
+        cSystemManager.getInstance().GetSettings().Initialize();
     }
 
     @Override
@@ -123,9 +86,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Initialize();
         getAddressBooks(); // 전화번호부 가져오기.
-        if(isPasswordOn){ //비밀번호 설정시 앱 실행 초기에 암호 확인 액티비티 발동
-            startActivity(new Intent(MainActivity.this,PasswordCheckActivity.class));
-        }
+        checkSecureOn(); //비밀번호 설정되어있는지 확인 후, 설정 되어있으면 암호 액티비티 발동
        // startActivity(new Intent("android.intent.action.DIAL"));
     }
 
@@ -148,11 +109,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // 핸드폰번호 뒤에서 하나씩 지움.
                 //int         len = mPhoneNumber.length();
                 //mPhoneNumber.substring()
-                cSystemManager.getInstance().GetSTTModule().onStart();
+                //.getInstance().GetSTTModule().onStart();
                 break;
 
             case R.id.ADD_PHONE_NUM:
-                cSystemManager.getInstance().GetSTTModule().onStop();
+                //cSystemManager.getInstance().GetSTTModule().onStop();
                 break;
 
             case R.id.KEYPAD_0:
@@ -207,6 +168,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.KEYPAD_HIDE:
                 // 키 패드 활성/비활성
+                mKeyPadLayout.setVisibility(View.GONE);
+                break;
+
+            case R.id.TEXT_PHONE_NUM:
+                mKeyPadLayout.setVisibility(View.VISIBLE);
                 break;
         }
 
@@ -215,7 +181,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             tv_PhoneNum.setText(mPhoneNumber);
     }
 
-    public void MoveToSettings(View v) {
+    public void MoveToSettings(View v)
+    {
         startActivity(new Intent(MainActivity.this,SettingsActivity.class));
     }
 
@@ -260,5 +227,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return this.numberList;
     }
 
-
+    public void checkSecureOn(){
+        if(cSystemManager.getInstance().GetSettings().GetEnabledSecure()){ //비밀번호 설정시 앱 실행 초기에 암호 확인 액티비티 발동
+            startActivity(new Intent(MainActivity.this,PasswordCheckActivity.class));
+        }
+    }
 }
