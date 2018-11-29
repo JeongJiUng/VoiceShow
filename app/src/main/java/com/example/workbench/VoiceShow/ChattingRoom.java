@@ -1,5 +1,6 @@
 package com.example.workbench.VoiceShow;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
@@ -13,6 +14,9 @@ public class ChattingRoom extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatting_room);
 
+        //ChattingFragment에서의 ID값을 넘겨 받는다.
+        Intent intent = getIntent();
+
         //커스텀 어댑터 생성
         chattingRoomAdapter = new ChattingRoomAdapter();
 
@@ -22,7 +26,7 @@ public class ChattingRoom extends AppCompatActivity {
         //ListView에 어댑터 연결
         chattingRoomView.setAdapter(chattingRoomAdapter);
 
-        chattingRoomAdapter.add("이건 뭐지",1);
+        chattingRoomAdapter.add(intent.getExtras().getString("ID"),1);
         chattingRoomAdapter.add("쿨쿨",1);
         chattingRoomAdapter.add("쿨쿨쿨쿨",0);
 
