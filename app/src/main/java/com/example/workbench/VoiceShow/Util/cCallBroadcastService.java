@@ -482,7 +482,7 @@ public class cCallBroadcastService extends Service
                 }
             }
 
-            editor.putStringSet(ID +"_RecvText", Key_RecvText);
+            editor.putStringSet(ID +"_ReceiveText", Key_RecvText); //오타수정
             editor.putStringSet(ID +"_CallerText", Key_CallerText);
             editor.commit();
         }
