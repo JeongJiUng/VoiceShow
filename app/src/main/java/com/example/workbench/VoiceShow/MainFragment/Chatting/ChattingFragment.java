@@ -60,6 +60,7 @@ public class ChattingFragment extends ListFragment {
             ArrayList<String> temp = divideLetter(chattingID.get(i));
 
             chattingRoomName.add(temp.get(0));
+            chattingRoomInfo.add(temp.get(0));
             Long time = Long.parseLong(temp.get(1));
             chattingRoomTime.add(time);
         }
@@ -83,10 +84,8 @@ public class ChattingFragment extends ListFragment {
             }
         }
 
-        chattingRoomInfo = chattingRoomName;
-        //뷰를 만들어 준다.
-//        View view = inflater.inflate(R.layout.fragment_chatting,container,false);
-
+        //번호는 Info가 가지고있고 Name은 바뀐다.
+        findName();
 
         // 아이템 추가
         for(int i = 0; i<chattingRoomInfo.size();i++){
@@ -99,6 +98,7 @@ public class ChattingFragment extends ListFragment {
         return super.onCreateView(inflater, container,savedInstanceState);
     }
 
+    //전화번호와 시간을 나누어주는 함수이다.
     public ArrayList divideLetter(String str){
         ArrayList<String> arrayList = new ArrayList<>();
 
@@ -107,5 +107,19 @@ public class ChattingFragment extends ListFragment {
         arrayList.add(array[1]);
 
         return arrayList;
+    }
+
+    public void findName(){
+        ArrayList<String> addressNumber = ((MainActivity)getActivity()).getNumbers();
+        ArrayList<String> addressName = ((MainActivity)getActivity()).getNames();
+
+        //번호 같은게 있으면 저장된 번호가 이름으로 바뀌어 나온다.
+        for(int i=0;i<chattingID.size();i++){
+            for(int j=0;j<addressName.size();j++){
+                if(chattingRoomName.get(i).equals(addressNumber.get(j))){
+                    this.chattingRoomName.set(i,addressName.get(j));
+                }
+            }
+        }
     }
 }
