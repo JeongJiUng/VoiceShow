@@ -68,6 +68,7 @@ public class ChattingFragment extends ListFragment {
         }
 
         //이곳을 그냥 버블정렬로 했는데 다음에는 잘 해서 다른 정렬법으로 해야겠다
+        //클래스 만들어서해야한다.
         for(int i=0;i<chattingID.size();i++){
             for(int j=i;j<chattingID.size();j++){
                 if(chattingRoomTime.get(i) > chattingRoomTime.get(j)){
@@ -82,6 +83,10 @@ public class ChattingFragment extends ListFragment {
                     String temp__ = chattingID.get(i);
                     chattingID.set(i,chattingID.get(j));
                     chattingID.set(j,temp__);
+
+                    String temp___ = chattingRoomInfo.get(i);
+                    chattingRoomInfo.set(i,chattingRoomInfo.get(j));
+                    chattingRoomInfo.set(j,temp___);
                 }
             }
         }
