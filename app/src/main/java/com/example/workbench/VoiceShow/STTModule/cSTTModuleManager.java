@@ -33,7 +33,7 @@ public class cSTTModuleManager
             if (mSpeechService != null)
                 mSpeechService.startRecognizing(mVoiceRecorder.getSampleRate());
             else
-                Log.i("STT Service Info", "onVoiceStart() => mSpeechService is null");
+                Log.i("STT Service Info", "onVoiceStart() => mSpeechService is null" );
         }
 
         @Override
@@ -77,7 +77,10 @@ public class cSTTModuleManager
     public void onInit(Context _cont)
     {
         if (mSpeechService == null)
-            mSpeechService  = new cSpeechService();
+        {
+            Log.i("STT Service Info", "new cSpeechService");
+            mSpeechService = new cSpeechService();
+        }
         // Prepare Cloud Speech API
         //cSystemManager.getInstance().GetActivity().bindService(new Intent(cSystemManager.getInstance().GetActivity(), cSpeechService.class), mServiceConnection, Context.BIND_AUTO_CREATE);
         try
@@ -112,6 +115,7 @@ public class cSTTModuleManager
         stopVoiceRecorder();
         if (mSpeechService != null)
         {
+            Log.i("STT Service Info", "onStop_All Remove");
             mSpeechService.removeListener(mSpeechServiceListener);
             //cSystemManager.getInstance().GetActivity().unbindService(mServiceConnection);
             _cont.unbindService(mServiceConnection);
@@ -165,7 +169,7 @@ public class cSTTModuleManager
             if (_isFinal)
             {
                 GetResultText();
-                //mVoiceRecorder.dismiss();
+                mVoiceRecorder.dismiss();
             }
         }
     };

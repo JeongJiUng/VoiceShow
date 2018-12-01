@@ -45,8 +45,8 @@ public class cCallBroadcastReceiver extends BroadcastReceiver
         if (state.equals(TelephonyManager.EXTRA_STATE_RINGING))
         {
             // 전화가 왔을 때
-            String          incomingNumber = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER); // 전화 온 번호
-            //String          incomingNumber = "01089471758";                                                     // 테스트용 임시
+            //String          incomingNumber = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER); // 전화 온 번호
+            String          incomingNumber = "01089471758";                                                     // 테스트용 임시
             final String    phoneNumber = PhoneNumberUtils.formatNumber(incomingNumber);                        // String 형으로 변경
             Intent          serviceIntent = new Intent(context, cCallBroadcastService.class);                   // 현재 화면(리시버)에서 넘어갈 컴포넌트 설정(서비스);
             serviceIntent.putExtra(cCallBroadcastService.EXTRA_CALL_NUMBER, phoneNumber);                       // 서비스에 전달 할 데이터
@@ -73,8 +73,8 @@ public class cCallBroadcastReceiver extends BroadcastReceiver
         {
             if (isFirst == true)
             {
-                String          incomingNumber = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER); // 전화 온 번호
-                //String          incomingNumber = "01089471758";                                                 // 테스트용 임시
+                //String          incomingNumber = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER); // 전화 온 번호
+                String          incomingNumber = "01089471758";                                                 // 테스트용 임시
                 final String    phoneNumber = PhoneNumberUtils.formatNumber(incomingNumber);                    // String 형으로 변경
                 Intent          serviceIntent = new Intent(context, cCallBroadcastService.class);               // 현재 화면(리시버)에서 넘어갈 컴포넌트 설정(서비스);
                 serviceIntent.putExtra(cCallBroadcastService.EXTRA_CALL_NUMBER, phoneNumber);                   // 서비스에 전달 할 데이터
