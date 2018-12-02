@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
 
+import com.google.protobuf.StringValue;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -16,6 +18,7 @@ public class ChattingRoom extends AppCompatActivity {
     ListView chattingRoomView;
     ChattingRoomAdapter chattingRoomAdapter;
     String chattingID;
+    ArrayList<ChattingData> chattingData;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ArrayList<String> callerData;
@@ -38,20 +41,42 @@ public class ChattingRoom extends AppCompatActivity {
         chattingRoomView.setAdapter(chattingRoomAdapter);
 
         //채팅 내용
-        //아직 미완성 (정렬이 되어있지 않다.)
         callerData = getChattingCallerData();
         receiverData = getChattingReceiveTextData();
 
-        chattingRoomAdapter.add(chattingID,1);
-        chattingRoomAdapter.add(chattingID,0);
-        chattingRoomAdapter.add("쿨쿨쿨쿨",0);
-        chattingRoomAdapter.add("콜콜콜콜",1);
+        //chattingRoomAdapter.add(chattingID,1);
+        //chattingRoomAdapter.add(chattingID,0);
 
-        for(int i=0;i<callerData.size();i++){
-            if(receiverData.size()>0) {
-                chattingRoomAdapter.add(callerData.get(i), 1);
-                chattingRoomAdapter.add(receiverData.get(i), 0);
+        //chattingData 객체생성
+        chattingData = new ArrayList();
+        divideChatting(callerData, 0);
+        divideChatting(receiverData, 1);
+        dataSort();
+        for(int i=0;i<chattingData.size();i++){
+            chattingRoomAdapter.add(chattingData.get(i).msg, chattingData.get(i).who);
+        }
+
+    }
+
+    //정렬
+    public void dataSort(){
+        for(int i=0;i<chattingData.size();i++){
+            for(int j=i;j<chattingData.size();j++){
+                if(chattingData.get(i).msgTime>chattingData.get(j).msgTime){
+                    ChattingData temp = chattingData.get(i);
+                    chattingData.set(i,chattingData.get(j));
+                    chattingData.set(j,temp);
+                }
             }
+        }
+    }
+    public void divideChatting(ArrayList<String> data, int who){
+
+        for(int i=0;i<data.size();i++){
+            String[] array = data.get(i).split("@");
+            ChattingData temp = new ChattingData(array[0], Long.parseLong(array[1]), who);
+
+            chattingData.add(temp);
         }
     }
     public ArrayList getChattingCallerData(){
@@ -83,5 +108,17 @@ public class ChattingRoom extends AppCompatActivity {
         }
 
         return chattingReceiver;
+    }
+
+    public class ChattingData{
+        private String msg;
+        private Long msgTime;
+        private int who;
+
+        public ChattingData (String msg, Long msgTime, int who){
+            this.msg = msg;
+            this.msgTime = msgTime;
+            this.who = who;
+        }
     }
 }
