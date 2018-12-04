@@ -1,37 +1,23 @@
 package com.example.workbench.VoiceShow;
 
-import android.Manifest;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.provider.ContactsContract;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.telephony.PhoneStateListener;
-import android.telephony.TelephonyManager;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.widget.Toast;
-
-import com.example.workbench.VoiceShow.Permissions.cPermissionManager;
-
+import com.example.workbench.VoiceShow.Settings.PasswordCheckActivity;
+import com.example.workbench.VoiceShow.Settings.SettingsActivity;
 import java.util.ArrayList;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener
 {
     private String          mPhoneNumber;                           // 핸드폰 번호 문자열
@@ -75,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         CheckFirstTime();
 
         cSystemManager.getInstance().Initialize(this, getApplicationContext());
+        cSystemManager.getInstance().GetSettings().Initialize();
     }
 
     @Override
@@ -96,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Initialize();
         getAddressBooks(); // 전화번호부 가져오기.
+        checkSecureOn(); //비밀번호 설정되어있는지 확인 후, 설정 되어있으면 암호 액티비티 발동
        // startActivity(new Intent("android.intent.action.DIAL"));
     }
 
@@ -192,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void MoveToSettings(View v)
     {
-        startActivity(new Intent(MainActivity.this,activity_SETTINGS.class));
+        startActivity(new Intent(MainActivity.this,SettingsActivity.class));
     }
 
     public void getAddressBooks ()
@@ -236,5 +224,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return this.numberList;
     }
 
-
+    public void checkSecureOn(){
+        if(cSystemManager.getInstance().GetSettings().GetEnabledSecure()){ //비밀번호 설정시 앱 실행 초기에 암호 확인 액티비티 발동
+            startActivity(new Intent(MainActivity.this,PasswordCheckActivity.class));
+        }
+    }
 }

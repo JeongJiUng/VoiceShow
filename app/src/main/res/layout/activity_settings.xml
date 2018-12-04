@@ -12,27 +12,37 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="15"
+            android:layout_weight="10"
             android:orientation="horizontal"
             android:padding="2dp">
 
             <ImageButton
                 android:id="@+id/SETTINGS_BACK_BUTTON"
-                android:layout_width="match_parent"
+                android:layout_width="523dp"
                 android:layout_height="match_parent"
                 android:layout_weight="6"
                 android:background="@drawable/bnt_back" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:scaleX="0.7"
+                android:scaleY="0.7"
+                android:layout_marginTop="10dp"
+                android:layout_weight="2"
+                android:background="@drawable/voshow"
                 android:orientation="vertical"
-                android:text="VoShow"
-                android:paddingLeft="80dp"
-                android:textSize="30dp"
-                android:layout_weight="1">
-            </TextView>
+                android:paddingLeft="10dp">
+            </ImageView>
 
+            <TextView
+                android:layout_width="523dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="7" />
         </LinearLayout>
 
         <LinearLayout
@@ -42,51 +52,130 @@
             android:orientation="vertical"
             android:padding="2dp">
 
-            <TextView
-                android:id="@+id/SETTINGS_THEME"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="테마설정"
-                android:textSize="40dp"
-                android:layout_weight="5"
-                android:background="@drawable/rectangle_button"/>
+                android:layout_weight="1.5"
+                android:orientation="horizontal"
+                android:padding="2dp">
 
-            <TextView
+                    <ImageView
+                        android:scaleX="0.8"
+                        android:scaleY="0.8"
+                        android:layout_weight="3"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/setting_icon"/>
+
+                    <Button
+                    android:id="@+id/SETTINGS_THEME"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="테마설정"
+                    android:textSize="40dp"
+                    android:layout_weight="1"
+                    android:onClick="openThemeActivity"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.5"
+                android:orientation="horizontal"
+                android:padding="2dp">
+
+                <ImageView
+                    android:scaleX="0.8"
+                    android:scaleY="0.8"
+                    android:layout_weight="3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/setting_icon"/>
+
+                <Button
                 android:id="@+id/SETTINGS_CHATLETTER"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:text="글자수설정"
                 android:textSize="40dp"
-                android:layout_weight="5"
-                android:background="@drawable/rectangle_button"/>
+                android:onClick="setChatNum" />
+            </LinearLayout>
 
-            <TextView
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.5"
+                android:orientation="horizontal"
+                android:padding="2dp">
+
+                <ImageView
+                    android:scaleX="0.8"
+                    android:scaleY="0.8"
+                    android:layout_weight="3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/setting_icon"/>
+
+                <Button
                 android:id="@+id/SETTINGS_DEL_FREQ"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="삭제주기설정"
                 android:textSize="40dp"
-                android:layout_weight="5"
-                android:background="@drawable/rectangle_button"/>
+                android:layout_weight="1"
+                android:onClick="setDeleteFrequency"/>
+            </LinearLayout>
 
-            <TextView
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.5"
+                android:orientation="horizontal"
+                android:padding="2dp">
+
+                <ImageView
+                    android:scaleX="0.8"
+                    android:scaleY="0.8"
+                    android:layout_weight="3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/setting_icon"/>
+
+                <Button
                 android:id="@+id/SETTINGS_PASSWORD"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="보안설정"
                 android:textSize="40dp"
-                android:layout_weight="5"
-                android:background="@drawable/rectangle_button"/>
+                android:layout_weight="1"
+                android:onClick="setSecurity"/>
+            </LinearLayout>
 
-            <TextView
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.5"
+                android:orientation="horizontal"
+                android:padding="2dp">
+
+                <ImageView
+                    android:scaleX="0.8"
+                    android:scaleY="0.8"
+                    android:layout_weight="3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/setting_icon"/>
+
+                <Button
                 android:id="@+id/SETTINGS_VERSION"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="버젼확인"
                 android:textSize="40dp"
-                android:layout_weight="5"
-                android:background="@drawable/rectangle_button"/>
-
+                android:layout_weight="1"
+                android:onClick="showVersion"/>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 

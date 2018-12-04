@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.example.workbench.VoiceShow.STTModule.cSTTModuleManager;
+import com.example.workbench.VoiceShow.Settings.cSettingsManager;
 
 public class cSystemManager
 {
@@ -24,6 +25,7 @@ public class cSystemManager
     private Intent          mIntent = null;
 
     private cSTTModuleManager   mSTTModule;
+    private cSettingsManager    mSettings;
 
     public void Initialize(Activity _act, Context _cont)
     {
@@ -32,6 +34,7 @@ public class cSystemManager
 
         // initialize Modules
         mSTTModule          = new cSTTModuleManager();
+        mSettings           = new cSettingsManager();
     }
 
     public void SetActivity(Activity _act)
@@ -67,4 +70,5 @@ public class cSystemManager
     {
         return mSTTModule;
     }
+    public cSettingsManager GetSettings() { return mSettings; }
 }

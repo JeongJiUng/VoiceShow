@@ -47,7 +47,15 @@
             android:enabled="true"
             android:exported="true"></service>
 
-        <activity android:name=".activity_SETTINGS"></activity>
+        <activity android:name=".Settings.SettingsActivity"></activity>
+        <activity android:name=".Settings.PasswordSettingsActivity"></activity>
+        <activity android:name=".Settings.PasswordActivity"></activity>
+        <activity android:name=".Settings.PasswordCheckActivity"></activity>
+        <activity android:name=".Settings.DeleteFreqActivity"></activity>
+        <activity android:name=".Settings.ThemeActivity"></activity>
+        <activity android:name=".Settings.cSettingsManager"></activity>
+        <activity android:name=".Settings.ChatsetActivity"></activity>
+
 
     </application>
 
