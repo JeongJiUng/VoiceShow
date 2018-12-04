@@ -16,3 +16,4 @@ app/src/main/assets/credentials\.json
 app/src/main/assets/
 
 \.idea/misc\.xml
+*.json
