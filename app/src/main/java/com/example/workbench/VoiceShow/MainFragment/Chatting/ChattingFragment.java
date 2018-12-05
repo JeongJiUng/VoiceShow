@@ -16,8 +16,10 @@ import com.example.workbench.VoiceShow.ChattingRoom;
 import com.example.workbench.VoiceShow.MainActivity;
 import com.example.workbench.VoiceShow.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Set;
 
 
@@ -29,7 +31,7 @@ public class ChattingFragment extends ListFragment {
     ChattingAdapter adapter;
 
     private ArrayList<String> chattingRoomName;
-    private ArrayList<String> chattingRoomInfo;
+    private ArrayList<Long> chattingRoomInfo;
     private ArrayList<String> chattingID;
     private ArrayList<Long> chattingRoomTime;
 
@@ -56,22 +58,20 @@ public class ChattingFragment extends ListFragment {
 
         chattingID = ((MainActivity)getActivity()).getChattingDataName();
         chattingRoomName =  new ArrayList<>();
-        chattingRoomInfo = new ArrayList();
         chattingRoomTime = new ArrayList();
+
         for(int i=0;i<chattingID.size();i++){
             ArrayList<String> temp = divideLetter(chattingID.get(i));
-
             chattingRoomName.add(temp.get(0));
-            chattingRoomInfo.add(temp.get(0));
-            Long time = Long.parseLong(temp.get(1));
-            chattingRoomTime.add(time);
+            Long time_ = Long.parseLong(temp.get(1));
+            chattingRoomTime.add(time_);
         }
 
         //이곳을 그냥 버블정렬로 했는데 다음에는 잘 해서 다른 정렬법으로 해야겠다
         //클래스 만들어서해야한다.
         for(int i=0;i<chattingID.size();i++){
             for(int j=i;j<chattingID.size();j++){
-                if(chattingRoomTime.get(i) > chattingRoomTime.get(j)){
+                if(chattingRoomTime.get(i) < chattingRoomTime.get(j)){
                     String temp = chattingRoomName.get(i);
                     chattingRoomName.set(i,chattingRoomName.get(j));
                     chattingRoomName.set(j,temp);
@@ -83,10 +83,6 @@ public class ChattingFragment extends ListFragment {
                     String temp__ = chattingID.get(i);
                     chattingID.set(i,chattingID.get(j));
                     chattingID.set(j,temp__);
-
-                    String temp___ = chattingRoomInfo.get(i);
-                    chattingRoomInfo.set(i,chattingRoomInfo.get(j));
-                    chattingRoomInfo.set(j,temp___);
                 }
             }
         }
@@ -95,10 +91,13 @@ public class ChattingFragment extends ListFragment {
         findName();
 
         // 아이템 추가
-        for(int i = 0; i<chattingRoomInfo.size();i++){
+        for(int i = 0; i<chattingRoomName.size();i++){
+            Date date = new Date(chattingRoomTime.get(i));
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+            String getTime = simpleDateFormat.format(date);
             adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.profileimg),
                     chattingRoomName.get(i),
-                    chattingRoomInfo.get(i),
+                    getTime,
                     ContextCompat.getDrawable(getActivity(), R.drawable.chatting_blue_img));
         }
 
