@@ -31,7 +31,6 @@ public class ChattingFragment extends ListFragment {
     ChattingAdapter adapter;
 
     private ArrayList<String> chattingRoomName;
-    private ArrayList<Long> chattingRoomInfo;
     private ArrayList<String> chattingID;
     private ArrayList<Long> chattingRoomTime;
 
