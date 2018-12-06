@@ -48,14 +48,13 @@ public class AddressListViewAdapter extends BaseAdapter{
         this.tel = tel;
     }
     //아이템 데이터를 추가를 위한 함수.
-    public void addItem(Drawable icon, String name, String number, Drawable addressCalling, Drawable addressChatting) {
+    public void addItem(Drawable icon, String name, String number, Drawable addressCalling) {
         AddressListViewItem item = new AddressListViewItem();
 
         item.setIcon(icon);
         item.setName(name);
         item.setNumber(number);
         item.setAddressCalling(addressCalling);
-        item.setAddressChatting(addressChatting);
 
         addressListViewItems.add(item);
     }
@@ -77,7 +76,6 @@ public class AddressListViewAdapter extends BaseAdapter{
         TextView nameView = convertView.findViewById(R.id.addressName);
         TextView numberView = convertView.findViewById(R.id.addressNum);
         ImageView addressCallingImageView = convertView.findViewById(R.id.addressCalling);
-        ImageView addressChattingImageView = convertView.findViewById(R.id.addressChatting);
 
         //Data Set(AddresslistViewItem)에서 position에 위치한 데이터 참조 획득
         AddressListViewItem listViewItem = addressListViewItems.get(position);
@@ -87,7 +85,6 @@ public class AddressListViewAdapter extends BaseAdapter{
         nameView.setText(listViewItem.getName());
         numberView.setText(listViewItem.getNumber());
         addressCallingImageView.setImageDrawable(listViewItem.getAddressCalling());
-        addressChattingImageView.setImageDrawable(listViewItem.getAddressChatting());
 
         profileImageView.setOnClickListener(new View.OnClickListener() {
             @Override
