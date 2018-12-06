@@ -44,13 +44,12 @@ public class ChattingAdapter extends BaseAdapter {
         return position;
     }
 
-    public void addItem(Drawable icon, String name, String Info, Drawable goToChattingRoom) {
+    public void addItem(Drawable icon, String name, String Info) {
         ChattingListViewItem item = new ChattingListViewItem();
 
         item.setIcon(icon);
         item.setName(name);
         item.setInfo(Info);
-        item.setGoToChattingRoom(goToChattingRoom);
 
         chattingListViewItems.add(item);
     }
@@ -71,7 +70,6 @@ public class ChattingAdapter extends BaseAdapter {
         ImageView chattingProfileView = convertView.findViewById(R.id.chattingProfile);
         TextView chattingNameView = convertView.findViewById(R.id.chattingName);
         TextView chattingInfoView = convertView.findViewById(R.id.chattingInfo);
-        ImageView goToChattingImageView = convertView.findViewById(R.id.goToChattingRoom);
 
         //Data Set(ChattingListViewItem)에서 position에 위치한 데이터 참조 획득
         ChattingListViewItem listViewItem = chattingListViewItems.get(position);
@@ -80,7 +78,6 @@ public class ChattingAdapter extends BaseAdapter {
         chattingProfileView.setImageDrawable(listViewItem.getIcon());
         chattingNameView.setText(listViewItem.getName());
         chattingInfoView.setText(listViewItem.getInfo());
-        goToChattingImageView.setImageDrawable(listViewItem.getGoToChattingRoom());
 
         chattingProfileView.setOnClickListener(new View.OnClickListener() {
             @Override
