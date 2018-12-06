@@ -39,9 +39,11 @@ public class ChattingFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-        Toast.makeText(getContext(), chattingListData.get(position).chattingName, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(), chattingListData.get(position).chattingName, Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(getActivity(),ChattingRoom.class);
         intent.putExtra("ID",chattingListData.get(position).chattingID);
+        intent.putExtra("NAME",chattingListData.get(position).chattingName);
+        intent.putExtra("NTIME",chattingListData.get(position).chattingTime);
         startActivity(intent);
     }
 

@@ -3,7 +3,36 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fdf4ff"
     >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="5dp">
+        <TextView
+            android:id="@+id/chattingRoomText"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="text"
+            android:textColor="#888888"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/chattingRoomTextTime"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textColor="#888888"
+            android:text="text"
+            android:textSize="16dp"/>
+    </LinearLayout>
+
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:id="@+id/chattingIMG"
@@ -22,30 +51,5 @@
                 android:layout_height="wrap_content"
                 android:transcriptMode="alwaysScroll"/>
         </FrameLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#2F4F4F"
-        android:layout_below="@id/chattingIMG"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="20dp"
-            android:layout_height="wrap_content"
-            />
-        <EditText
-            android:hint="메세지를 입력하세요"
-            android:id="@+id/editText1"
-            android:inputType="textMultiLine"
-            android:maxLines="4"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"/>
-
-        <Button
-            android:id="@+id/button1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="전 송" />
-
     </LinearLayout>
 </LinearLayout>
