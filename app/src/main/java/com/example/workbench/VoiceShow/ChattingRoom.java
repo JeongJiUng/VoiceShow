@@ -15,10 +15,10 @@ import java.util.Set;
 
 public class ChattingRoom extends AppCompatActivity {
 
-    ListView chattingRoomView;
-    ChattingRoomAdapter chattingRoomAdapter;
-    String chattingID;
-    ArrayList<ChattingData> chattingData;
+    private ListView chattingRoomView;
+    private ChattingRoomAdapter chattingRoomAdapter;
+    private String chattingID;
+    private ArrayList<ChattingData> chattingData;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ArrayList<String> callerData;
