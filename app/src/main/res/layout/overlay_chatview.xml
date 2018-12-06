@@ -2,7 +2,6 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -11,13 +10,22 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <ImageButton
+            android:id="@+id/BTN_MAXIMUM"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:src="@drawable/calling_popup" />
+
         <LinearLayout
+            android:id="@+id/LAYOUT_TITLE"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#f00"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="16dp">
+            android:padding="16dp"
+            android:visibility="gone">
 
             <ImageButton
                 android:id="@+id/BTN_MINIMUM"
@@ -36,19 +44,13 @@
                 android:textColor="#fff"
                 android:textSize="20sp" />
 
-            <ImageButton
-                android:id="@+id/BTN_CLOSE"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:src="@drawable/cancel_button" />
-
         </LinearLayout>
 
         <FrameLayout
-            android:id="@+id/FRAMELAYOUT_CHATLIST"
+            android:id="@+id/LAYOUT_CHATLIST"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:visibility="gone">
 
             <ListView
                 android:id="@+id/LISTVIEW_CHATLIST"
