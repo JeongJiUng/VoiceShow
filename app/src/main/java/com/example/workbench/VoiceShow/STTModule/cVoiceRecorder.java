@@ -193,9 +193,10 @@ public class cVoiceRecorder
                     {
                         if (mLastVoiceHeardMillis == Long.MAX_VALUE)
                         {
+                            int tID = android.os.Process.getThreadPriority(android.os.Process.myTid());
+                            Log.i("STT Service Info", "onVoiceStart ["+tID+"]");
                             mVoiceStartedMillis = now;
                             mCallback.onVoiceStart();
-                            Log.d("Speech Debug", "onVoiceStart");
                         }
                         mCallback.onVoice(mBuffer, size);
                         mLastVoiceHeardMillis   = now;

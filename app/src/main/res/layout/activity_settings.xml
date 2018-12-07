@@ -19,13 +19,11 @@
             <ImageButton
                 android:id="@+id/SETTINGS_BACK_BUTTON"
                 android:layout_width="523dp"
+                android:scaleX="0.7"
+                android:scaleY="0.7"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginRight="25dp"
-                android:layout_weight="7"
-                android:background="@drawable/backspace" />
+                android:layout_weight="6"
+                android:background="@drawable/bnt_back" />
 
             <ImageView
                 android:layout_width="fill_parent"
@@ -56,36 +54,65 @@
             android:orientation="vertical"
             android:padding="2dp">
 
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1.5"
+                android:layout_height="100dp"
+                android:scaleX="0.95"
+                android:scaleY="0.95"
                 android:orientation="horizontal"
                 android:padding="2dp">
 
-                    <ImageView
-                        android:scaleX="0.8"
-                        android:scaleY="0.8"
-                        android:layout_weight="3"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/setting_icon"/>
-
-                    <Button
-                    android:id="@+id/SETTINGS_THEME"
+                <ImageView
+                    android:scaleX="0.8"
+                    android:scaleY="0.8"
+                    android:layout_weight="3"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="테마설정"
+                    android:background="@drawable/setting_icon"/>
+
+                <Button
+                    android:id="@+id/SETTINGS_CHATLETTER"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="글자수설정"
+                    android:textSize="40dp"
+                    android:onClick="setChatNum" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:scaleX="0.95"
+                android:scaleY="0.95"
+                android:orientation="horizontal"
+                android:padding="2dp">
+
+                <ImageView
+                    android:scaleX="0.8"
+                    android:scaleY="0.8"
+                    android:layout_weight="3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/setting_icon"/>
+
+                <Button
+                    android:id="@+id/SETTINGS_DEL_FREQ"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="삭제주기설정"
                     android:textSize="40dp"
                     android:layout_weight="1"
-                    android:onClick="openThemeActivity"/>
+                    android:onClick="setDeleteFrequency"/>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1.5"
+                android:layout_height="100dp"
                 android:orientation="horizontal"
+                android:scaleX="0.95"
+                android:scaleY="0.95"
                 android:padding="2dp">
 
                 <ImageView
@@ -97,88 +124,13 @@
                     android:background="@drawable/setting_icon"/>
 
                 <Button
-                android:id="@+id/SETTINGS_CHATLETTER"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="글자수설정"
-                android:textSize="40dp"
-                android:onClick="setChatNum" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1.5"
-                android:orientation="horizontal"
-                android:padding="2dp">
-
-                <ImageView
-                    android:scaleX="0.8"
-                    android:scaleY="0.8"
-                    android:layout_weight="3"
+                    android:id="@+id/SETTINGS_PASSWORD"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/setting_icon"/>
-
-                <Button
-                android:id="@+id/SETTINGS_DEL_FREQ"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="삭제주기설정"
-                android:textSize="40dp"
-                android:layout_weight="1"
-                android:onClick="setDeleteFrequency"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1.5"
-                android:orientation="horizontal"
-                android:padding="2dp">
-
-                <ImageView
-                    android:scaleX="0.8"
-                    android:scaleY="0.8"
-                    android:layout_weight="3"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/setting_icon"/>
-
-                <Button
-                android:id="@+id/SETTINGS_PASSWORD"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="보안설정"
-                android:textSize="40dp"
-                android:layout_weight="1"
-                android:onClick="setSecurity"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1.5"
-                android:orientation="horizontal"
-                android:padding="2dp">
-
-                <ImageView
-                    android:scaleX="0.8"
-                    android:scaleY="0.8"
-                    android:layout_weight="3"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/setting_icon"/>
-
-                <Button
-                android:id="@+id/SETTINGS_VERSION"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="버젼확인"
-                android:textSize="40dp"
-                android:layout_weight="1"
-                android:onClick="showVersion"/>
+                    android:text="보안설정"
+                    android:textSize="40dp"
+                    android:layout_weight="1"
+                    android:onClick="setSecurity"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

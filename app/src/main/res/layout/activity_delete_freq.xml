@@ -6,24 +6,24 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="280dp"
-        android:layout_height="250dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
         android:background="@color/colorWhite"
-        android:gravity="center"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteX="52dp"
-        tools:layout_editor_absoluteY="158dp">
+        android:orientation="vertical">
 
 
         <RadioGroup
-            android:id="@+id/radioGroup1"
+            android:id="@+id/radioGroup"
             android:layout_width="217dp"
             android:layout_height="wrap_content">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="34dp"
+                android:gravity="center"
                 android:text="삭제 주기"
+                android:layout_marginTop="50dp"
                 android:textColor="@color/colorAccent"
                 android:textSize="20dp" />
 
@@ -34,6 +34,7 @@
                 android:buttonTint="@color/colorAccent"
                 android:checked="true"
                 android:text="1주"
+                android:clickable="true"
                 android:textColor="@color/colorAccent" />
 
             <RadioButton
@@ -43,6 +44,7 @@
                 android:buttonTint="@color/colorAccent"
                 android:checked="false"
                 android:text="2주"
+                android:clickable="true"
                 android:textColor="@color/colorAccent" />
 
             <RadioButton
@@ -52,6 +54,7 @@
                 android:buttonTint="@color/colorAccent"
                 android:checked="false"
                 android:text="1달"
+                android:clickable="true"
                 android:textColor="@color/colorAccent" />
         </RadioGroup>
 

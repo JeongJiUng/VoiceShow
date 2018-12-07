@@ -60,8 +60,8 @@ import butterknife.ButterKnife;
 public class cCallBroadcastService extends Service
 {
     boolean                 isSave;
-    boolean                 isFirst_call = true;
-    boolean                 isFirst_recv = true;
+    boolean                 isFirst_call;
+    boolean                 isFirst_recv;
 
     Long                    mStartCalling;  // 통화 시작 시간
     String                  TAG = "PHONE_STATE_SERVICE";
@@ -111,11 +111,15 @@ public class cCallBroadcastService extends Service
                 }
                 case TelephonyManager.CALL_STATE_OFFHOOK:
                 {
-                    Date time = new Date();
-                    mStartCalling = time.getTime();
-                    isSave = true;
+                    if (isSave == false)
+                    {
+                        Date    time = new Date();
+                        mStartCalling   = time.getTime();
+                        isSave  = true;
 
-                    StartSTT();
+                        InitSTT();
+                        StartSTT();
+                    }
                     break;
                 }
             }
@@ -225,9 +229,14 @@ public class cCallBroadcastService extends Service
     @Override
     public void onCreate()
     {
+        Log.i("STT Service Info", "Service_onCreate()");
         super.onCreate();
         startForegroundService();
         initLayout();
+
+        isSave              = false;
+        isFirst_call        = true;
+        isFirst_recv        = true;
 
         // 채팅 UI 초기화
         mAdapter = new cCustomAdapter();
@@ -258,13 +267,12 @@ public class cCallBroadcastService extends Service
                 mRecvConditionRef.setValue(GetSpeechToTextResult());
             }
         };
-
-        InitSTT();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId)
     {
+        Log.i("STT Service Info", "Service_onStartCommand()");
         setExtra(intent);
 
         mRootRef            = FirebaseDatabase.getInstance().getReference();
@@ -345,6 +353,7 @@ public class cCallBroadcastService extends Service
 
     private void removeOverlay()
     {
+        Log.i("STT Service Info", "Service_removeOverlay()");
         StopSTT();
 
         if (mRootView != null && mWindowManager != null)
@@ -431,7 +440,7 @@ public class cCallBroadcastService extends Service
          */
         public void saveDataProc()
         {
-            String          id = mCallNumber + mStartCalling;
+            String          id = mCallNumber + "#" + mStartCalling; //#을 넣어 구분하엿다 id값
             mIDLISTPreferences  = getSharedPreferences(mIDLISTPrefName, MODE_PRIVATE);
             SharedPreferences.Editor    editor = mIDLISTPreferences.edit();
 
@@ -474,15 +483,15 @@ public class cCallBroadcastService extends Service
             {
                 if (mAdapter.getItem(i).mType == 1)
                 {
-                    Key_RecvText.add(mAdapter.getItem(i).mMsg+"+"+mAdapter.getItem(i).mDate.toString());
+                    Key_RecvText.add(mAdapter.getItem(i).mMsg+"@"+mAdapter.getItem(i).mDate.toString()); //더하기가 아니라 @로 바꿈
                 }
                 else
                 {
-                    Key_CallerText.add(mAdapter.getItem(i).mMsg+"+"+mAdapter.getItem(i).mDate.toString());
+                    Key_CallerText.add(mAdapter.getItem(i).mMsg+"@"+mAdapter.getItem(i).mDate.toString());
                 }
             }
 
-            editor.putStringSet(ID +"_RecvText", Key_RecvText);
+            editor.putStringSet(ID +"_ReceiveText", Key_RecvText); //오타수정
             editor.putStringSet(ID +"_CallerText", Key_CallerText);
             editor.commit();
         }

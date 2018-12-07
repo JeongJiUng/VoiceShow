@@ -11,6 +11,6 @@
 
     <!-- Loading theme. -->
     <style name="LoadingTheme" parent="Theme.Design.NoActionBar">
-        <item name="android:windowBackground">@drawable/loading_background</item>
+        <item name="android:windowBackground">@drawable/loading_purple</item>
     </style>
 </resources>

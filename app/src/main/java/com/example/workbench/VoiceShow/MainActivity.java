@@ -15,12 +15,15 @@ import android.widget.TextView;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.widget.Toast;
 
+import com.example.workbench.VoiceShow.Settings.PasswordActivity;
 import com.example.workbench.VoiceShow.Settings.PasswordCheckActivity;
 import com.example.workbench.VoiceShow.Settings.SettingsActivity;
-
 import java.util.ArrayList;
-
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener
 {
     private String          mPhoneNumber;                           // 핸드폰 번호 문자열
@@ -62,7 +65,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 기능 초기화
         CheckFirstTime();
-
         cSystemManager.getInstance().Initialize(this, getApplicationContext());
         cSystemManager.getInstance().GetSettings().Initialize();
     }
@@ -73,20 +75,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(com.example.workbench.VoiceShow.R.layout.activity_main);
 
-//        //로딩화면
-//        Intent intent = new Intent(this, LoadingActivity.class);
-//        startActivity(intent);
-
         TabLayout tabLayout = findViewById(R.id.tl_tabs);// 텝 레이아웃 을 찾아준다.
         ViewPager viewPager = findViewById(R.id.vp_pager); //뷰 페이져
         MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
 
-
         Initialize();
         getAddressBooks(); // 전화번호부 가져오기.
-        checkSecureOn(); //비밀번호 설정되어있는지 확인 후, 설정 되어있으면 암호 액티비티 발동
+        checkSecureOn();
        // startActivity(new Intent("android.intent.action.DIAL"));
     }
 
@@ -200,7 +197,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //연락처 id 값
             String id = c.getString(c.getColumnIndex(ContactsContract.Contacts._ID)); // 아이디 가져온다.
             String name = c.getString(c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME_PRIMARY)); //이름을 가져온다.
-
             nameList.add(name);
 
             Cursor phoneCursor = getContentResolver().query(
@@ -219,17 +215,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         c.close();
 
     }
+
+    // 주소록을 보내주는 함수.
     public  ArrayList getNames(){
         return this.nameList;
     }
-
     public ArrayList getNumbers(){
         return this.numberList;
     }
-
     public void checkSecureOn(){
-        if(cSystemManager.getInstance().GetSettings().GetEnabledSecure()){ //비밀번호 설정시 앱 실행 초기에 암호 확인 액티비티 발동
+
+        SharedPreferences s = getSharedPreferences("VoshowData", MODE_PRIVATE);
+        cSystemManager.getInstance().GetSettings().SetmbSecure(s.getBoolean("isPasswordCheck",false));
+        cSystemManager.getInstance().GetSettings().SetPassword(s.getString("password","-1111"));
+                if(cSystemManager.getInstance().GetSettings().GetEnabledSecure()){ //비밀번호 설정시 앱 실행 초기에 암호 확인 액티비티 발동
             startActivity(new Intent(MainActivity.this,PasswordCheckActivity.class));
         }
+    }
+
+    public ArrayList getChattingDataName(){
+        ArrayList<String> chattingName = new ArrayList<>();
+        Set<String> chattingData;
+        SharedPreferences sharedChattingData = getSharedPreferences("PREF_CHAT_ID_LIST",MODE_PRIVATE);
+
+        chattingData = (sharedChattingData.getStringSet("Key_ID_LIST", new HashSet<String>()));
+
+        Iterator<String> itr = chattingData.iterator();
+
+        while(itr.hasNext()){
+            chattingName.add(itr.next());
+        }
+
+        return chattingName;
     }
 }
