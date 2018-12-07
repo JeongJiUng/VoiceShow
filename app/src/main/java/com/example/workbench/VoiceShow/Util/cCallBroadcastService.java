@@ -9,6 +9,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.Handler;
@@ -25,12 +26,14 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -50,6 +53,10 @@ import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static java.lang.Math.abs;
+import static java.lang.Math.pow;
+import static java.lang.Math.sqrt;
 
 /**
  * 앱이 실행중이지 않은 경우에도 기능을 실행하기 위한 서비스
@@ -89,14 +96,12 @@ public class cCallBroadcastService extends Service
     TextView                mTvCallNumber;
     @BindView(R.id.BTN_MINIMUM)
     ImageButton             mBTN_Minimum;
-    @BindView(R.id.BTN_MAXIMUM)
-    ImageButton             mBTN_Maximum;
+    @BindView(R.id.IV_MAXIMUM)
+    ImageView               mIV_Maximum;
     @BindView(R.id.LISTVIEW_CHATLIST)
     ListView                mListView;
-    @BindView(R.id.LAYOUT_CHATLIST)
-    FrameLayout             mLayout_ChatList;
-    @BindView(R.id.LAYOUT_TITLE)
-    LinearLayout            mLayout_Title;
+    @BindView(R.id.LAYOUT_CHATPOPUP)
+    LinearLayout            mLayout_ChatPopup;
 
     TelephonyManager        mTelManager; // 안드로이드 폰의 전화 서비스에 대한 정보에 접근하기 위한 객체
     public PhoneStateListener   mPhoneStateListener = new PhoneStateListener()
@@ -139,31 +144,22 @@ public class cCallBroadcastService extends Service
     public void initLayout()
     {
         // 팝업으로 사용 될 Layout 크기 조정
-        mWindowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
-        Display display = mWindowManager.getDefaultDisplay();
-        int width = (int) (display.getWidth() * 0.9);    // Display 사이즈의 90%
+        mWindowManager      = (WindowManager) getSystemService(WINDOW_SERVICE);
+        mParams             = new WindowManager.LayoutParams(220,
+                                                                WindowManager.LayoutParams.WRAP_CONTENT,
+                                                                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,    // 오버레이 뷰를 사용하려면 TYPE_APPLICATION_OVERLAY 타입으로 하고, SYSTEM_ALERT_WINDOW 퍼미션과 ACTION_MANAGE_OVERLAY_PERMISSION를 줘야 함.
+                                                                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                                                                        WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON,
+                                                                PixelFormat.TRANSLUCENT);
 
-        mParams = new WindowManager.LayoutParams(width,
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,    // 오버레이 뷰를 사용하려면 TYPE_APPLICATION_OVERLAY 타입으로 하고, SYSTEM_ALERT_WINDOW 퍼미션과 ACTION_MANAGE_OVERLAY_PERMISSION를 줘야 함.
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
-                        WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON,
-                PixelFormat.TRANSLUCENT);
-
-        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        try
-        {
-            mRootView = layoutInflater.inflate(R.layout.overlay_chatview, null);
-        }
-        catch (Exception e)
-        {
-            Log.i("DEBUG", e.toString());
-        }
+        LayoutInflater      layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        mRootView           = layoutInflater.inflate(R.layout.overlay_chatview, null);
 
         try
         {
             ButterKnife.bind(this, mRootView);
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             Log.d(TAG, e.toString());
         }
@@ -175,30 +171,78 @@ public class cCallBroadcastService extends Service
             @Override
             public void onClick(View v)
             {
-                if (mLayout_ChatList.getVisibility() == View.VISIBLE)
-                    mLayout_ChatList.setVisibility(View.GONE);
+                mParams.width   = 220;
+                mWindowManager.updateViewLayout(mRootView, mParams);
 
-                if (mLayout_Title.getVisibility() == View.VISIBLE)
-                    mLayout_Title.setVisibility(View.GONE);
+                if (mLayout_ChatPopup.getVisibility() == View.VISIBLE)
+                    mLayout_ChatPopup.setVisibility(View.GONE);
 
-                if (mBTN_Maximum.getVisibility() == View.GONE)
-                    mBTN_Maximum.setVisibility(View.VISIBLE);
+                if (mIV_Maximum.getVisibility() == View.GONE)
+                    mIV_Maximum.setVisibility(View.VISIBLE);
             }
         });
 
-        mBTN_Maximum.setOnClickListener(new View.OnClickListener()
+        mIV_Maximum.setOnTouchListener(new View.OnTouchListener()
         {
+            boolean         bTouchEnable;
+
+            private double  moved;
+            private int     initialX;
+            private int     initialY;
+            private float   initialTouchX;
+            private float   initialTouchY;
+
             @Override
-            public void onClick(View v)
+            public boolean onTouch(View v, MotionEvent event)
             {
-                if (mLayout_ChatList.getVisibility() == View.GONE)
-                    mLayout_ChatList.setVisibility(View.VISIBLE);
+                switch (event.getAction())
+                {
+                    case MotionEvent.ACTION_DOWN:
+                        bTouchEnable    = true;
 
-                if (mLayout_Title.getVisibility() == View.GONE)
-                    mLayout_Title.setVisibility(View.VISIBLE);
+                        initialX = mParams.x;
+                        initialY = mParams.y;
+                        initialTouchX = event.getRawX();
+                        initialTouchY = event.getRawY();
 
-                if (mBTN_Maximum.getVisibility() == View.VISIBLE)
-                    mBTN_Maximum.setVisibility(View.GONE);
+                        moved   = sqrt(pow(initialTouchX, 2) + pow(initialTouchY, 2));
+                        return true;
+
+                    case MotionEvent.ACTION_UP:
+                        if (bTouchEnable == true)
+                        {
+                            Display display = mWindowManager.getDefaultDisplay();
+                            int width   = (int) (display.getWidth() * 0.9);    // Display 사이즈의 90%
+                            mParams.width   = width;
+                            mWindowManager.updateViewLayout(mRootView, mParams);
+
+                            if (mLayout_ChatPopup.getVisibility() == View.GONE)
+                                mLayout_ChatPopup.setVisibility(View.VISIBLE);
+
+                            if (mIV_Maximum.getVisibility() == View.VISIBLE)
+                                mIV_Maximum.setVisibility(View.GONE);
+                            bTouchEnable    = false;
+                        }
+                        return true;
+
+                    case MotionEvent.ACTION_MOVE:
+                        double  older = moved;
+                        moved   = sqrt(pow(event.getRawX(), 2) + pow(event.getRawY(), 2));
+                        Log.i("TEST_DEBUG", "Move ==> " + (moved - older));
+
+                        if ( abs(moved - older) > 1)
+                        {
+                            bTouchEnable    = false;
+
+                            mParams.x = initialX + (int) (event.getRawX() - initialTouchX);
+                            mParams.y = initialY + (int) (event.getRawY() - initialTouchY);
+
+                            if (mRootView != null)
+                                mWindowManager.updateViewLayout(mRootView, mParams);
+                        }
+                        return true;
+                }
+                return false;
             }
         });
     }
