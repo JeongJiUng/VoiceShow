@@ -97,7 +97,7 @@ public class ChattingRoomAdapter extends BaseAdapter {
         text.setText(chattingList.get(pos).msg);
 
         if(chattingList.get(position).type == 0){
-            text.setBackgroundResource(R.drawable.inbox2);
+            text.setBackgroundResource(R.drawable.inbox4);
             layout.setGravity(Gravity.LEFT);
             viewRight.setVisibility(View.GONE);
             viewLeft.setVisibility(View.GONE);
@@ -113,23 +113,24 @@ public class ChattingRoomAdapter extends BaseAdapter {
             viewLeft.setVisibility(View.VISIBLE);
         }
 
-        convertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //터치 시 해당 아이템 이름 출력
-                Toast.makeText(context,"리스트 클릭 : " +chattingList.get(pos), Toast.LENGTH_SHORT).show();
-            }
-        });
-        //길게 눌렀을 경우
-        convertView.setOnLongClickListener(new View.OnLongClickListener() {
-
-            @Override
-            public boolean onLongClick(View v) {
-                // 터치 시 해당 아이템 이름 출력
-                Toast.makeText(context, "리스트 롱 클릭 : "+chattingList.get(pos), Toast.LENGTH_SHORT).show();
-                return true;
-            }
-        });
+//        convertView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //터치 시 해당 아이템 이름 출력
+//                String talk = get
+//                Toast.makeText(context,"리스트 클릭 : " +chattingList.get(pos), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//        //길게 눌렀을 경우
+//        convertView.setOnLongClickListener(new View.OnLongClickListener() {
+//
+//            @Override
+//            public boolean onLongClick(View v) {
+//                // 터치 시 해당 아이템 이름 출력
+//                Toast.makeText(context, "리스트 롱 클릭 : "+chattingList.get(pos), Toast.LENGTH_SHORT).show();
+//                return true;
+//            }
+//        });
 
         return convertView;
     }

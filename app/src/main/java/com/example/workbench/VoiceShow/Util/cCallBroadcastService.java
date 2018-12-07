@@ -9,6 +9,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.Handler;
@@ -16,6 +17,7 @@ import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.telephony.PhoneNumberUtils;
@@ -24,11 +26,15 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -47,6 +53,10 @@ import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static java.lang.Math.abs;
+import static java.lang.Math.pow;
+import static java.lang.Math.sqrt;
 
 /**
  * 앱이 실행중이지 않은 경우에도 기능을 실행하기 위한 서비스
@@ -84,10 +94,14 @@ public class cCallBroadcastService extends Service
 
     @BindView(R.id.CALL_NUMBER)
     TextView                mTvCallNumber;
-    @BindView(R.id.BTN_CLOSE)
-    ImageButton             mCloseBtn;
+    @BindView(R.id.BTN_MINIMUM)
+    ImageButton             mBTN_Minimum;
+    @BindView(R.id.IV_MAXIMUM)
+    ImageView               mIV_Maximum;
     @BindView(R.id.LISTVIEW_CHATLIST)
     ListView                mListView;
+    @BindView(R.id.LAYOUT_CHATPOPUP)
+    LinearLayout            mLayout_ChatPopup;
 
     TelephonyManager        mTelManager; // 안드로이드 폰의 전화 서비스에 대한 정보에 접근하기 위한 객체
     public PhoneStateListener   mPhoneStateListener = new PhoneStateListener()
@@ -130,37 +144,105 @@ public class cCallBroadcastService extends Service
     public void initLayout()
     {
         // 팝업으로 사용 될 Layout 크기 조정
-        mWindowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
-        Display display = mWindowManager.getDefaultDisplay();
-        int width = (int) (display.getWidth() * 0.9);    // Display 사이즈의 90%
+        mWindowManager      = (WindowManager) getSystemService(WINDOW_SERVICE);
+        mParams             = new WindowManager.LayoutParams(220,
+                                                                WindowManager.LayoutParams.WRAP_CONTENT,
+                                                                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,    // 오버레이 뷰를 사용하려면 TYPE_APPLICATION_OVERLAY 타입으로 하고, SYSTEM_ALERT_WINDOW 퍼미션과 ACTION_MANAGE_OVERLAY_PERMISSION를 줘야 함.
+                                                                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                                                                        WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON,
+                                                                PixelFormat.TRANSLUCENT);
 
-        mParams = new WindowManager.LayoutParams(width,
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,    // 오버레이 뷰를 사용하려면 TYPE_APPLICATION_OVERLAY 타입으로 하고, SYSTEM_ALERT_WINDOW 퍼미션과 ACTION_MANAGE_OVERLAY_PERMISSION를 줘야 함.
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
-                        WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON,
-                PixelFormat.TRANSLUCENT);
-
-        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        mRootView = layoutInflater.inflate(R.layout.overlay_chatview, null);
+        LayoutInflater      layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        mRootView           = layoutInflater.inflate(R.layout.overlay_chatview, null);
 
         try
         {
             ButterKnife.bind(this, mRootView);
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             Log.d(TAG, e.toString());
         }
 
         setDraggable();
 
-        // 종료버튼 리스너 등록
-        mCloseBtn.setOnClickListener(new View.OnClickListener()
+        mBTN_Minimum.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                //removeOverlay();
+                mParams.width   = 220;
+                mWindowManager.updateViewLayout(mRootView, mParams);
+
+                if (mLayout_ChatPopup.getVisibility() == View.VISIBLE)
+                    mLayout_ChatPopup.setVisibility(View.GONE);
+
+                if (mIV_Maximum.getVisibility() == View.GONE)
+                    mIV_Maximum.setVisibility(View.VISIBLE);
+            }
+        });
+
+        mIV_Maximum.setOnTouchListener(new View.OnTouchListener()
+        {
+            boolean         bTouchEnable;
+
+            private double  moved;
+            private int     initialX;
+            private int     initialY;
+            private float   initialTouchX;
+            private float   initialTouchY;
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event)
+            {
+                switch (event.getAction())
+                {
+                    case MotionEvent.ACTION_DOWN:
+                        bTouchEnable    = true;
+
+                        initialX = mParams.x;
+                        initialY = mParams.y;
+                        initialTouchX = event.getRawX();
+                        initialTouchY = event.getRawY();
+
+                        moved   = sqrt(pow(initialTouchX, 2) + pow(initialTouchY, 2));
+                        return true;
+
+                    case MotionEvent.ACTION_UP:
+                        if (bTouchEnable == true)
+                        {
+                            Display display = mWindowManager.getDefaultDisplay();
+                            int width   = (int) (display.getWidth() * 0.9);    // Display 사이즈의 90%
+                            mParams.width   = width;
+                            mWindowManager.updateViewLayout(mRootView, mParams);
+
+                            if (mLayout_ChatPopup.getVisibility() == View.GONE)
+                                mLayout_ChatPopup.setVisibility(View.VISIBLE);
+
+                            if (mIV_Maximum.getVisibility() == View.VISIBLE)
+                                mIV_Maximum.setVisibility(View.GONE);
+                            bTouchEnable    = false;
+                        }
+                        return true;
+
+                    case MotionEvent.ACTION_MOVE:
+                        double  older = moved;
+                        moved   = sqrt(pow(event.getRawX(), 2) + pow(event.getRawY(), 2));
+                        Log.i("TEST_DEBUG", "Move ==> " + (moved - older));
+
+                        if ( abs(moved - older) > 1)
+                        {
+                            bTouchEnable    = false;
+
+                            mParams.x = initialX + (int) (event.getRawX() - initialTouchX);
+                            mParams.y = initialY + (int) (event.getRawY() - initialTouchY);
+
+                            if (mRootView != null)
+                                mWindowManager.updateViewLayout(mRootView, mParams);
+                        }
+                        return true;
+                }
+                return false;
             }
         });
     }
@@ -262,8 +344,6 @@ public class cCallBroadcastService extends Service
             public void GetResultText()
             {
                 super.GetResultText();
-                //mAdapter.addItem(GetSpeechToTextResult(), 1, new Date().getTime());
-                //refreshLsitView();
                 mRecvConditionRef.setValue(GetSpeechToTextResult());
             }
         };
@@ -279,6 +359,10 @@ public class cCallBroadcastService extends Service
         mRecvConditionRef   = mRootRef.child(mMyNumber);
         mRecvConditionRef.addValueEventListener(new ValueEventListener()
         {
+            /***
+             * 연결되어 있는 파이어베이스에 있는 데이터가 변경될 때 마다 호출된다.
+             * @param dataSnapshot
+             */
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
             {
@@ -290,7 +374,7 @@ public class cCallBroadcastService extends Service
 
                 String      text = dataSnapshot.getValue(String.class);
                 mAdapter.addItem(text, 1, new Date().getTime());
-                refreshLsitView();
+                refreshListView();
             }
 
             @Override
@@ -303,6 +387,10 @@ public class cCallBroadcastService extends Service
         mCallerConditionRef = mRootRef.child(mCallNumber);
         mCallerConditionRef.addValueEventListener(new ValueEventListener()
         {
+            /***
+             * 연결되어 있는 파이어베이스에 있는 데이터가 변경될 때 마다 호출된다.
+             * @param dataSnapshot
+             */
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
             {
@@ -314,7 +402,7 @@ public class cCallBroadcastService extends Service
 
                 String      text = dataSnapshot.getValue(String.class);
                 mAdapter.addItem(text, 0, new Date().getTime());
-                refreshLsitView();
+                refreshListView();
             }
 
             @Override
@@ -354,8 +442,6 @@ public class cCallBroadcastService extends Service
     private void removeOverlay()
     {
         Log.i("STT Service Info", "Service_removeOverlay()");
-        StopSTT();
-
         if (mRootView != null && mWindowManager != null)
         {
             mWindowManager.removeView(mRootView);
@@ -363,14 +449,17 @@ public class cCallBroadcastService extends Service
 
             if (isSave == true)
             {
-                cSaveData   save = new cSaveData();
-                save.saveDataProc();
-                isSave  = false;
+                Thread      tSave = new Thread(new cSaveData());
+                tSave.run();
+                //cSaveData   save = new cSaveData();
+                //save.saveDataProc();
+                //isSave  = false;
             }
 
             stopForeground(true);
             stopSelf();
         }
+        StopSTT();
     }
 
     /**
@@ -390,7 +479,7 @@ public class cCallBroadcastService extends Service
         }
     };
 
-    private void refreshLsitView()
+    private void refreshListView()
     {
         Message         msg = mHandler.obtainMessage();
         mHandler.sendMessage(msg);
@@ -424,7 +513,7 @@ public class cCallBroadcastService extends Service
     /**
      * 채팅 리스트 저장용 클래스. 이 클레스는 데이터 저장기능만을 한다.
      */
-    private class cSaveData
+    private class cSaveData implements Runnable
     {
         String                  KEY_CHAT_COUNT = "Key_ID_LIST";             // 채팅 ID 리스트 [Key_ID_LIST] => {폰번호+날짜데이터, 폰번호+날짜데이터}
         String                  KEY = "Key_";                               // 채팅 ID, [Key_%] => Key_(폰번호+날짜데이터)
@@ -494,6 +583,12 @@ public class cCallBroadcastService extends Service
             editor.putStringSet(ID +"_ReceiveText", Key_RecvText); //오타수정
             editor.putStringSet(ID +"_CallerText", Key_CallerText);
             editor.commit();
+        }
+
+        @Override
+        public void run()
+        {
+            saveDataProc();
         }
     }
 }

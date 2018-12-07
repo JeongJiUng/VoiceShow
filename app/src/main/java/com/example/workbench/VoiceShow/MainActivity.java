@@ -15,9 +15,6 @@ import android.widget.TextView;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.widget.Toast;
-
-import com.example.workbench.VoiceShow.Settings.PasswordActivity;
 import com.example.workbench.VoiceShow.Settings.PasswordCheckActivity;
 import com.example.workbench.VoiceShow.Settings.SettingsActivity;
 import java.util.ArrayList;
@@ -48,7 +45,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             SharedPreferences.Editor    editor = pref.edit();
             editor.putBoolean("isFirst", true);
             editor.commit();
-
             // 앱 최초 실행시 수행할 작업
         }
         else
@@ -65,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 기능 초기화
         CheckFirstTime();
+
         cSystemManager.getInstance().Initialize(this, getApplicationContext());
         cSystemManager.getInstance().GetSettings().Initialize();
     }
@@ -83,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Initialize();
         getAddressBooks(); // 전화번호부 가져오기.
-        checkSecureOn();
+        checkSecureOn(); //비밀번호 설정되어있는지 확인 후, 설정 되어있으면 암호 액티비티 발동
        // startActivity(new Intent("android.intent.action.DIAL"));
     }
 
@@ -104,14 +101,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         {
             case R.id.BACK_SPACE:
                 // 핸드폰번호 뒤에서 하나씩 지움.
-                //int         len = mPhoneNumber.length();
-                //mPhoneNumber.substring()
+                if(mPhoneNumber.length()>0){
+                    mPhoneNumber = mPhoneNumber.substring(0,mPhoneNumber.length()-1);
+                }
                 //.getInstance().GetSTTModule().onStart();
                 break;
 
-            case R.id.ADD_PHONE_NUM:
-                //cSystemManager.getInstance().GetSTTModule().onStop();
-                break;
+//            case R.id.ADD_PHONE_NUM:
+//                //cSystemManager.getInstance().GetSTTModule().onStop();
+//                break;
 
             case R.id.KEYPAD_0:
                 mPhoneNumber    += "0";
@@ -165,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.KEYPAD_HIDE:
                 // 키 패드 활성/비활성
-                mKeyPadLayout.setVisibility(View.GONE);
+                //mKeyPadLayout.setVisibility(View.GONE);
                 break;
 
             case R.id.TEXT_PHONE_NUM:
@@ -228,11 +226,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SharedPreferences s = getSharedPreferences("VoshowData", MODE_PRIVATE);
         cSystemManager.getInstance().GetSettings().SetmbSecure(s.getBoolean("isPasswordCheck",false));
         cSystemManager.getInstance().GetSettings().SetPassword(s.getString("password","-1111"));
-                if(cSystemManager.getInstance().GetSettings().GetEnabledSecure()){ //비밀번호 설정시 앱 실행 초기에 암호 확인 액티비티 발동
+        if(cSystemManager.getInstance().GetSettings().GetEnabledSecure()){ //비밀번호 설정시 앱 실행 초기에 암호 확인 액티비티 발동
             startActivity(new Intent(MainActivity.this,PasswordCheckActivity.class));
         }
     }
-
     public ArrayList getChattingDataName(){
         ArrayList<String> chattingName = new ArrayList<>();
         Set<String> chattingData;

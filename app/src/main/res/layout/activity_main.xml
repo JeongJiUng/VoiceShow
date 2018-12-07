@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:minHeight="17dp"
     tools:context=".MainActivity"
+    android:background="#ffffff"
     tools:layout_editor_absoluteY="73dp">
 
     <ImageView
@@ -14,7 +15,7 @@
         android:layout_width="150dp"
         android:layout_centerHorizontal="true"
         android:layout_height="30dp"
-        android:src="@drawable/logo"
+        android:src="@drawable/voshow_black"
         />
 
     <ImageView
@@ -27,15 +28,17 @@
         android:layout_height="30dp"
         android:clickable="true"
         android:onClick="MoveToSettings"
-        android:src="@drawable/option_button"/>
+        android:src="@drawable/setting_icon_black"/>
 
     <android.support.design.widget.TabLayout
         android:layout_below="@+id/voshow"
         android:id="@+id/tl_tabs"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        app:tabTextColor="#000000"/>
 
     <android.support.v4.view.ViewPager
+        android:background="#fdf4ff"
         android:layout_below="@+id/tl_tabs"
         android:id="@+id/vp_pager"
         android:layout_width="match_parent"

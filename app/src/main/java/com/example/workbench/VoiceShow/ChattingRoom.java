@@ -4,32 +4,53 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.protobuf.StringValue;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
 public class ChattingRoom extends AppCompatActivity {
 
-    ListView chattingRoomView;
-    ChattingRoomAdapter chattingRoomAdapter;
-    String chattingID;
-    ArrayList<ChattingData> chattingData;
+    private ListView chattingRoomView;
+    private ChattingRoomAdapter chattingRoomAdapter;
+    private ArrayList<ChattingData> chattingData;
+    private String chattingID;
+    private String chattingName;
+    private Long chattingTime;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ArrayList<String> callerData;
         ArrayList<String> receiverData;
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatting_room);
 
-        //ChattingFragment에서의 ID값을 넘겨 받는다.
+        //textView
+        TextView textView = (TextView)findViewById(R.id.chattingRoomText);
+        TextView textViewTime = (TextView)findViewById(R.id.chattingRoomTextTime);
+
+        //ChattingFragment에서의 ID, 이름, 시간값을 넘겨 받는다.
         Intent intent = getIntent();
         chattingID = intent.getExtras().getString("ID");
+        chattingName = intent.getStringExtra("NAME");
+        chattingTime = intent.getLongExtra("NTIME",0);
+
+        //시간 바꾸는 역할
+        Date date = new Date(chattingTime);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+        String getTime = simpleDateFormat.format(date);
+
+        //텍스트 뷰에 올린다.
+        textView.setText(chattingName + "님과의 대화입니다.");
+        textViewTime.setText(getTime);
 
         //커스텀 어댑터 생성
         chattingRoomAdapter = new ChattingRoomAdapter();
@@ -121,4 +142,5 @@ public class ChattingRoom extends AppCompatActivity {
             this.who = who;
         }
     }
+
 }

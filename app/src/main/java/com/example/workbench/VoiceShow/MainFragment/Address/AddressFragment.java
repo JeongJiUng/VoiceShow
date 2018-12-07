@@ -51,13 +51,10 @@ public class AddressFragment extends ListFragment {
         for(int i = 0; i<phoneNumberList.size();i++){
             adapter.setAddressOnClick(tel);
 
-            adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.profileimg),
+            adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.profileimg_purple),
                     phoneNameList.get(i).toString(),
                     phoneNumberList.get(i),
-                    ContextCompat.getDrawable(getActivity(), R.drawable.calling_icon_white),
-                    ContextCompat.getDrawable(getActivity(), R.drawable.chatting_icon_white));
-
-
+                    ContextCompat.getDrawable(getActivity(), R.drawable.dial_calling_black));
         }
 
 
