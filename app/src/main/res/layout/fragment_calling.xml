@@ -59,174 +59,189 @@
         android:id="@+id/LAYOUT_KEYPAD"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="5dp"
         android:layout_weight="1"
-       android:layout_margin="5dp"
         android:paddingLeft="10dp"
         android:paddingTop="10dp"
         android:paddingRight="10dp">
-        <TableRow>
+
+        <TableRow android:layout_weight="1">
+
             <Button
                 android:id="@+id/KEYPAD_1"
-                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:background="@drawable/dial_btn_bg"
-                android:text="1"
-                android:padding="2dp"
-                android:textColor="#000000"
                 android:onClick="onClick"
+                android:padding="2dp"
+                android:text="1"
+                android:textColor="#000000"
                 android:textSize="42sp" />
+
             <Button
                 android:id="@+id/KEYPAD_2"
-                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:text="2"
-                android:textSize="42sp"
-                android:padding="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/dial_btn_bg"
                 android:onClick="onClick"
+                android:padding="2dp"
+                android:text="2"
                 android:textColor="#000000"
-                android:background="@drawable/dial_btn_bg"/>
+                android:textSize="42sp" />
+
             <Button
                 android:id="@+id/KEYPAD_3"
-                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:text="3"
-                android:textSize="42sp"
+                android:layout_weight="1"
+                android:background="@drawable/dial_btn_bg"
                 android:onClick="onClick"
                 android:padding="2dp"
+                android:text="3"
                 android:textColor="#000000"
-                android:background="@drawable/dial_btn_bg"/>
+                android:textSize="42sp" />
         </TableRow>
-        <TableRow>
+
+        <TableRow android:layout_weight="1">
 
             <Button
                 android:id="@+id/KEYPAD_4"
-                android:layout_weight="1"
                 android:layout_width="match_parent"
-                android:padding="2dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:background="@drawable/dial_btn_bg"
+                android:onClick="onClick"
+                android:padding="2dp"
                 android:text="4"
                 android:textColor="#000000"
-                android:onClick="onClick"
                 android:textSize="42sp" />
+
             <Button
                 android:id="@+id/KEYPAD_5"
-                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:text="5"
-                android:textSize="42sp"
-                android:textColor="#000000"
+                android:layout_weight="1"
+                android:background="@drawable/dial_btn_bg"
                 android:onClick="onClick"
-                android:background="@drawable/dial_btn_bg"/>
+                android:text="5"
+                android:textColor="#000000"
+                android:textSize="42sp" />
+
             <Button
                 android:id="@+id/KEYPAD_6"
-                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:text="6"
-                android:textSize="42sp"
-                android:textColor="#000000"
+                android:layout_weight="1"
+                android:background="@drawable/dial_btn_bg"
                 android:onClick="onClick"
-                android:background="@drawable/dial_btn_bg"/>
+                android:text="6"
+                android:textColor="#000000"
+                android:textSize="42sp" />
         </TableRow>
-        <TableRow>
+
+        <TableRow android:layout_weight="1">
 
             <Button
                 android:id="@+id/KEYPAD_7"
-                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="2dp"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:background="@drawable/dial_btn_bg"
                 android:onClick="onClick"
+                android:padding="2dp"
                 android:text="7"
                 android:textColor="#000000"
                 android:textSize="42sp" />
+
             <Button
                 android:id="@+id/KEYPAD_8"
-                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:text="8"
-                android:textSize="42sp"
-                android:textColor="#000000"
+                android:layout_weight="1"
+                android:background="@drawable/dial_btn_bg"
                 android:onClick="onClick"
-                android:background="@drawable/dial_btn_bg"/>
+                android:text="8"
+                android:textColor="#000000"
+                android:textSize="42sp" />
+
             <Button
                 android:id="@+id/KEYPAD_9"
-                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:text="9"
-                android:textSize="42sp"
-                android:textColor="#000000"
+                android:layout_weight="1"
+                android:background="@drawable/dial_btn_bg"
                 android:onClick="onClick"
-                android:background="@drawable/dial_btn_bg"/>
+                android:text="9"
+                android:textColor="#000000"
+                android:textSize="42sp" />
         </TableRow>
-        <TableRow>
+
+        <TableRow android:layout_weight="1">
 
             <Button
                 android:id="@+id/KEYPAD_STAR"
-                android:layout_weight="1"
-                android:padding="2dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:background="#ffffff"
+                android:onClick="onClick"
+                android:padding="2dp"
                 android:text="*"
                 android:textColor="#000000"
-                android:onClick="onClick"
                 android:textSize="42sp" />
+
             <Button
                 android:id="@+id/KEYPAD_0"
-                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:text="0"
-                android:textSize="42sp"
-                android:textColor="#000000"
+                android:layout_weight="1"
+                android:background="@drawable/dial_btn_bg"
                 android:onClick="onClick"
-                android:background="@drawable/dial_btn_bg"/>
+                android:text="0"
+                android:textColor="#000000"
+                android:textSize="42sp" />
+
             <Button
                 android:id="@+id/KEYPAD_SHAP"
-                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:text="#"
-                android:textSize="42sp"
-                android:textColor="#000000"
+                android:layout_weight="1"
+                android:background="@drawable/dial_btn_bg"
                 android:onClick="onClick"
-                android:background="@drawable/dial_btn_bg"/>
+                android:text="#"
+                android:textColor="#000000"
+                android:textSize="42sp" />
         </TableRow>
+
         <TableRow
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="5dp"
+            android:layout_weight="1">
 
             <Button
                 android:id="@+id/KEYPAD_VCALL"
-                android:layout_weight="1"
-                android:padding="2dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:background="#ffffff"
+                android:onClick="onClick"
+                android:padding="2dp"
                 android:text=""
                 android:textColor="#000000"
-                android:onClick="onClick"
                 android:textSize="42sp" />
 
             <ImageButton
@@ -240,16 +255,17 @@
                 android:scaleType="fitCenter"
                 android:src="@drawable/dial_calling_black"
                 android:textColor="#000000" />
+
             <Button
                 android:id="@+id/KEYPAD_HIDE"
-                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:textSize="42sp"
-                android:textColor="#000000"
+                android:layout_weight="1"
+                android:background="#ffffff"
                 android:onClick="onClick"
-                android:background="#ffffff"/>
+                android:textColor="#000000"
+                android:textSize="42sp" />
         </TableRow>
     </TableLayout>
 </LinearLayout>
