@@ -101,14 +101,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         {
             case R.id.BACK_SPACE:
                 // 핸드폰번호 뒤에서 하나씩 지움.
-                //int         len = mPhoneNumber.length();
-                //mPhoneNumber.substring()
+                if(mPhoneNumber.length()>0){
+                    mPhoneNumber = mPhoneNumber.substring(0,mPhoneNumber.length()-1);
+                }
                 //.getInstance().GetSTTModule().onStart();
                 break;
 
-            case R.id.ADD_PHONE_NUM:
-                //cSystemManager.getInstance().GetSTTModule().onStop();
-                break;
+//            case R.id.ADD_PHONE_NUM:
+//                //cSystemManager.getInstance().GetSTTModule().onStop();
+//                break;
 
             case R.id.KEYPAD_0:
                 mPhoneNumber    += "0";
@@ -162,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.KEYPAD_HIDE:
                 // 키 패드 활성/비활성
-                mKeyPadLayout.setVisibility(View.GONE);
+                //mKeyPadLayout.setVisibility(View.GONE);
                 break;
 
             case R.id.TEXT_PHONE_NUM:

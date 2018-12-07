@@ -8,7 +8,6 @@ public class AddressListViewItem {
     private String name;
     private String number;
     private Drawable addressCalling;
-    private Drawable addressChatting;
 
     public void setIcon(Drawable icon){
         iconDrawable = icon;
@@ -21,8 +20,6 @@ public class AddressListViewItem {
         }
         public void setAddressCalling(Drawable addressCalling){
             this.addressCalling = addressCalling;
-        }public void setAddressChatting(Drawable addressChatting){
-            this.addressChatting = addressChatting;
     }
 
     public Drawable getIcon(){
@@ -36,8 +33,5 @@ public class AddressListViewItem {
     }
     public Drawable getAddressCalling(){
         return this.addressCalling;
-    }
-    public Drawable getAddressChatting(){
-        return this.addressChatting;
     }
 }

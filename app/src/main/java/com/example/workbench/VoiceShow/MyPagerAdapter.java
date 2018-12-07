@@ -23,7 +23,7 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
         mainPage = new ArrayList<>();
         mainPage.add(new CallingFragment());
         mainPage.add(new AddressFragment());
-        mainPage.add(new RecentFragment());
+        //mainPage.add(new RecentFragment());
         mainPage.add(new ChattingFragment());
     }
 

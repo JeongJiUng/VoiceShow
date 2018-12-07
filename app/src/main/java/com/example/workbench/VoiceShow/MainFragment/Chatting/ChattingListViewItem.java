@@ -18,9 +18,6 @@ public class ChattingListViewItem {
         public void setInfo(String Info){
             this.Info = Info;
         }
-        public void setGoToChattingRoom(Drawable goToChattingRoom){
-            this.goToChattingRoom = goToChattingRoom;
-        }
 
     public Drawable getIcon(){
         return this.iconDrawable;
@@ -30,8 +27,5 @@ public class ChattingListViewItem {
     }
     public String getInfo(){
         return this.Info;
-    }
-    public Drawable getGoToChattingRoom(){
-        return this.goToChattingRoom;
     }
 }
