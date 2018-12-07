@@ -20,6 +20,7 @@ import com.example.workbench.VoiceShow.cSystemManager;
  */
 public class cCallBroadcastReceiver extends BroadcastReceiver
 {
+    private static boolean  bEnable = false;                                                        // 어플리케이션이 실행되고 있을 때 전화 통화를 하면 서비스가 2개 생성되어 음성인식이 2개가 되는 현상을 해결하기 위한 변수.
     boolean                 isFirst = true;                                                         // 본인이 전화를 걸때는 OFFHOOK으로, 전화가 왔을 때는 RINGING으로 통화 상태가 넘어옴. 이걸 구분해서 서비스에 연결하기 위해 해당 변수 추가.
     String                  TAG = "PHONE_STATE_RECEIVER";
 
@@ -44,6 +45,10 @@ public class cCallBroadcastReceiver extends BroadcastReceiver
 
         if (state.equals(TelephonyManager.EXTRA_STATE_RINGING))
         {
+            // 서비스가 생성된 상태라면 아래 로직을 수행하지 않는다.
+            if (bEnable == true)
+                return;
+
             // 전화가 왔을 때
             String          incomingNumber = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER); // 전화 온 번호
             //String          incomingNumber = "01089471758";                                                     // 테스트용 임시
@@ -56,10 +61,12 @@ public class cCallBroadcastReceiver extends BroadcastReceiver
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
                 {
                     context.startForegroundService(serviceIntent);                                              // 포어그라운드 서비스 시작
+                    bEnable = true;
                 }
                 else
                 {
                     context.startService(serviceIntent);                                                        // 서비스 시작
+                    bEnable = true;
                 }
             }
             catch (Exception e)
@@ -71,6 +78,10 @@ public class cCallBroadcastReceiver extends BroadcastReceiver
         }
         else if (state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK))
         {
+            // 서비스가 생성된 상태라면 아래 로직을 수행하지 않는다.
+            if (bEnable == true)
+                return;
+
             if (isFirst == true)
             {
                 String          incomingNumber = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER); // 전화 온 번호
@@ -84,10 +95,12 @@ public class cCallBroadcastReceiver extends BroadcastReceiver
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
                     {
                         context.startForegroundService(serviceIntent);                                          // 포어그라운드 서비스 시작
+                        bEnable = true;
                     }
                     else
                     {
                         context.startService(serviceIntent);                                                    // 서비스 시작
+                        bEnable = true;
                     }
                 }
                 catch (Exception e)
@@ -98,6 +111,7 @@ public class cCallBroadcastReceiver extends BroadcastReceiver
         }
         else if (state.equals(TelephonyManager.EXTRA_STATE_IDLE))
         {
+            bEnable         = false;
             isFirst         = true;
         }
     }

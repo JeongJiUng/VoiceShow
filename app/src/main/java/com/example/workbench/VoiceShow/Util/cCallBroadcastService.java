@@ -16,6 +16,7 @@ import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.telephony.PhoneNumberUtils;
@@ -28,7 +29,9 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -84,10 +87,16 @@ public class cCallBroadcastService extends Service
 
     @BindView(R.id.CALL_NUMBER)
     TextView                mTvCallNumber;
-    @BindView(R.id.BTN_CLOSE)
-    ImageButton             mCloseBtn;
+    @BindView(R.id.BTN_MINIMUM)
+    ImageButton             mBTN_Minimum;
+    @BindView(R.id.BTN_MAXIMUM)
+    ImageButton             mBTN_Maximum;
     @BindView(R.id.LISTVIEW_CHATLIST)
     ListView                mListView;
+    @BindView(R.id.LAYOUT_CHATLIST)
+    FrameLayout             mLayout_ChatList;
+    @BindView(R.id.LAYOUT_TITLE)
+    LinearLayout            mLayout_Title;
 
     TelephonyManager        mTelManager; // 안드로이드 폰의 전화 서비스에 대한 정보에 접근하기 위한 객체
     public PhoneStateListener   mPhoneStateListener = new PhoneStateListener()
@@ -142,7 +151,14 @@ public class cCallBroadcastService extends Service
                 PixelFormat.TRANSLUCENT);
 
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        mRootView = layoutInflater.inflate(R.layout.overlay_chatview, null);
+        try
+        {
+            mRootView = layoutInflater.inflate(R.layout.overlay_chatview, null);
+        }
+        catch (Exception e)
+        {
+            Log.i("DEBUG", e.toString());
+        }
 
         try
         {
@@ -154,13 +170,35 @@ public class cCallBroadcastService extends Service
 
         setDraggable();
 
-        // 종료버튼 리스너 등록
-        mCloseBtn.setOnClickListener(new View.OnClickListener()
+        mBTN_Minimum.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                //removeOverlay();
+                if (mLayout_ChatList.getVisibility() == View.VISIBLE)
+                    mLayout_ChatList.setVisibility(View.GONE);
+
+                if (mLayout_Title.getVisibility() == View.VISIBLE)
+                    mLayout_Title.setVisibility(View.GONE);
+
+                if (mBTN_Maximum.getVisibility() == View.GONE)
+                    mBTN_Maximum.setVisibility(View.VISIBLE);
+            }
+        });
+
+        mBTN_Maximum.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if (mLayout_ChatList.getVisibility() == View.GONE)
+                    mLayout_ChatList.setVisibility(View.VISIBLE);
+
+                if (mLayout_Title.getVisibility() == View.GONE)
+                    mLayout_Title.setVisibility(View.VISIBLE);
+
+                if (mBTN_Maximum.getVisibility() == View.VISIBLE)
+                    mBTN_Maximum.setVisibility(View.GONE);
             }
         });
     }
@@ -262,8 +300,6 @@ public class cCallBroadcastService extends Service
             public void GetResultText()
             {
                 super.GetResultText();
-                //mAdapter.addItem(GetSpeechToTextResult(), 1, new Date().getTime());
-                //refreshLsitView();
                 mRecvConditionRef.setValue(GetSpeechToTextResult());
             }
         };
@@ -279,6 +315,10 @@ public class cCallBroadcastService extends Service
         mRecvConditionRef   = mRootRef.child(mMyNumber);
         mRecvConditionRef.addValueEventListener(new ValueEventListener()
         {
+            /***
+             * 연결되어 있는 파이어베이스에 있는 데이터가 변경될 때 마다 호출된다.
+             * @param dataSnapshot
+             */
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
             {
@@ -290,7 +330,7 @@ public class cCallBroadcastService extends Service
 
                 String      text = dataSnapshot.getValue(String.class);
                 mAdapter.addItem(text, 1, new Date().getTime());
-                refreshLsitView();
+                refreshListView();
             }
 
             @Override
@@ -303,6 +343,10 @@ public class cCallBroadcastService extends Service
         mCallerConditionRef = mRootRef.child(mCallNumber);
         mCallerConditionRef.addValueEventListener(new ValueEventListener()
         {
+            /***
+             * 연결되어 있는 파이어베이스에 있는 데이터가 변경될 때 마다 호출된다.
+             * @param dataSnapshot
+             */
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
             {
@@ -314,7 +358,7 @@ public class cCallBroadcastService extends Service
 
                 String      text = dataSnapshot.getValue(String.class);
                 mAdapter.addItem(text, 0, new Date().getTime());
-                refreshLsitView();
+                refreshListView();
             }
 
             @Override
@@ -354,8 +398,6 @@ public class cCallBroadcastService extends Service
     private void removeOverlay()
     {
         Log.i("STT Service Info", "Service_removeOverlay()");
-        StopSTT();
-
         if (mRootView != null && mWindowManager != null)
         {
             mWindowManager.removeView(mRootView);
@@ -363,14 +405,17 @@ public class cCallBroadcastService extends Service
 
             if (isSave == true)
             {
-                cSaveData   save = new cSaveData();
-                save.saveDataProc();
-                isSave  = false;
+                Thread      tSave = new Thread(new cSaveData());
+                tSave.run();
+                //cSaveData   save = new cSaveData();
+                //save.saveDataProc();
+                //isSave  = false;
             }
 
             stopForeground(true);
             stopSelf();
         }
+        StopSTT();
     }
 
     /**
@@ -390,7 +435,7 @@ public class cCallBroadcastService extends Service
         }
     };
 
-    private void refreshLsitView()
+    private void refreshListView()
     {
         Message         msg = mHandler.obtainMessage();
         mHandler.sendMessage(msg);
@@ -424,7 +469,7 @@ public class cCallBroadcastService extends Service
     /**
      * 채팅 리스트 저장용 클래스. 이 클레스는 데이터 저장기능만을 한다.
      */
-    private class cSaveData
+    private class cSaveData implements Runnable
     {
         String                  KEY_CHAT_COUNT = "Key_ID_LIST";             // 채팅 ID 리스트 [Key_ID_LIST] => {폰번호+날짜데이터, 폰번호+날짜데이터}
         String                  KEY = "Key_";                               // 채팅 ID, [Key_%] => Key_(폰번호+날짜데이터)
@@ -494,6 +539,12 @@ public class cCallBroadcastService extends Service
             editor.putStringSet(ID +"_ReceiveText", Key_RecvText); //오타수정
             editor.putStringSet(ID +"_CallerText", Key_CallerText);
             editor.commit();
+        }
+
+        @Override
+        public void run()
+        {
+            saveDataProc();
         }
     }
 }
