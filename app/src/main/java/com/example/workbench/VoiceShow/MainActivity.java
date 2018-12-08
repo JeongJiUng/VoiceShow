@@ -12,11 +12,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TextView;
-
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.widget.Toast;
+
 import com.example.workbench.VoiceShow.Settings.PasswordCheckActivity;
 import com.example.workbench.VoiceShow.Settings.SettingsActivity;
+import com.google.protobuf.NullValue;
+
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -81,7 +86,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Initialize();
         getAddressBooks(); // 전화번호부 가져오기.
         checkSecureOn(); //비밀번호 설정되어있는지 확인 후, 설정 되어있으면 암호 액티비티 발동
-       // startActivity(new Intent("android.intent.action.DIAL"));
+        //DeleteChattingDataName();
+        // startActivity(new Intent("android.intent.action.DIAL"));
     }
 
     @Override
@@ -221,6 +227,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public ArrayList getNumbers(){
         return this.numberList;
     }
+
     public void checkSecureOn(){
 
         SharedPreferences s = getSharedPreferences("VoshowData", MODE_PRIVATE);
@@ -232,17 +239,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     public ArrayList getChattingDataName(){
         ArrayList<String> chattingName = new ArrayList<>();
+        ArrayList<String> chattingName2 = new ArrayList<>();
         Set<String> chattingData;
+        String S;
         SharedPreferences sharedChattingData = getSharedPreferences("PREF_CHAT_ID_LIST",MODE_PRIVATE);
 
         chattingData = (sharedChattingData.getStringSet("Key_ID_LIST", new HashSet<String>()));
 
-        Iterator<String> itr = chattingData.iterator();
 
-        while(itr.hasNext()){
-            chattingName.add(itr.next());
+        //Toast.makeText(getApplicationContext(),S,Toast.LENGTH_LONG).show();
+        Iterator<String> itr1 = chattingData.iterator();
+        while(itr1.hasNext()){
+            chattingName.add(itr1.next());
         }
+        Iterator<String> itr2 = chattingData.iterator();
+        for(int i=0;i<chattingName.size();i++){
+            Date thisDate = new Date(System.currentTimeMillis());
+            S = chattingName.get(i);
+            String[] s = S.split("#");
+            long lastDate = Long.parseLong(s[1]);
 
-        return chattingName;
+            long duration = thisDate.getTime() - lastDate;
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+
+            long days = ((((duration / 1000) / 60) / 60) / 24);
+
+            //Toast.makeText(getApplicationContext()," "+ simpleDateFormat.format(thisDate.getTime()),Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext()," "+ simpleDateFormat.format(lastDate),Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext()," "+ days,Toast.LENGTH_LONG).show();
+
+            if(days > cSystemManager.getInstance().GetSettings().GetDeleteFreq()){
+                continue;
+            }
+            else{
+                chattingName2.add(itr2.next());
+            }
+        }
+        return chattingName2;
     }
 }

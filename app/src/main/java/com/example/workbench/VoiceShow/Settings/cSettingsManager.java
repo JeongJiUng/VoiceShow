@@ -25,7 +25,7 @@ public class cSettingsManager extends Activity
     public void Initialize(){
         mPassword = "-1111";
         mChatCapacity = 50;
-        mDeleteFreq = 1;
+        mDeleteFreq = 7;
         mbSecure = false;
         mVersion = "1.0.0";
     }

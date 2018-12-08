@@ -29,7 +29,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         SharedPreferences s = getSharedPreferences("VoshowData", MODE_PRIVATE);
         cSystemManager.getInstance().GetSettings().SetChatCapacity(s.getInt("chatLength", 50));
-        cSystemManager.getInstance().GetSettings().SetDeleteFreq(s.getInt("deleteFreq",1));
+        cSystemManager.getInstance().GetSettings().SetDeleteFreq(s.getInt("deleteFreq",7));
         cSystemManager.getInstance().GetSettings().SetPassword(s.getString("password","-1111"));
         cSystemManager.getInstance().GetSettings().SetmbSecure(s.getBoolean("isPasswordCheck",false));
 
@@ -73,19 +73,5 @@ public class SettingsActivity extends AppCompatActivity {
     public void showVersion(View v){
         Toast.makeText(getApplicationContext(),"최신 버젼입니다",Toast.LENGTH_LONG).show();
     }
-    public ArrayList DeleteChattingList(){
-        ArrayList<String> chattingName = new ArrayList<>();
-        Set<String> chattingData;
-        SharedPreferences sharedChattingData = getSharedPreferences("PREF_CHAT_ID_LIST",MODE_PRIVATE);
 
-        chattingData = (sharedChattingData.getStringSet("Key_ID_LIST", new HashSet<String>()));
-
-        Iterator<String> itr = chattingData.iterator();
-
-        while(itr.hasNext()){
-            chattingName.add(itr.next());
-        }
-
-        return chattingName;
-    }
 }

@@ -38,15 +38,15 @@ public class DeleteFreqActivity extends AppCompatActivity {
         r_btn2 = (RadioButton) findViewById(R.id.radio2);
         r_btn3 = (RadioButton) findViewById(R.id.radio3);
 
-        if (cSystemManager.getInstance().GetSettings().GetDeleteFreq() == 1) {
+        if (cSystemManager.getInstance().GetSettings().GetDeleteFreq() == 7) {
             r_btn1.setChecked(true);
             r_btn2.setChecked(false);
             r_btn3.setChecked(false);
-        } else if (cSystemManager.getInstance().GetSettings().GetDeleteFreq() == 2) {
+        } else if (cSystemManager.getInstance().GetSettings().GetDeleteFreq() == 14) {
             r_btn1.setChecked(false);
             r_btn2.setChecked(true);
             r_btn3.setChecked(false);
-        } else if (cSystemManager.getInstance().GetSettings().GetDeleteFreq() == 3) {
+        } else if (cSystemManager.getInstance().GetSettings().GetDeleteFreq() == 31) {
             r_btn1.setChecked(false);
             r_btn2.setChecked(false);
             r_btn3.setChecked(true);
@@ -58,26 +58,26 @@ public class DeleteFreqActivity extends AppCompatActivity {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             if(checkedId == R.id.radio1){
-                cSystemManager.getInstance().GetSettings().SetDeleteFreq(1);
+                cSystemManager.getInstance().GetSettings().SetDeleteFreq(7);
                 SharedPreferences s = getSharedPreferences("VoshowData", MODE_PRIVATE);
                 SharedPreferences.Editor editor = s.edit();
-                editor.putInt("deleteFreq",1);
+                editor.putInt("deleteFreq",7);
                 editor.commit();
                 onBackPressed();
             }
             else if(checkedId == R.id.radio2){
-                cSystemManager.getInstance().GetSettings().SetDeleteFreq(2);
+                cSystemManager.getInstance().GetSettings().SetDeleteFreq(14);
                 SharedPreferences s = getSharedPreferences("VoshowData", MODE_PRIVATE);
                 SharedPreferences.Editor editor = s.edit();
-                editor.putInt("deleteFreq",2);
+                editor.putInt("deleteFreq",14);
                 editor.commit();
                 onBackPressed();
             }
             else if(checkedId == R.id.radio3){
-                cSystemManager.getInstance().GetSettings().SetDeleteFreq(3);
+                cSystemManager.getInstance().GetSettings().SetDeleteFreq(31);
                 SharedPreferences s = getSharedPreferences("VoshowData", MODE_PRIVATE);
                 SharedPreferences.Editor editor = s.edit();
-                editor.putInt("deleteFreq",3);
+                editor.putInt("deleteFreq",31);
                 editor.commit();
                 onBackPressed();
             }
