@@ -266,7 +266,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             //Toast.makeText(getApplicationContext()," "+ simpleDateFormat.format(thisDate.getTime()),Toast.LENGTH_LONG).show();
             //Toast.makeText(getApplicationContext()," "+ simpleDateFormat.format(lastDate),Toast.LENGTH_LONG).show();
-            Toast.makeText(getApplicationContext()," "+ days,Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext()," "+ days,Toast.LENGTH_LONG).show();
 
             if(days > cSystemManager.getInstance().GetSettings().GetDeleteFreq()){
                 continue;

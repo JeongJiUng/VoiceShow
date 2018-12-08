@@ -31,6 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="47dp"
                 android:buttonTint="@color/colorAccent"
+                android:layout_marginTop="60dp"
                 android:checked="true"
                 android:text="50자"
                 android:textColor="@color/colorAccent" />
