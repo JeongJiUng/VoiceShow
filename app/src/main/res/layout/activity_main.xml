@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:minHeight="17dp"
     tools:context=".MainActivity"
-    android:background="#ffffff"
+    android:background="#D5A2F9"
     tools:layout_editor_absoluteY="73dp">
 
     <ImageView
@@ -31,6 +31,7 @@
 
     <android.support.design.widget.TabLayout
         android:layout_below="@+id/voshow"
+        android:background="#ffffff"
         android:id="@+id/tl_tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

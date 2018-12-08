@@ -101,12 +101,12 @@ public class ChattingRoomAdapter extends BaseAdapter {
         //text.setLineSpacing(2,1);
 
         if(chattingList.get(position).type == 0){
-            text.setBackgroundResource(R.drawable.inbox2);
+            text.setBackgroundResource(R.drawable.inbox_purple);
             layout.setGravity(Gravity.LEFT);
             viewRight.setVisibility(View.GONE);
             viewLeft.setVisibility(View.GONE);
         }else if(chattingList.get(position).type == 1){
-            text.setBackgroundResource(R.drawable.outbox2);
+            text.setBackgroundResource(R.drawable.outbox_blue);
             layout.setGravity(Gravity.RIGHT);
             viewRight.setVisibility(View.GONE);
             viewLeft.setVisibility(View.GONE);

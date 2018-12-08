@@ -87,7 +87,7 @@ public class ChattingFragment extends ListFragment {
             Date date = new Date(chattingListData.get(i).chattingTime);
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
             String getTime = simpleDateFormat.format(date);
-            adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.profileimg_purple),
+            adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.icon_chatting),
                     chattingListData.get(i).chattingName,
                     getTime);
         }
