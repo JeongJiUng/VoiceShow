@@ -12,17 +12,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TextView;
+
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.widget.Toast;
-
 import com.example.workbench.VoiceShow.Settings.PasswordCheckActivity;
 import com.example.workbench.VoiceShow.Settings.SettingsActivity;
-import com.google.protobuf.NullValue;
 
-import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -86,8 +84,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Initialize();
         getAddressBooks(); // 전화번호부 가져오기.
         checkSecureOn(); //비밀번호 설정되어있는지 확인 후, 설정 되어있으면 암호 액티비티 발동
-        //DeleteChattingDataName();
-        // startActivity(new Intent("android.intent.action.DIAL"));
+       // startActivity(new Intent("android.intent.action.DIAL"));
     }
 
     @Override
@@ -229,14 +226,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void checkSecureOn(){
-
-        SharedPreferences s = getSharedPreferences("VoshowData", MODE_PRIVATE);
-        cSystemManager.getInstance().GetSettings().SetmbSecure(s.getBoolean("isPasswordCheck",false));
-        cSystemManager.getInstance().GetSettings().SetPassword(s.getString("password","-1111"));
         if(cSystemManager.getInstance().GetSettings().GetEnabledSecure()){ //비밀번호 설정시 앱 실행 초기에 암호 확인 액티비티 발동
             startActivity(new Intent(MainActivity.this,PasswordCheckActivity.class));
         }
     }
+
     public ArrayList getChattingDataName(){
         ArrayList<String> chattingName = new ArrayList<>();
         ArrayList<String> chattingName2 = new ArrayList<>();
@@ -258,15 +252,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             S = chattingName.get(i);
             String[] s = S.split("#");
             long lastDate = Long.parseLong(s[1]);
-
             long duration = thisDate.getTime() - lastDate;
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-
             long days = ((((duration / 1000) / 60) / 60) / 24);
-
-            //Toast.makeText(getApplicationContext()," "+ simpleDateFormat.format(thisDate.getTime()),Toast.LENGTH_LONG).show();
-            //Toast.makeText(getApplicationContext()," "+ simpleDateFormat.format(lastDate),Toast.LENGTH_LONG).show();
-            //Toast.makeText(getApplicationContext()," "+ days,Toast.LENGTH_LONG).show();
 
             if(days > cSystemManager.getInstance().GetSettings().GetDeleteFreq()){
                 continue;

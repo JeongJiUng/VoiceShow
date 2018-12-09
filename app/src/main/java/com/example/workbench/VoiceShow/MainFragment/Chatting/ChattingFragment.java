@@ -1,7 +1,6 @@
 package com.example.workbench.VoiceShow.MainFragment.Chatting;
-import com.example.workbench.VoiceShow.cSystemManager;
 
-import android.app.Activity;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -22,7 +21,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 
 
@@ -53,6 +51,7 @@ public class ChattingFragment extends ListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         adapter = new ChattingAdapter();
         setListAdapter(adapter);
         //채팅창이 잘 나오는지 확인 추후 데이터를 이곳에 받아서 출력 및 넘겨주도록 한다.
@@ -93,18 +92,9 @@ public class ChattingFragment extends ListFragment {
                     getTime);
         }
 
-        //삭제주기 지난 아이템 삭제
-        for(int i = 0; i<chattingListData.size();i++){
-            Date thisDate = new Date(System.currentTimeMillis());
-            long duration = thisDate.getTime() - chattingListData.get(i).chattingTime;
-            if(duration > cSystemManager.getInstance().GetSettings().GetDeleteFreq()){
-                //
-            }
-            //adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.profileimg_purple), chattingListData.get(i).chattingName, getTime);
-        }
-
         return super.onCreateView(inflater, container,savedInstanceState);
     }
+
     //전화번호와 시간을 나누어주는 함수이다.
     public ArrayList divideLetter(String str){
         ArrayList<String> arrayList = new ArrayList<>();
