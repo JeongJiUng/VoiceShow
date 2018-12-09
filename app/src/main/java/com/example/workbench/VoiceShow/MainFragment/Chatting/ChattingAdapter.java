@@ -54,6 +54,10 @@ public class ChattingAdapter extends BaseAdapter {
         chattingListViewItems.add(item);
     }
 
+    public void removeItem(int _pos)
+    {
+        chattingListViewItems.remove(_pos);
+    }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {

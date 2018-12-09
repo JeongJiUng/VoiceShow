@@ -6,7 +6,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorWhite"
+        android:background="#D5A2F9"
         android:orientation="vertical">
 
 
@@ -14,6 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="10"
+            android:background="#D5A2F9"
             android:orientation="horizontal"
             android:padding="2dp">
 
@@ -26,17 +27,18 @@
                 android:layout_weight="6.5"
                 android:background="@drawable/bnt_back_black" />
 
-            <ImageView
+            <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="50dp"
-                android:scaleX="0.7"
-                android:scaleY="0.7"
                 android:layout_marginTop="10dp"
                 android:layout_weight="2"
-                android:background="@drawable/voshow_black"
-                android:orientation="vertical"
-                android:paddingLeft="10dp">
-            </ImageView>
+                android:text="환경설정"
+                android:textColor="@color/colorAccent"
+                android:gravity="center"
+                android:textSize="30dp"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical">
+            </TextView>
 
             <TextView
                 android:layout_width="523dp"
@@ -49,7 +51,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:background="#fdf4ff"
+            android:background="@color/colorWhite"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1.5"
@@ -88,56 +90,62 @@
             </LinearLayout>-->
 
             <LinearLayout
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="80dp"
                 android:scaleX="0.95"
                 android:scaleY="0.95"
                 android:orientation="horizontal"
                 android:padding="2dp">
 
-                <ImageView
-                    android:scaleX="0.8"
-                    android:scaleY="0.8"
+                <!--<ImageView
+                    android:scaleX="0.6"
+                    android:scaleY="0.6"
                     android:layout_weight="3"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/setting_icon_black"/>
+                    android:background="@drawable/setting_icon_black"/>-->
 
                 <Button
                     android:id="@+id/SETTINGS_DEL_FREQ"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="삭제주기설정"
-                    android:background="@drawable/mint"
+                    android:background="#fdf4ff"
+                    android:paddingLeft="20dp"
                     android:textColor="@color/colorAccent"
-                    android:textSize="40dp"
+                    android:textSize="20dp"
                     android:layout_weight="1"
+                    android:gravity="center_vertical"
                     android:onClick="setDeleteFrequency"/>
             </LinearLayout>
 
             <LinearLayout
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="80dp"
                 android:orientation="horizontal"
                 android:scaleX="0.95"
                 android:scaleY="0.95"
                 android:padding="2dp">
 
-                <ImageView
-                    android:scaleX="0.8"
-                    android:scaleY="0.8"
+                <!--<ImageView
+                    android:scaleX="0.6"
+                    android:scaleY="0.6"
                     android:layout_weight="3"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/setting_icon_black"/>
+                    android:background="@drawable/setting_icon_black"/>-->
 
                 <Button
                     android:id="@+id/SETTINGS_PASSWORD"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="보안설정"
-                    android:textSize="40dp"
-                    android:background="@drawable/mint"
+                    android:textSize="20dp"
+                    android:paddingLeft="20dp"
+                    android:background="#fdf4ff"
+                    android:gravity="center_vertical"
                     android:textColor="@color/colorAccent"
                     android:layout_weight="1"
                     android:onClick="setSecurity"/>

@@ -107,10 +107,10 @@ public class PasswordCheckActivity extends AppCompatActivity {
         else if (i == 3)
             password_check3.setText("*");
         else if (i == 4) {
-            int value1 = 0;
-            int value2 = 0;
             password_check4.setText("*");
-            if(pString.indexOf(value1) == password.indexOf(value2)){
+            int value1 = Integer.parseInt(pString);
+            int value2 = Integer.parseInt(password);
+            if(value1 == value2){
                 finish();
             }
             else{

@@ -1,15 +1,22 @@
 package com.example.workbench.VoiceShow.MainFragment.Chatting;
 
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -21,6 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 
@@ -29,6 +37,8 @@ import java.util.Set;
  */
 public class ChattingFragment extends ListFragment {
 
+    private boolean         isLongable;
+    private int             mItemPos;
     private ChattingAdapter adapter;
     private ArrayList<String> chattingID;
     private ArrayList<ChattingListData> chattingListData;
@@ -39,13 +49,82 @@ public class ChattingFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-        //Toast.makeText(getContext(), chattingListData.get(position).chattingName, Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(getActivity(),ChattingRoom.class);
-        intent.putExtra("ID",chattingListData.get(position).chattingID);
-        intent.putExtra("NAME",chattingListData.get(position).chattingName);
-        intent.putExtra("NTIME",chattingListData.get(position).chattingTime);
-        startActivity(intent);
+
+        if (isLongable == false)
+        {
+            //Toast.makeText(getContext(), chattingListData.get(position).chattingName, Toast.LENGTH_SHORT).show();
+            Intent          intent = new Intent(getActivity(), ChattingRoom.class);
+            intent.putExtra("ID", chattingListData.get(position).chattingID);
+            intent.putExtra("NAME", chattingListData.get(position).chattingName);
+            intent.putExtra("NTIME", chattingListData.get(position).chattingTime);
+            startActivity(intent);
+        }
+        isLongable          = false;
     }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState)
+    {
+        super.onActivityCreated(savedInstanceState);
+        isLongable          = false;
+
+        getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener()
+        {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                isLongable  = true;
+                mItemPos    = position;
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setMessage("대화 기록을 지우시겠습니까?").setPositiveButton("네", mDialogClickListener).setNegativeButton("아니요", mDialogClickListener).show();
+
+                return false;
+            }
+        });
+    }
+
+    DialogInterface.OnClickListener mDialogClickListener = new DialogInterface.OnClickListener()
+    {
+        @Override
+        public void onClick(DialogInterface dialog, int which)
+        {
+            switch(which)
+            {
+                case DialogInterface.BUTTON_POSITIVE:
+                    String      key = chattingListData.get(mItemPos).chattingID;
+                    String      callerText_key = "Key_"+key+"_CallerText";
+                    String      recvText_key = "Key_"+key+"_ReceiveText";
+                    String      info_key = "Key_"+key;
+
+                    // chatingID에 있는 key값을 지우는 부분. 원하는 key를 지우면 다시 쉐어드프리퍼런스를 통해 Key_ID_LIST 저장
+                    for (int i = 0; i < chattingID.size(); i++)
+                        if (chattingID.get(i) == key)
+                            chattingID.remove(i);
+
+                    SharedPreferences           key_id_list = getContext().getSharedPreferences("PREF_CHAT_ID_LIST", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor    editor = key_id_list.edit();
+                    Set<String>                 list = new LinkedHashSet<String>(chattingID);
+                    editor.clear();
+                    editor.putStringSet("Key_ID_LIST", list);
+                    editor.commit();
+
+                    adapter.removeItem(mItemPos);
+                    refreshListView();
+
+                    SharedPreferences           chat_list = getContext().getSharedPreferences("PREF_CHAT_LIST", Context.MODE_PRIVATE);
+                    editor                      = chat_list.edit();
+                    editor.remove(callerText_key);
+                    editor.remove(recvText_key);
+                    editor.remove(info_key);
+                    editor.commit();
+                    break;
+
+                case DialogInterface.BUTTON_NEGATIVE:
+                    break;
+            }
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -129,5 +208,21 @@ public class ChattingFragment extends ListFragment {
             this.chattingTime = chattingTime;
 
         }
+    }
+
+    final Handler mHandler = new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg)
+        {
+            super.handleMessage(msg);
+            adapter.notifyDataSetChanged();
+        }
+    };
+
+    private void refreshListView()
+    {
+        Message         msg = mHandler.obtainMessage();
+        mHandler.sendMessage(msg);
     }
 }

@@ -255,10 +255,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Date thisDate = new Date(System.currentTimeMillis());
             S = chattingName.get(i);
             String[] s = S.split("#");
-            long lastDate = Long.parseLong(s[1]);
-            long duration = thisDate.getTime() - lastDate;
-            long days = ((((duration / 1000) / 60) / 60) / 24);
+            float lastDate = Long.parseLong(s[1]);
+            float duration = thisDate.getTime() - lastDate;
+            float days = (duration / 86400000);
 
+            SharedPreferences s1 = getSharedPreferences("VoshowData", MODE_PRIVATE);
+            cSystemManager.getInstance().GetSettings().SetDeleteFreq(s1.getInt("deleteFreq",7));
             if(days > cSystemManager.getInstance().GetSettings().GetDeleteFreq()){
                 continue;
             }
