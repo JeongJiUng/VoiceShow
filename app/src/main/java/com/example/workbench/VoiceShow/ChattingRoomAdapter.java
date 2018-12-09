@@ -1,5 +1,7 @@
 package com.example.workbench.VoiceShow;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -13,6 +15,7 @@ import android.widget.Toast;
 import com.example.workbench.VoiceShow.R;
 
 import java.util.ArrayList;
+
 
 public class ChattingRoomAdapter extends BaseAdapter {
 
@@ -101,12 +104,12 @@ public class ChattingRoomAdapter extends BaseAdapter {
         //text.setLineSpacing(2,1);
 
         if(chattingList.get(position).type == 0){
-            text.setBackgroundResource(R.drawable.inbox_purple);
+            text.setBackgroundResource(R.drawable.inbox2);
             layout.setGravity(Gravity.LEFT);
             viewRight.setVisibility(View.GONE);
             viewLeft.setVisibility(View.GONE);
         }else if(chattingList.get(position).type == 1){
-            text.setBackgroundResource(R.drawable.outbox_blue);
+            text.setBackgroundResource(R.drawable.outbox2);
             layout.setGravity(Gravity.RIGHT);
             viewRight.setVisibility(View.GONE);
             viewLeft.setVisibility(View.GONE);
@@ -125,16 +128,23 @@ public class ChattingRoomAdapter extends BaseAdapter {
 //                Toast.makeText(context,"리스트 클릭 : " +chattingList.get(pos), Toast.LENGTH_SHORT).show();
 //            }
 //        });
-//        //길게 눌렀을 경우
-//        convertView.setOnLongClickListener(new View.OnLongClickListener() {
-//
-//            @Override
-//            public boolean onLongClick(View v) {
-//                // 터치 시 해당 아이템 이름 출력
-//                Toast.makeText(context, "리스트 롱 클릭 : "+chattingList.get(pos), Toast.LENGTH_SHORT).show();
-//                return true;
-//            }
-//        });
+        //길게 눌렀을 경우
+        convertView.setOnLongClickListener(new View.OnLongClickListener() {
+
+            @Override
+            public boolean onLongClick(View v) {
+
+                // 길게 터치시 해당 메세지 클립보드에 저장
+                String chattingCopyData = chattingList.get(pos).msg;
+                ClipboardManager clipboardManager = (ClipboardManager)context.getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clipData = ClipData.newPlainText("TouchMsg", chattingCopyData);
+                clipboardManager.setPrimaryClip(clipData);
+
+                // 터치 시 해당 아이템 이름 출력
+                Toast.makeText(context,"메세지가 클립보드에 저장되었습니다.", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
 
         return convertView;
     }
