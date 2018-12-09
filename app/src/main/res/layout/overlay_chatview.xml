@@ -22,7 +22,7 @@
             android:id="@+id/LAYOUT_TITLE"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#f00"
+            android:background="@android:color/holo_purple"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:padding="16dp">
