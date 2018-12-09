@@ -18,9 +18,11 @@ import android.support.v4.view.ViewPager;
 import com.example.workbench.VoiceShow.Settings.PasswordCheckActivity;
 import com.example.workbench.VoiceShow.Settings.SettingsActivity;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener
 {
     private String          mPhoneNumber;                           // 핸드폰 번호 문자열
