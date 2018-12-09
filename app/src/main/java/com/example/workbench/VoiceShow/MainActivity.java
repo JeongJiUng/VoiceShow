@@ -224,8 +224,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return this.numberList;
     }
 
-    public void checkSecureOn(){
-        if(cSystemManager.getInstance().GetSettings().GetEnabledSecure()){ //비밀번호 설정시 앱 실행 초기에 암호 확인 액티비티 발동
+    public void checkSecureOn()
+    {
+        SharedPreferences s = getSharedPreferences("VoshowData", MODE_PRIVATE);
+        cSystemManager.getInstance().GetSettings().SetmbSecure(s.getBoolean("isPasswordCheck",false));
+        cSystemManager.getInstance().GetSettings().SetPassword(s.getString("password","-1111"));
+        if(cSystemManager.getInstance().GetSettings().GetEnabledSecure())
+        { //비밀번호 설정시 앱 실행 초기에 암호 확인 액티비티 발동
             startActivity(new Intent(MainActivity.this,PasswordCheckActivity.class));
         }
     }
