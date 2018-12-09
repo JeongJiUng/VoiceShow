@@ -13,9 +13,9 @@ public class cVoiceRecorder
     private static final int    CHANNEL = AudioFormat.CHANNEL_IN_MONO;
     private static final int    ENCODING = AudioFormat.ENCODING_PCM_16BIT;
 
-    private static final int    AMPLITUDE_THRESHOLD = 1500;
-    private static final int    SPEECH_TIMEOUT_MILLIS = 2000;
-    private static final int    MAX_SPEECH_LENGTH_MILLIS = 30 * 1000;
+    private static final int    AMPLITUDE_THRESHOLD = 500;                                          // 음성인식이 시작될 때 앞에 말이 안짤릴 수 있도록 설정해주는 임계값. 어떤 원리인지는 잘 모르겠음.
+    private static final int    SPEECH_TIMEOUT_MILLIS = 3000;                                       // 해당 값 만큼 아무 말도 하지 않으면 음성인식 종료
+    private static final int    MAX_SPEECH_LENGTH_MILLIS = 30 * 1000;                               // 최대 음성인식 시간
 
     /**
      * 음성녹음 콜백 추상 클래스
