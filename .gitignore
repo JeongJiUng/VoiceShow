@@ -17,3 +17,5 @@ app/src/main/assets/
 
 \.idea/misc\.xml
 *.json
+
+app/release/

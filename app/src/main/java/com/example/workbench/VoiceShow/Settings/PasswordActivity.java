@@ -115,11 +115,12 @@ public class PasswordActivity extends AppCompatActivity {
             password_check4.setText("*");
             i = 0;
             String pString = password;
+            String pString1 = pString.substring(4);
             cSystemManager.getInstance().GetSettings().SetPassword(pString);
             cSystemManager.getInstance().GetSettings().SetmbSecure(true);
             SharedPreferences s = getSharedPreferences("VoshowData", MODE_PRIVATE);
             SharedPreferences.Editor editor = s.edit();
-            editor.putString("password", pString);
+            editor.putString("password", pString1);
             editor.putBoolean("isPasswordCheck",true);
             editor.commit();
             finish();
