@@ -1,5 +1,6 @@
 package com.example.workbench.VoiceShow.Settings;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -7,38 +8,28 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.TextView;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.example.workbench.VoiceShow.R;
 import com.example.workbench.VoiceShow.cSystemManager;
 
-public class cSettingsManager
+public class cSettingsManager extends Activity
 {
     private int       mChatCapacity;                         //채팅 글자 수
     private int       mDeleteFreq;                           //삭제 주기
-    private int       mThemeID;                               //테마
     private String    mPassword;                               //설정된 비밀번호
     private boolean  mbSecure;                               //비밀번호가 설정되어 있는지 확인
     private String    mVersion;                               //버젼 정보
 
     public void Initialize(){
-        mChatCapacity = 50;
-        mDeleteFreq = 1;
-        mThemeID = 1;
         mPassword = "-1111";
+        mChatCapacity = 50;
+        mDeleteFreq = 7;
         mbSecure = false;
         mVersion = "1.0.0";
     }
 
-    //테마 변경
-    public void ChangeTheme(int _id){
-
-        //추후에 시간 남으면 작성
-
-    }
-    //설정된 테마 아이디 반환
-    public int GetTheme(){
-        return mThemeID;
-    }
     //글자 수 변경
     public void SetChatCapacity(int _capacitiy){
         mChatCapacity = _capacitiy;
@@ -70,6 +61,7 @@ public class cSettingsManager
     //패스워드 반환
     public String GetPassword(){
         if(cSystemManager.getInstance().GetSettings().GetEnabledSecure()) {
+
             return mPassword;
         }
         else{

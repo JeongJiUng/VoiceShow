@@ -6,38 +6,38 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="280dp"
-        android:layout_height="250dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="@color/colorWhite"
-        android:gravity="center"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteX="52dp"
-        tools:layout_editor_absoluteY="158dp">
-
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
         <RadioGroup
-            android:id="@+id/radioGroup1"
+            android:id="@+id/optionGroup"
             android:layout_width="217dp"
             android:layout_height="wrap_content">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="34dp"
+                android:gravity="center"
                 android:text="말풍선 글자수"
+                android:layout_marginTop="50dp"
                 android:textColor="@color/colorAccent"
                 android:textSize="20dp" />
 
             <RadioButton
-                android:id="@+id/radio1"
+                android:id="@+id/option1"
                 android:layout_width="match_parent"
                 android:layout_height="47dp"
                 android:buttonTint="@color/colorAccent"
+                android:layout_marginTop="60dp"
                 android:checked="true"
                 android:text="50자"
                 android:textColor="@color/colorAccent" />
 
             <RadioButton
-                android:id="@+id/radio2"
+                android:id="@+id/option2"
                 android:layout_width="match_parent"
                 android:layout_height="47dp"
                 android:buttonTint="@color/colorAccent"
@@ -46,7 +46,7 @@
                 android:textColor="@color/colorAccent" />
 
             <RadioButton
-                android:id="@+id/radio3"
+                android:id="@+id/option3"
                 android:layout_width="match_parent"
                 android:layout_height="47dp"
                 android:buttonTint="@color/colorAccent"

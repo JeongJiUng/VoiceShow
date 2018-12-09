@@ -2,6 +2,7 @@ package com.example.workbench.VoiceShow.Settings;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +14,11 @@ import com.example.workbench.VoiceShow.cSystemManager;
 
 import com.example.workbench.VoiceShow.R;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
 public class SettingsActivity extends AppCompatActivity {
     Dialog dialog;
     protected void onCreate(Bundle savedInstanceState){
@@ -21,10 +27,16 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         dialog = new Dialog(this);
 
-        Button buttonView1 = (Button)findViewById(R.id.SETTINGS_THEME);
+        SharedPreferences s = getSharedPreferences("VoshowData", MODE_PRIVATE);
+        cSystemManager.getInstance().GetSettings().SetChatCapacity(s.getInt("chatLength", 50));
+        cSystemManager.getInstance().GetSettings().SetDeleteFreq(s.getInt("deleteFreq",7));
+        cSystemManager.getInstance().GetSettings().SetPassword(s.getString("password","-1111"));
+        cSystemManager.getInstance().GetSettings().SetmbSecure(s.getBoolean("isPasswordCheck",false));
+
+        //Button buttonView1 = (Button)findViewById(R.id.SETTINGS_THEME);
         Button buttonView3 = (Button)findViewById(R.id.SETTINGS_DEL_FREQ);
         Button buttonView4 = (Button)findViewById(R.id.SETTINGS_PASSWORD);
-        Button buttonView5 = (Button)findViewById(R.id.SETTINGS_VERSION);
+        //Button buttonView5 = (Button)findViewById(R.id.SETTINGS_VERSION);
         ImageView backbutton = (ImageView)findViewById((R.id.SETTINGS_BACK_BUTTON));
 
         backbutton.setOnClickListener(new View.OnClickListener() {
@@ -39,18 +51,18 @@ public class SettingsActivity extends AppCompatActivity {
         startActivity(new Intent(SettingsActivity.this,ThemeActivity.class));
     }
     public void setChatNum(View v){
-        Button b2;
-        dialog.setContentView(R.layout.activity_chatset);
-        b2 = (Button)dialog.findViewById(R.id.SETTINGS_CHATLETTER);
-
-        dialog.show();
+        startActivity(new Intent(SettingsActivity.this,ChatsetActivity.class));
+        //Button b2;
+        //dialog.setContentView(R.layout.activity_chatset);
+        //b2 = (Button)dialog.findViewById(R.id.SETTINGS_CHATLETTER);
+        //dialog.show();
     }
     public void setDeleteFrequency(View v){
-        Button b3;
-        dialog.setContentView(R.layout.activity_delete_freq);
-        b3 = (Button)dialog.findViewById(R.id.SETTINGS_DEL_FREQ);
-
-        dialog.show();
+        startActivity(new Intent(SettingsActivity.this,DeleteFreqActivity.class));
+        //Button b3;
+        //dialog.setContentView(R.layout.activity_delete_freq);
+        //b3 = (Button)dialog.findViewById(R.id.SETTINGS_DEL_FREQ);
+        //dialog.show();
     }
     public void setSecurity(View v){
         Intent intent = new Intent(SettingsActivity.this,PasswordSettingsActivity.class);
@@ -61,4 +73,5 @@ public class SettingsActivity extends AppCompatActivity {
     public void showVersion(View v){
         Toast.makeText(getApplicationContext(),"최신 버젼입니다",Toast.LENGTH_LONG).show();
     }
+
 }
