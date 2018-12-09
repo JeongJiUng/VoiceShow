@@ -373,6 +373,7 @@ public class cCallBroadcastService extends Service
                 }
 
                 String      text = dataSnapshot.getValue(String.class);
+                //이 부분을 바꿔야 작게 나올듯 하다.
                 mAdapter.addItem(text, 1, new Date().getTime());
                 refreshListView();
             }

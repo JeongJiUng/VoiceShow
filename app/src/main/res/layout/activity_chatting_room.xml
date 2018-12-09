@@ -48,7 +48,6 @@
                 android:id="@+id/listView22"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:divider="#000000"
                 android:listSelector="#fdf4ff"
                 android:transcriptMode="alwaysScroll" />
         </FrameLayout>

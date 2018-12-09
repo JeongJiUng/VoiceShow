@@ -136,6 +136,8 @@ public class cCustomAdapter extends BaseAdapter
 
         // Text 등록
         mText.setText(mList.get(position).mMsg);
+        // Text 최대 길이 조정
+        mText.setMaxWidth(800);
 
         if (mList.get(position).mType == 0)
         {
