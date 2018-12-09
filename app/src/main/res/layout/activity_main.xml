@@ -17,6 +17,18 @@
         android:layout_height="30dp"
         android:src="@drawable/voshow_black"
         />
+
+    <ImageView
+        android:layout_toRightOf="@+id/voshow"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="50dp"
+        android:id="@+id/settingImgButton"
+        android:layout_alignParentRight="true"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:clickable="true"
+        android:onClick="MoveToSettings"
+        android:src="@drawable/setting_icon_black"/>
     <!--<ImageView-->
         <!--android:layout_toRightOf="@+id/voshow"-->
         <!--android:layout_marginTop="10dp"-->
