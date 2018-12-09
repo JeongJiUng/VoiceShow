@@ -95,14 +95,18 @@ public class ChattingRoomAdapter extends BaseAdapter {
         }
         //Text등록 (이부분 msg문제 해결)
         text.setText(chattingList.get(pos).msg);
+        //최대길이
+        text.setMaxWidth(800);
+        //줄간격
+        //text.setLineSpacing(2,1);
 
         if(chattingList.get(position).type == 0){
-            text.setBackgroundResource(R.drawable.inbox4);
+            text.setBackgroundResource(R.drawable.inbox_purple);
             layout.setGravity(Gravity.LEFT);
             viewRight.setVisibility(View.GONE);
             viewLeft.setVisibility(View.GONE);
         }else if(chattingList.get(position).type == 1){
-            text.setBackgroundResource(R.drawable.outbox2);
+            text.setBackgroundResource(R.drawable.outbox_blue);
             layout.setGravity(Gravity.RIGHT);
             viewRight.setVisibility(View.GONE);
             viewLeft.setVisibility(View.GONE);

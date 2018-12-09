@@ -13,35 +13,27 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="2dp"
-        android:layout_weight="1.5">
+        android:layout_weight="2">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="2">
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:orientation="horizontal"
-            android:layout_weight="1"
-            android:layout_marginRight="5dp"
-            android:layout_marginLeft="5dp">
             <TextView
                 android:id="@+id/TEXT_PHONE_NUM"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textColor="#000000"
                 android:textAllCaps="false"
-                android:textSize="24sp" />
-
+                android:textSize="30sp" />
             <ImageButton
                 android:id="@+id/BACK_SPACE"
                 android:layout_marginRight="5dp"
-                android:layout_weight="6"
+                android:layout_weight="8"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:src="@drawable/dial_cancel_black"
@@ -49,9 +41,7 @@
                 android:onClick="onClick"
                 android:background="#ffffff"
                 android:layout_gravity="center"/>
-
         </LinearLayout>
-
 
     </LinearLayout>
 
@@ -231,7 +221,7 @@
             android:layout_marginTop="5dp"
             android:layout_weight="1">
 
-            <Button
+            <ImageView
                 android:id="@+id/KEYPAD_VCALL"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -244,19 +234,18 @@
                 android:textColor="#000000"
                 android:textSize="42sp" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/KEYPAD_CALL"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="35dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:background="@drawable/dial_btn_bg"
+                android:background="#ffffff"
                 android:onClick="onClick"
                 android:scaleType="fitCenter"
-                android:src="@drawable/dial_calling_black"
-                android:textColor="#000000" />
+                android:src="@drawable/dial_calling_black"/>
 
-            <Button
+            <ImageView
                 android:id="@+id/KEYPAD_HIDE"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

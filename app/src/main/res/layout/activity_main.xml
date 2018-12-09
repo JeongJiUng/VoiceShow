@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:minHeight="17dp"
     tools:context=".MainActivity"
-    android:background="#ffffff"
+    android:background="#D5A2F9"
     tools:layout_editor_absoluteY="73dp">
 
     <ImageView
@@ -17,20 +17,21 @@
         android:layout_height="30dp"
         android:src="@drawable/voshow_black"
         />
+    <!--<ImageView-->
+        <!--android:layout_toRightOf="@+id/voshow"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:layout_marginLeft="50dp"-->
+        <!--android:id="@+id/settingImgButton"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_width="30dp"-->
+        <!--android:layout_height="30dp"-->
+        <!--android:clickable="true"-->
+        <!--android:src="@drawable/option_button"/>-->
 
- <!--   <ImageView
-        android:layout_toRightOf="@+id/voshow"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="50dp"
-        android:id="@+id/settingImgButton"
-        android:layout_alignParentRight="true"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:clickable="true"
-        android:src="@drawable/option_button"/>-->
 
     <android.support.design.widget.TabLayout
         android:layout_below="@+id/voshow"
+        android:background="#ffffff"
         android:id="@+id/tl_tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

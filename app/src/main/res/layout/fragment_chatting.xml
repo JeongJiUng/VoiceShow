@@ -11,6 +11,7 @@
     <ImageView
         android:id="@+id/chattingProfile"
         android:layout_weight="1"
+        android:padding="5dp"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:scaleType="fitCenter"
@@ -28,6 +29,7 @@
         android:paddingRight="10dp">
 
         <TextView
+            android:paddingTop="1dp"
             android:id="@+id/chattingName"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
@@ -39,6 +41,7 @@
             android:textSize="18dp" />
 
         <TextView
+            android:paddingBottom="1dp"
             android:id="@+id/chattingInfo"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
