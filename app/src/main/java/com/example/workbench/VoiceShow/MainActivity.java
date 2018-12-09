@@ -261,7 +261,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             SharedPreferences s1 = getSharedPreferences("VoshowData", MODE_PRIVATE);
             cSystemManager.getInstance().GetSettings().SetDeleteFreq(s1.getInt("deleteFreq",7));
-            if(days + 6 > cSystemManager.getInstance().GetSettings().GetDeleteFreq()){
+            if(days > cSystemManager.getInstance().GetSettings().GetDeleteFreq()){
                 continue;
             }
             else{
