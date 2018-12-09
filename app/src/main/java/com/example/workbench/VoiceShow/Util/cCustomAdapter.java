@@ -141,14 +141,14 @@ public class cCustomAdapter extends BaseAdapter
 
         if (mList.get(position).mType == 0)
         {
-            mText.setBackgroundResource(R.drawable.inbox2);
+            mText.setBackgroundResource(R.drawable.purple_box1);
             mLayout.setGravity(Gravity.LEFT);
             mViewRight.setVisibility(View.GONE);
             mViewLeft.setVisibility(View.GONE);
         }
         else if (mList.get(position).mType == 1)
         {
-            mText.setBackgroundResource(R.drawable.outbox2);
+            mText.setBackgroundResource(R.drawable.blue_box1);
             mLayout.setGravity(Gravity.RIGHT);
             mViewRight.setVisibility(View.GONE);
             mViewLeft.setVisibility(View.GONE);

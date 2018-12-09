@@ -3,6 +3,7 @@ package com.example.workbench.VoiceShow;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -102,14 +103,18 @@ public class ChattingRoomAdapter extends BaseAdapter {
         text.setMaxWidth(800);
         //줄간격
         //text.setLineSpacing(2,1);
+        //Text Color
+        text.setTextColor(Color.parseColor("#000000"));
+
+
 
         if(chattingList.get(position).type == 0){
-            text.setBackgroundResource(R.drawable.inbox2);
+            text.setBackgroundResource(R.drawable.purple_box1);
             layout.setGravity(Gravity.LEFT);
             viewRight.setVisibility(View.GONE);
             viewLeft.setVisibility(View.GONE);
         }else if(chattingList.get(position).type == 1){
-            text.setBackgroundResource(R.drawable.outbox2);
+            text.setBackgroundResource(R.drawable.blue_box1);
             layout.setGravity(Gravity.RIGHT);
             viewRight.setVisibility(View.GONE);
             viewLeft.setVisibility(View.GONE);
