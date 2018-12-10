@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fdf4ff"
+    android:background="#ffffff"
     >
     <LinearLayout
         android:layout_width="match_parent"
@@ -48,8 +48,8 @@
                 android:id="@+id/listView22"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:divider="#000000"
                 android:listSelector="#fdf4ff"
+                android:dividerHeight="2dp"
                 android:transcriptMode="alwaysScroll" />
         </FrameLayout>
     </LinearLayout>

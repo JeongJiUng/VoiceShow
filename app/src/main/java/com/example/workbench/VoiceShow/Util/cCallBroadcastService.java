@@ -373,6 +373,7 @@ public class cCallBroadcastService extends Service
                 }
 
                 String      text = dataSnapshot.getValue(String.class);
+                //이 부분을 바꿔야 작게 나올듯 하다.
                 mAdapter.addItem(text, 1, new Date().getTime());
                 refreshListView();
             }
@@ -422,8 +423,10 @@ public class cCallBroadcastService extends Service
             Log.i(TAG, e.toString());
         }
 
-        if (!TextUtils.isEmpty(mCallNumber))
-            mTvCallNumber.setText(mCallNumber);
+        if (!TextUtils.isEmpty(mCallNumber)) {
+            //mTvCallNumber.setText(mCallNumber); 기존 전화번호 나오는 부분
+            mTvCallNumber.setText("voshow");
+        }
 
         return START_REDELIVER_INTENT;  // Service가 강제종료 되더라도 다시 시작해주고 이전에 넘겨받았떤 intent를 그대로 넘겨받을 수 있다.
     }

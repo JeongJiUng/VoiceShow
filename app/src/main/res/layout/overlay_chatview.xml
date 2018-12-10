@@ -7,9 +7,9 @@
 
     <ImageView
         android:id="@+id/IV_MAXIMUM"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/calling_popup" />
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/icon_chatting" />
 
     <LinearLayout
         android:id="@+id/LAYOUT_CHATPOPUP"
@@ -21,24 +21,26 @@
         <LinearLayout
             android:id="@+id/LAYOUT_TITLE"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/holo_purple"
+            android:layout_height="50dp"
+            android:background="@drawable/backgraound_chatview"
             android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="16dp">
+            android:orientation="horizontal">
 
             <ImageButton
                 android:id="@+id/BTN_MINIMUM"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:background="@android:color/transparent"
-                android:src="@drawable/cancel_button" />
+                android:scaleType="fitCenter"
+                android:src="@drawable/calling_icon_white" />
 
             <TextView
                 android:id="@+id/CALL_NUMBER"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:paddingRight="20dp"
                 android:text=""
                 android:textAlignment="center"
                 android:textColor="#fff"
@@ -48,13 +50,18 @@
 
         <FrameLayout
             android:id="@+id/LAYOUT_CHATLIST"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp">
 
             <ListView
                 android:id="@+id/LISTVIEW_CHATLIST"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:divider="#00000000"
+                android:dividerHeight="5dp"
                 android:background="@android:color/transparent"
                 android:transcriptMode="alwaysScroll" />
         </FrameLayout>
