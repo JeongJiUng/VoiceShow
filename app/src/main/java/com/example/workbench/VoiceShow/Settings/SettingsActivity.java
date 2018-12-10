@@ -36,7 +36,6 @@ public class SettingsActivity extends AppCompatActivity {
         //Button buttonView1 = (Button)findViewById(R.id.SETTINGS_THEME);
         Button buttonView3 = (Button)findViewById(R.id.SETTINGS_DEL_FREQ);
         Button buttonView4 = (Button)findViewById(R.id.SETTINGS_PASSWORD);
-        //Button buttonView5 = (Button)findViewById(R.id.SETTINGS_VERSION);
         ImageView backbutton = (ImageView)findViewById((R.id.SETTINGS_BACK_BUTTON));
 
         backbutton.setOnClickListener(new View.OnClickListener() {
