@@ -39,24 +39,25 @@
             android:orientation="vertical"
             android:padding="2dp">
 
-               <Button
+               <TextView
                    android:id="@+id/SETTINGS_DEL_FREQ"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
-                   android:text="삭제주기설정"
+                   android:text="삭제 주기 설정"
                    android:textSize="18dp"
+                   android:layout_marginTop="10dp"
                    android:background="#ffffff"
                    android:textColor="@color/colorAccent"
                    android:gravity="center"
                    android:onClick="setDeleteFrequency"/>
 
 
-                <Button
+                <TextView
                     android:id="@+id/SETTINGS_PASSWORD"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="보안설정"
+                    android:layout_marginTop="30dp"
+                    android:text="보안 설정"
                     android:textSize="18dp"
                     android:background="#ffffff"
                     android:gravity="center"
