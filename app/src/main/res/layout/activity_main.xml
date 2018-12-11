@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     android:minHeight="17dp"
     tools:context=".MainActivity"
-    android:background="#D5A2F9"
-    tools:layout_editor_absoluteY="73dp">
+    android:background="#D5A2F9">
 
     <ImageView
         android:layout_margin="10dp"
@@ -20,12 +19,12 @@
 
     <ImageView
         android:layout_toRightOf="@+id/voshow"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="13dp"
         android:layout_marginLeft="50dp"
         android:id="@+id/settingImgButton"
         android:layout_alignParentRight="true"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:clickable="true"
         android:onClick="MoveToSettings"
         android:src="@drawable/setting_icon_black"/>

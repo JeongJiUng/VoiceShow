@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Button;
 import com.example.workbench.VoiceShow.cSystemManager;
@@ -33,10 +34,6 @@ public class SettingsActivity extends AppCompatActivity {
         cSystemManager.getInstance().GetSettings().SetPassword(s.getString("password","-1111"));
         cSystemManager.getInstance().GetSettings().SetmbSecure(s.getBoolean("isPasswordCheck",false));
 
-        //Button buttonView1 = (Button)findViewById(R.id.SETTINGS_THEME);
-        Button buttonView3 = (Button)findViewById(R.id.SETTINGS_DEL_FREQ);
-        Button buttonView4 = (Button)findViewById(R.id.SETTINGS_PASSWORD);
-        //Button buttonView5 = (Button)findViewById(R.id.SETTINGS_VERSION);
         ImageView backbutton = (ImageView)findViewById((R.id.SETTINGS_BACK_BUTTON));
 
         backbutton.setOnClickListener(new View.OnClickListener() {
