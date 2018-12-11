@@ -1,5 +1,7 @@
 package com.example.workbench.VoiceShow.Util;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.view.Gravity;
@@ -161,23 +163,29 @@ public class cCustomAdapter extends BaseAdapter
             mViewLeft.setVisibility(View.VISIBLE);
         }
 
-        // 리스트 아이템을 터치 했을 때 이벤트 발생
-        convertView.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-                // 터치 시 해당 아이템 이름 출력
-                Toast.makeText(context, "리스트 클릭 : "+mList.get(pos), Toast.LENGTH_SHORT).show();
-            }
-        });
+//        // 리스트 아이템을 터치 했을 때 이벤트 발생
+//        convertView.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View v) {
+//                // 터치 시 해당 아이템 이름 출력
+//                Toast.makeText(context, "리스트 클릭 : "+mList.get(pos), Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
         // 리스트 아이템을 길게 터치 했을때 이벤트 발생
         convertView.setOnLongClickListener(new View.OnLongClickListener() {
 
             @Override
             public boolean onLongClick(View v) {
+                // 길게 터치시 해당 메세지 클립보드에 저장
+                String chattingCopyData = mList.get(pos).mMsg;
+                ClipboardManager clipboardManager = (ClipboardManager)context.getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clipData = ClipData.newPlainText("TouchMsg", chattingCopyData);
+                clipboardManager.setPrimaryClip(clipData);
+
                 // 터치 시 해당 아이템 이름 출력
-                Toast.makeText(context, "리스트 롱 클릭 : "+mList.get(pos), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,"메세지가 클립보드에 저장되었습니다.", Toast.LENGTH_SHORT).show();
                 return true;
             }
         });
