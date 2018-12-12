@@ -18,6 +18,8 @@ import com.example.workbench.VoiceShow.cSystemManager;
 
 public class DeleteFreqActivity extends AppCompatActivity {
     public RadioGroup radioGroup;
+    //라디오버튼 하나 추가 삭제주기 없음.
+    public RadioButton r_btn0;
     public RadioButton r_btn1;
     public RadioButton r_btn2;
     public RadioButton r_btn3;
@@ -33,12 +35,17 @@ public class DeleteFreqActivity extends AppCompatActivity {
         //int height = dm.heightPixels;
 
         //getWindow().setLayout((int) (width * .8), (int) (height * .6));
-
+        r_btn0 = (RadioButton) findViewById(R.id.radio0);
         r_btn1 = (RadioButton) findViewById(R.id.radio1);
         r_btn2 = (RadioButton) findViewById(R.id.radio2);
         r_btn3 = (RadioButton) findViewById(R.id.radio3);
 
-        if (cSystemManager.getInstance().GetSettings().GetDeleteFreq() == 7) {
+        if (cSystemManager.getInstance().GetSettings().GetDeleteFreq() == 9999) {
+            r_btn0.setChecked(true);
+            r_btn1.setChecked(false);
+            r_btn2.setChecked(false);
+            r_btn3.setChecked(false);
+        }else if (cSystemManager.getInstance().GetSettings().GetDeleteFreq() == 7) {
             r_btn1.setChecked(true);
             r_btn2.setChecked(false);
             r_btn3.setChecked(false);
@@ -57,7 +64,15 @@ public class DeleteFreqActivity extends AppCompatActivity {
     RadioGroup.OnCheckedChangeListener rg = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
-            if(checkedId == R.id.radio1){
+            if(checkedId == R.id.radio0){
+                cSystemManager.getInstance().GetSettings().SetDeleteFreq(9999);
+                SharedPreferences s = getSharedPreferences("VoshowData", MODE_PRIVATE);
+                SharedPreferences.Editor editor = s.edit();
+                editor.putInt("deleteFreq",9999);
+                editor.commit();
+                onBackPressed();
+            }
+            else if(checkedId == R.id.radio1){
                 cSystemManager.getInstance().GetSettings().SetDeleteFreq(7);
                 SharedPreferences s = getSharedPreferences("VoshowData", MODE_PRIVATE);
                 SharedPreferences.Editor editor = s.edit();

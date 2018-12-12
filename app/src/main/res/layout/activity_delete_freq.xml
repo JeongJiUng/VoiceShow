@@ -28,12 +28,21 @@
                 android:textSize="20dp" />
 
             <RadioButton
+                android:id="@+id/radio0"
+                android:layout_width="match_parent"
+                android:layout_height="47dp"
+                android:layout_marginTop="60dp"
+                android:buttonTint="@color/colorAccent"
+                android:checked="true"
+                android:clickable="true"
+                android:text="없음"
+                android:textColor="@color/colorAccent" />
+            <RadioButton
                 android:id="@+id/radio1"
                 android:layout_width="match_parent"
                 android:layout_height="47dp"
                 android:buttonTint="@color/colorAccent"
-                android:checked="true"
-                android:layout_marginTop="60dp"
+                android:checked="false"
                 android:text="1주"
                 android:clickable="true"
                 android:textColor="@color/colorAccent" />
@@ -57,6 +66,8 @@
                 android:text="1달"
                 android:clickable="true"
                 android:textColor="@color/colorAccent" />
+
+
         </RadioGroup>
 
     </LinearLayout>
