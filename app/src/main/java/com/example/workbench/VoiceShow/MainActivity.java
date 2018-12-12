@@ -244,13 +244,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         chattingData = (sharedChattingData.getStringSet("Key_ID_LIST", new HashSet<String>()));
 
-
-        //Toast.makeText(getApplicationContext(),S,Toast.LENGTH_LONG).show();
         Iterator<String> itr1 = chattingData.iterator();
         while(itr1.hasNext()){
             chattingName.add(itr1.next());
         }
-        Iterator<String> itr2 = chattingData.iterator();
+
         for(int i=0;i<chattingName.size();i++){
             Date thisDate = new Date(System.currentTimeMillis());
             S = chattingName.get(i);
@@ -260,12 +258,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             float days = (duration / 86400000);
 
             SharedPreferences s1 = getSharedPreferences("VoshowData", MODE_PRIVATE);
+            // 주석좀 달아라 뭔가를 세팅에 넘겨주는건가보다.아닌가 뭔지모르겠는데 아무튼 뭔가 하나보다
             cSystemManager.getInstance().GetSettings().SetDeleteFreq(s1.getInt("deleteFreq",7));
             if(days > cSystemManager.getInstance().GetSettings().GetDeleteFreq()){
                 continue;
             }
             else{
-                chattingName2.add(itr2.next());
+                //없어지는것이아닌 나타내는것
+                chattingName2.add(chattingName.get(i));
             }
         }
         return chattingName2;
