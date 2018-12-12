@@ -186,7 +186,6 @@ public class ChattingFragment extends ListFragment {
 
     // ' - ' 이 없는 번호들중 이름이 있는걸 찾는 함수이다.
     public String findOtherName(String str){
-        ArrayList<String> arrayList = new ArrayList<>();
         String[] array = str.split("-");
         String name = "";
         int i = 0;
@@ -198,17 +197,20 @@ public class ChattingFragment extends ListFragment {
     }
 
     public void findName(){
-        ArrayList<String> addressNumber = ((MainActivity)getActivity()).getNumbers(); // '-' 있는거
+        ArrayList<String> addressNumber = ((MainActivity)getActivity()).getNumbers();
         ArrayList<String> addressName = ((MainActivity)getActivity()).getNames();
 
         //번호 같은게 있으면 저장된 번호가 이름으로 바뀌어 나온다.
         for(int i=0;i<chattingListData.size();i++){
             for(int j=0;j<addressName.size();j++){
-                String otherName = findOtherName(addressNumber.get(i));
+                String otherName = findOtherName(chattingListData.get(i).chattingName);
                 if(chattingListData.get(i).chattingName.equals(addressNumber.get(j))){
                     this.chattingListData.get(i).chattingName = addressName.get(j);
                 }
-               
+                //'-'없는 부분도 검사
+                else if(otherName.equals(addressNumber.get(j))){
+                    this.chattingListData.get(i).chattingName = addressName.get(j);
+                }
             }
         }
     }

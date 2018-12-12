@@ -264,6 +264,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 continue;
             }
             else{
+                //없어지는것이아닌 나타내는것
                 chattingName2.add(chattingName.get(i));
             }
         }
